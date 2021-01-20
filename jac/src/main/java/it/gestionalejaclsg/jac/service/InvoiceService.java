@@ -21,7 +21,7 @@ public class InvoiceService {
 
 	// create
 
-	public Response<Invoice> createCustomer(Invoice invoice) {
+	public Response<Invoice> createInvoice(Invoice invoice) {
 
 		Response<Invoice> response = new Response<Invoice>();
 
@@ -42,7 +42,7 @@ public class InvoiceService {
 	}
 
 	// delete
-	public Response<String> deleteCustomerById(int id) {
+	public Response<String> deleteInvoiceById(int id) {
 
 		Response<String> response = new Response<String>();
 
@@ -59,7 +59,7 @@ public class InvoiceService {
 	}
 
 	// findAll
-	public Response<List<InvoiceDTO>> findAllUsers() {
+	public Response<List<InvoiceDTO>> findAllInvoices() {
 
 		Response<List<InvoiceDTO>> response = new Response<List<InvoiceDTO>>();
 
@@ -90,7 +90,7 @@ public class InvoiceService {
 	}
 
 	// find invoice by id
-	public Response<InvoiceDTO> findUserById(int id) {
+	public Response<InvoiceDTO> findInvoiceById(int id) {
 
 		Response<InvoiceDTO> response = new Response<InvoiceDTO>();
 

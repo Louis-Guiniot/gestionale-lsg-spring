@@ -23,7 +23,7 @@ public class MeasureService {
 
 	// create
 
-	public Response<MeasureUnit> createCustomer(MeasureUnit measureUnit) {
+	public Response<MeasureUnit> createMeasureUnit(MeasureUnit measureUnit) {
 
 		Response<MeasureUnit> response = new Response<MeasureUnit>();
 
@@ -44,7 +44,7 @@ public class MeasureService {
 	}
 
 	// delete
-	public Response<String> deleteCustomerById(int id) {
+	public Response<String> deleteMeasureUnitById(int id) {
 
 		Response<String> response = new Response<String>();
 
@@ -61,7 +61,7 @@ public class MeasureService {
 	}
 
 	// findAll
-	public Response<List<MeasureDTO>> findAllUsers() {
+	public Response<List<MeasureDTO>> findAllMeasureUnits() {
 
 		Response<List<MeasureDTO>> response = new Response<List<MeasureDTO>>();
 
@@ -92,7 +92,7 @@ public class MeasureService {
 	}
 
 	// find measureUnit by id
-	public Response<MeasureDTO> findUserById(int id) {
+	public Response<MeasureDTO> findMeasureUnitById(int id) {
 
 		Response<MeasureDTO> response = new Response<MeasureDTO>();
 
@@ -114,27 +114,27 @@ public class MeasureService {
 	}
 
 	// update measureUnit
-	public Response<MeasureDTO> updateUser(int id, String type) {
-
-		Response<MeasureDTO> response = new Response<MeasureDTO>();
-
-		try {
-			MeasureUnit measureUnit = this.measureRepository.findById(id).get();
-
-			if (type != null)
-				measureUnit.setType(type);
-
-			this.measureRepository.save(measureUnit);
-
-			response.setResult(MeasureDTO.build(measureUnit));
-			response.setResultTest(true);
-
-		} catch (Exception e) {
-
-			response.setError(error);
-
-		}
-
-		return response;
-	}
+//	public Response<MeasureDTO> updateUser(int id, String type) {
+//
+//		Response<MeasureDTO> response = new Response<MeasureDTO>();
+//
+//		try {
+//			MeasureUnit measureUnit = this.measureRepository.findById(id).get();
+//
+//			if (type != null)
+//				measureUnit.setType(type);
+//
+//			this.measureRepository.save(measureUnit);
+//
+//			response.setResult(MeasureDTO.build(measureUnit));
+//			response.setResultTest(true);
+//
+//		} catch (Exception e) {
+//
+//			response.setError(error);
+//
+//		}
+//
+//		return response;
+//	}
 }

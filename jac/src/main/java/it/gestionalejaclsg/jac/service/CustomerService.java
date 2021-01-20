@@ -61,7 +61,7 @@ public class CustomerService {
 		}
 
 		// findAll
-		public Response<List<CustomerDTO>> findAllUsers() {
+		public Response<List<CustomerDTO>> findAllCustomers() {
 
 			Response<List<CustomerDTO>> response = new Response<List<CustomerDTO>>();
 
@@ -92,7 +92,7 @@ public class CustomerService {
 		}
 
 		//find customer by id
-		public Response<CustomerDTO> findUserById(int id) {
+		public Response<CustomerDTO> findCustomerById(int id) {
 
 			Response<CustomerDTO> response = new Response<CustomerDTO>();
 
@@ -114,36 +114,36 @@ public class CustomerService {
 		}
 
 		//update customer
-		public Response<CustomerDTO> updateUser(int id, String name, String surname, String email) {
-
-			Response<CustomerDTO> response = new Response<CustomerDTO>();
-
-			try {
-				Customer customer = this.customerRepository.findById(id).get();
-
-				if (name != null)
-					customer.setName(name);
-				
-				if (surname != null)
-					customer.setSurname(surname);
-
-				if (email != null)
-					customer.setEmail(email);				
-				
-				
-				this.customerRepository.save(customer);
-				
-				response.setResult(CustomerDTO.build(customer));
-				response.setResultTest(true);
-
-			} catch (Exception e) {
-				
-				response.setError(error);
-				
-			}	
-
-			return response;
-		}
+//		public Response<CustomerDTO> updateUser(int id, String name, String surname, String email) {
+//
+//			Response<CustomerDTO> response = new Response<CustomerDTO>();
+//
+//			try {
+//				Customer customer = this.customerRepository.findById(id).get();
+//
+//				if (name != null)
+//					customer.setName(name);
+//				
+//				if (surname != null)
+//					customer.setSurname(surname);
+//
+//				if (email != null)
+//					customer.setEmail(email);				
+//				
+//				
+//				this.customerRepository.save(customer);
+//				
+//				response.setResult(CustomerDTO.build(customer));
+//				response.setResultTest(true);
+//
+//			} catch (Exception e) {
+//				
+//				response.setError(error);
+//				
+//			}	
+//
+//			return response;
+//		}
 		
 
 

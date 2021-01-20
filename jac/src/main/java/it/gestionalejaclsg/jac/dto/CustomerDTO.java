@@ -3,7 +3,7 @@ package it.gestionalejaclsg.jac.dto;
 import org.springframework.beans.BeanUtils;
 
 import it.gestionalejaclsg.jac.entity.Customer;
-import it.gestionalejaclsg.jac.entity.Product;
+
 import lombok.Data;
 
 @Data
