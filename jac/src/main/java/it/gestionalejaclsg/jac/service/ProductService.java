@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import it.gestionalejaclsg.jac.dto.ProductDTO;
@@ -16,6 +18,7 @@ import it.gestionalelsg.jac.dao.ProductRepository;
 
 @Service
 
+@EntityScan("it.gestionalejaclsg.jac.service")
 public class ProductService {
 	
 	@Autowired

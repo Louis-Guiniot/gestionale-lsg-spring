@@ -9,11 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+
 import lombok.Data;
 
 @Entity
 @Table(name = "invoice")
 @Data
+
+@EntityScan("it.gestionalejaclsg.jac.entity")
 public class Invoice {
 	
 	@Id

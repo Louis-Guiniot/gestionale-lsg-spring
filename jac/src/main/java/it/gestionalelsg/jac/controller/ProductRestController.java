@@ -3,6 +3,8 @@ package it.gestionalelsg.jac.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import it.gestionalejaclsg.jac.service.ProductService;
 
 @RestController
 @RequestMapping("/rest/product")
+@EntityScan("\"it.gestionalejaclsg.jac.controller")
 public class ProductRestController {
 	private static Logger log = LoggerFactory.getLogger(ProductRestController.class);
 	
