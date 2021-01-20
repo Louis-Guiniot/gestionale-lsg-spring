@@ -1,4 +1,4 @@
-package it.gestionalelsg.jac.controller;
+package it.gestionalejaclsg.jac.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import it.gestionalejaclsg.jac.service.ProductService;
 
 @RestController
 @RequestMapping("/rest/product")
-@EntityScan("\"it.gestionalejaclsg.jac.controller")
+
 public class ProductRestController {
 	private static Logger log = LoggerFactory.getLogger(ProductRestController.class);
 	

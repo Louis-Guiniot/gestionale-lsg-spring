@@ -18,7 +18,7 @@ import lombok.Data;
 @Table(name = "invoice")
 @Data
 
-@EntityScan("it.gestionalejaclsg.jac.entity")
+
 public class Invoice {
 	
 	@Id

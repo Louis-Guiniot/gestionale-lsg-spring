@@ -16,7 +16,7 @@ import lombok.Data;
 @Table(name = "measure_unit")
 @Data
 
-@EntityScan("it.gestionalejaclsg.jac.entity")
+
 public class MeasureUnit {
 	
 	@Id

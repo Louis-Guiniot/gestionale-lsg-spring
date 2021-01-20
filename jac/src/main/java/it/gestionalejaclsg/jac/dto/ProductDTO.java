@@ -10,7 +10,7 @@ import it.gestionalejaclsg.jac.entity.Product;
 import lombok.Data;
 
 @Data
-@EntityScan("it.gestionalejaclsg.jac.dto")
+
 public class ProductDTO {
 	
 	private int id;

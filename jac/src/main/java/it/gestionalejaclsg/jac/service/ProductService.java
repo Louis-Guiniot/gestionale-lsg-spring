@@ -9,16 +9,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import it.gestionalejaclsg.jac.dao.ProductRepository;
 import it.gestionalejaclsg.jac.dto.ProductDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;
-import it.gestionalelsg.jac.dao.ProductRepository;
 
 
 
 @Service
 
-@EntityScan("it.gestionalejaclsg.jac.service")
 public class ProductService {
 	
 	@Autowired

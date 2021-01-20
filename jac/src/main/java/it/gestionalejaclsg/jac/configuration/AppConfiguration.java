@@ -1,4 +1,4 @@
-package it.gestionalelsg.jac.configuration;
+package it.gestionalejaclsg.jac.configuration;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 
-@EntityScan("it.gestionalejaclsg.jac.configuration")
+
 public class AppConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
 	

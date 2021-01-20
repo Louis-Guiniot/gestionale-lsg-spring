@@ -16,7 +16,7 @@ import lombok.Data;
 @Table(name = "product")
 @Data
 
-@EntityScan("it.gestionalejaclsg.jac.entity")
+
 public class Product {
 	
 	@Id
