@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import it.gestionalejaclsg.jac.entity.MeasureUnit;
 
 @Repository
-public interface MeasureRepository extends CrudRepository<MeasureUnit, Integer>{
+public interface MeasureRepository extends CrudRepository<MeasureUnit, Integer> {
 
 }
