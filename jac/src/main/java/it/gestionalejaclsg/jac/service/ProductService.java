@@ -21,7 +21,7 @@ public class ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 	
-	
+	final static String error = "Nessun prodotto trovato.";
 
 	// create
 	
@@ -37,7 +37,7 @@ public class ProductService {
 
 		} catch (Exception e) {
 			e.getStackTrace();
-			response.setError("Candidato non creato");
+			response.setError("product non creato");
 
 		}
 
@@ -57,7 +57,7 @@ public class ProductService {
 			response.setResultTest(true);
 
 		} catch (Exception e) {
-			response.setError("Product non eliminato correttamente.");
+			response.setError("product non eliminato correttamente.");
 		}
 		return response;
 	}
@@ -85,7 +85,7 @@ public class ProductService {
 
 		} catch (Exception e) {
 
-			response.setError("Nessun elemento trovato.");
+			response.setError(error);
 
 		}
 
@@ -107,7 +107,7 @@ public class ProductService {
 
 		} catch (Exception e) {
 
-			response.setError("Nessun elemento trovato.");
+			response.setError(error);
 
 		}
 
@@ -147,7 +147,7 @@ public class ProductService {
 
 		} catch (Exception e) {
 			
-			response.setError("Nessun elemento trovato.");
+			response.setError(error);
 			
 		}	
 

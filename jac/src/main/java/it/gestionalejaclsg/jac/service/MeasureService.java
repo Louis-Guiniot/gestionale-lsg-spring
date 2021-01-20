@@ -19,7 +19,7 @@ public class MeasureService {
 	@Autowired
 	MeasureRepository measureRepository;
 	
-	final static String error = "Nessun elemento trovato.";
+	final static String error = "Nessuna measureUnit trovata.";
 
 	// create
 
@@ -35,7 +35,7 @@ public class MeasureService {
 
 		} catch (Exception e) {
 			e.getStackTrace();
-			response.setError("MeasureUnit non creato");
+			response.setError("MeasureUnit non creata");
 
 		}
 
@@ -51,11 +51,11 @@ public class MeasureService {
 		try {
 			this.measureRepository.deleteById(id);
 
-			response.setResult("measureUnit eliminato.");
+			response.setResult("measureUnit eliminata.");
 			response.setResultTest(true);
 
 		} catch (Exception e) {
-			response.setError("measureUnit non eliminato correttamente.");
+			response.setError("measureUnit non eliminata correttamente.");
 		}
 		return response;
 	}

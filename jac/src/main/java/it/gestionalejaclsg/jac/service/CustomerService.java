@@ -19,6 +19,8 @@ public class CustomerService {
 	@Autowired
 	CustomerRepository customerRepository;
 	
+	final static String error = "Nessun customer trovato.";
+	
 	// create
 	
 		public Response<Customer> createCustomer(Customer customer) {
@@ -33,7 +35,7 @@ public class CustomerService {
 
 			} catch (Exception e) {
 				e.getStackTrace();
-				response.setError("Candidato non creato");
+				response.setError("customer non creato");
 
 			}
 
@@ -53,7 +55,7 @@ public class CustomerService {
 				response.setResultTest(true);
 
 			} catch (Exception e) {
-				response.setError("Customer non eliminato correttamente.");
+				response.setError("customer non eliminato correttamente.");
 			}
 			return response;
 		}
@@ -81,7 +83,7 @@ public class CustomerService {
 
 			} catch (Exception e) {
 
-				response.setError("Nessun elemento trovato.");
+				response.setError(error);
 
 			}
 
@@ -103,7 +105,7 @@ public class CustomerService {
 
 			} catch (Exception e) {
 
-				response.setError("Nessun elemento trovato.");
+				response.setError(error);
 
 			}
 
@@ -136,7 +138,7 @@ public class CustomerService {
 
 			} catch (Exception e) {
 				
-				response.setError("Nessun elemento trovato.");
+				response.setError(error);
 				
 			}	
 
