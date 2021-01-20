@@ -34,7 +34,7 @@ public class Product {
 	private String price;
 	
 	@Column(name = "measure_unit")
-	private MeasureUnit measureUnit;
+	private String measureUnit;
 
 
 
