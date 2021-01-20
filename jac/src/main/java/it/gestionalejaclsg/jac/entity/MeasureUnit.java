@@ -7,36 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 import lombok.Data;
 
 @Entity
-@Table(name = "product")
+@Table(name = "measure_unit")
 @Data
-public class Product {
+public class MeasureUnit {
 	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "code")
-	private String codeProduct;
-
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "description")
-	private String description;
-	
-	@Column(name = "price")
-	private String price;
-	
-	@Column(name = "measure_unit")
-	private MeasureUnit measureUnit;
-
-
-
-	
+	@Column(name = "type")
+	private String type;
 }
