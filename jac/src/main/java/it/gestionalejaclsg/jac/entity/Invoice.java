@@ -1,5 +1,7 @@
 package it.gestionalejaclsg.jac.entity;
 
+import java.util.HashMap;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,14 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 import lombok.Data;
 
 @Entity
-@Table(name = "product")
+@Table(name = "invoice")
 @Data
-public class Product {
+public class Invoice {
 	
 	@Id
 	@Column(name = "id")
@@ -22,21 +22,15 @@ public class Product {
 	private int id;
 	
 	@Column(name = "code")
-	private String codeProduct;
-
-	@Column(name = "name")
-	private String name;
+	private String codeInvoice;
 	
-	@Column(name = "description")
-	private String description;
+	@Column(name = "total_price")
+	private String totalPrice;
 	
-	@Column(name = "price")
-	private String price;
+	@Column(name = "id_customer")
+	private Customer idCustomer;
 	
-	@Column(name = "measure_unit")
-	private MeasureUnit measureUnit;
-
-
-
-	
+	//bisogna capire se funzia --> se no usare codice e/o id
+	@Column(name = "product_fields")
+    HashMap<Integer, String> fields = new HashMap<>();
 }
