@@ -12,7 +12,10 @@ import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;
 import it.gestionalelsg.jac.dao.ProductRepository;
 
+
+
 @Service
+
 public class ProductService {
 	
 	@Autowired

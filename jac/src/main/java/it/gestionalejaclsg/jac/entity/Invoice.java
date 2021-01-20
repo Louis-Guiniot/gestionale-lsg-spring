@@ -28,7 +28,7 @@ public class Invoice {
 	private String totalPrice;
 	
 	@Column(name = "id_customer")
-	private Customer idCustomer;
+	private String idCustomer;
 	
 	//bisogna capire se funzia --> se no usare codice e/o id
 	@Column(name = "product_fields")
