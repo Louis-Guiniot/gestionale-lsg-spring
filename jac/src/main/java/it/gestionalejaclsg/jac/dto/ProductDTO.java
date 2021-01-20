@@ -3,8 +3,7 @@ package it.gestionalejaclsg.jac.dto;
 
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
+
 
 import it.gestionalejaclsg.jac.entity.Product;
 import lombok.Data;
