@@ -45,6 +45,7 @@ public class ProductRestController {
 
 		Product product = new Product();
 		log.info("\n\n\n\nQUESTO è IL BODY \n\n\n\n" + body + "\n\n\n\n\n");
+		
 
 		int conta = 0;
 		int[] arr = new int[body.length()];
