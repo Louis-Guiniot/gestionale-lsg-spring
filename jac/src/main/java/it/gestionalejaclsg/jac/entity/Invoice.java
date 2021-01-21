@@ -15,11 +15,9 @@ import lombok.Data;
 
 @Entity
 @Table(name = "invoice")
-@Data
 
+@Data public class Invoice {
 
-public class Invoice {
-	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
