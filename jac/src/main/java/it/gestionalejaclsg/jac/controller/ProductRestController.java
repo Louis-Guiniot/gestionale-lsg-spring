@@ -16,7 +16,6 @@ import it.gestionalejaclsg.jac.service.ProductService;
 
 @RestController
 @RequestMapping("/rest/product")
-
 public class ProductRestController {
 	private static Logger log = LoggerFactory.getLogger(ProductRestController.class);
 	
