@@ -30,10 +30,16 @@ public class ProductRestController {
 
 		/*
 		 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ + json
-		 * per body ++ + {"phoneNumber":"9876543210",
-		 * "name":"gianni","surname":"andimor"}+
+		 * per body 
+		 * {"code":"code",
+		 * "description":"description",
+		 * "measure_unit":"measure_unit",
+		 * "name":"name",
+		 * "price":"price"}
 		 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		 */
+		
+		//da fare : controlli su integrità dati, con catch per gli errori
 
 		log.info("Ricevuta richiesta di creazione nuovo product");
 
@@ -59,6 +65,7 @@ public class ProductRestController {
 //		product.setDescription(description);
 //		product.setPrice(price);
 //		product.setMeasureUnit(measureUnit);
+		
 		return productService.createProduct(product);
 	}
 
