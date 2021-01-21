@@ -63,7 +63,7 @@ public class ProductService {
 	}
 
 	// findAll
-	public Response<List<ProductDTO>> findAllUsers() {
+	public Response<List<ProductDTO>> findAllProducts() {
 
 		Response<List<ProductDTO>> response = new Response<List<ProductDTO>>();
 
@@ -94,7 +94,7 @@ public class ProductService {
 	}
 
 	//find product by id
-	public Response<ProductDTO> findUserById(int id) {
+	public Response<ProductDTO> findProductById(int id) {
 
 		Response<ProductDTO> response = new Response<ProductDTO>();
 
