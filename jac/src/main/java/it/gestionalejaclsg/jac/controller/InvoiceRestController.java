@@ -17,16 +17,20 @@ import it.gestionalejaclsg.jac.service.InvoiceService;
 public class InvoiceRestController {
 	private static Logger log = LoggerFactory.getLogger(InvoiceRestController.class);
 	
-//	@Autowired
-//	private InvoiceService invoiceService;
-//	
+	@Autowired
+	private InvoiceService invoiceService;
+
 	@PostMapping("/create")
-	public Response<?> createInvoice(@RequestBody String invoice){
+	public Response<?> createInvoice(@RequestBody String body){
 		
 		
-		log.info("\n\n\n\nbody: "+invoice+"\n\n\n");
 		
-		//Invoice invoice= new Invoice();
+		//
+		
+		
+		log.info("\n\n\n\nbody: "+body+"\n\n\n");
+		
+		Invoice invoice= new Invoice();
 		
 		
 		return null;
