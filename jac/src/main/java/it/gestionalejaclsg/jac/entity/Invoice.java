@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
+	
 
 import lombok.Data;
 
@@ -36,5 +36,5 @@ public class Invoice {
 	
 	//bisogna capire se funzia --> se no usare codice e/o id
 	@Column(name = "product_fields")
-    HashMap<Integer, String> fields = new HashMap<>();
+    private String fields;
 }

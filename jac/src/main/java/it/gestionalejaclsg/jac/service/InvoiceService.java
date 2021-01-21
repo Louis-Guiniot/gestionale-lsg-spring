@@ -112,7 +112,7 @@ public class InvoiceService {
 	}
 
 	// update invoice
-	public Response<InvoiceDTO> updateUser(int id, String code, String totalPrice, String idCustomer, HashMap<Integer, String> fields) {
+	public Response<InvoiceDTO> updateUser(int id, String code, String totalPrice, String idCustomer, String fields) {
 
 		Response<InvoiceDTO> response = new Response<InvoiceDTO>();
 
