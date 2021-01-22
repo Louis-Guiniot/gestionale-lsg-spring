@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.gestionalejaclsg.jac.controller.InvoiceRestController;
 import it.gestionalejaclsg.jac.dao.InvoiceRepository;
 import it.gestionalejaclsg.jac.dto.InvoiceDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Invoice;
+import jdk.internal.org.jline.utils.Log;
 
 @Service
 public class InvoiceService {
-
+	
+	private static Logger log = LoggerFactory.getLogger(InvoiceService.class);
+	
 	@Autowired
-	InvoiceRepository invoiceRepository;
+	private InvoiceRepository invoiceRepository;
 	
 	final static String error = "Nessuna invoice trovata.";
 
@@ -95,14 +101,14 @@ public class InvoiceService {
 			
 			int last=this.findAllInvoices().getResult().size();
 
-			
-			return this.findInvoiceById(last);
+			log.info("passaggio prima del return\nid last: "+last+"\n\n\n\n\n");
+			return findInvoiceById(last);
 
 		}
 
 	// find invoice by id
 	public Response<InvoiceDTO> findInvoiceById(int id) {
-
+		log.info("findo invoice by id");
 		Response<InvoiceDTO> response = new Response<InvoiceDTO>();
 
 		try {
