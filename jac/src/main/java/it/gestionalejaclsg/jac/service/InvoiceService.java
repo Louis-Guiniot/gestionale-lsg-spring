@@ -1,17 +1,18 @@
 package it.gestionalejaclsg.jac.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import it.gestionalejaclsg.jac.dao.InvoiceRepository;
 import it.gestionalejaclsg.jac.dto.InvoiceDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Invoice;
 
+@Service
 public class InvoiceService {
 
 	@Autowired

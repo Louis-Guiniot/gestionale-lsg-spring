@@ -21,7 +21,7 @@ public class ProductRestController {
 	
 	
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
 	
 	
 	@PostMapping("/create")
