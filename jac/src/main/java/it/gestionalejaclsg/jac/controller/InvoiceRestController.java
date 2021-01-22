@@ -39,6 +39,7 @@ public class InvoiceRestController {
 		}
 		String lista = body.substring(arr[2] + 1, arr[3]);
 		String price = body.substring(arr[6] + 1, arr[7]);
+		String customerId = body.substring(arr[10] + 1, arr[11]);
 		price=price.substring(0,price.length()-1);
 		int conta2=0;
 		int[] array=new int[price.length()];
@@ -73,6 +74,7 @@ public class InvoiceRestController {
 		Invoice invoice= new Invoice();
 		invoice.setTotalPrice(str+finalPrice);
 		invoice.setFields(lista);
+		invoice.setIdCustomer(customerId);
 		
 	
 		return this.invoiceService.createInvoice(invoice);
