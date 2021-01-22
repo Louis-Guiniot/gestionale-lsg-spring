@@ -87,6 +87,7 @@ public class InvoiceRestController {
 		log.info("final price: " + finalPrice);
 		log.info("creazione invoice");
 
+		
 		String str = "";
 		Invoice invoice = new Invoice();
 		
@@ -94,6 +95,7 @@ public class InvoiceRestController {
 		invoice.setFields(lista);
 		invoice.setIdCustomer(customerId);
 		invoice.setCodeInvoice(generatedString);
+		
 		return this.invoiceService.createInvoice(invoice);
 	}
 }
