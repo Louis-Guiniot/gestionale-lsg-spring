@@ -1,6 +1,6 @@
 package it.gestionalejaclsg.jac.dto;
 
-import java.util.HashMap;
+
 
 import org.springframework.beans.BeanUtils;
 
@@ -19,8 +19,18 @@ public class InvoiceDTO {
 	
 	private String idCustomer;
 	
-    HashMap<Integer, String> fields = new HashMap<>();
+	private String dateTime;
 	
+    String fields;
+    
+    private String sconto;
+    
+    private String iva;
+    
+    private String ivaPrice;
+    
+    private String totalToPay;
+    
 	public static InvoiceDTO build(Invoice invoice) {
 
 		InvoiceDTO result = new InvoiceDTO();

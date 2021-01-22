@@ -1,6 +1,5 @@
 package it.gestionalejaclsg.jac.entity;
 
-import java.util.HashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,4 +36,19 @@ public class Invoice {
 	//bisogna capire se funzia --> se no usare codice e/o id
 	@Column(name = "product_fields")
     private String fields;
+	
+	@Column(name="dateTime")
+	private String dateTime;
+	
+	@Column(name="sconto")
+	private String sconto;
+	
+	@Column(name="iva")
+	private String iva;
+	
+	@Column(name="ivaPrice")
+	private String ivaPrice;
+	
+	@Column(name="totalToPay")
+	private String totalToPay;
 }

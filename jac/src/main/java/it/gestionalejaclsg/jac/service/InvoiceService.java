@@ -89,6 +89,16 @@ public class InvoiceService {
 		return response;
 
 	}
+	// findLast
+		public Response<InvoiceDTO> findLastInvoice() {
+
+			
+			int last=this.findAllInvoices().getResult().size();
+
+			
+			return this.findInvoiceById(last);
+
+		}
 
 	// find invoice by id
 	public Response<InvoiceDTO> findInvoiceById(int id) {

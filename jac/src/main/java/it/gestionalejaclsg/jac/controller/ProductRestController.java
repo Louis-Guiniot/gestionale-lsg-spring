@@ -70,7 +70,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping(path = "/findAll")
-	public Response<?> findAllQuestions() {
+	public Response<?> findAllProducts() {
 
 		log.info("Ricevuta richiesta della lista di tutti i prodotti");
 		
