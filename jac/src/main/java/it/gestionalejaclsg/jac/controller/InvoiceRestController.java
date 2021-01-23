@@ -69,15 +69,15 @@ public class InvoiceRestController {
 		}
 
 		log.info("ciclo di conversione");
-		int[] pricesArrayInt = new int[pricesArrayString.length];
+		double[] pricesArrayDouble = new double[pricesArrayString.length];
 		for (int i = 0; i < pricesArrayString.length; i++) {
-			pricesArrayInt[i] = Integer.parseInt(pricesArrayString[i]);
+			pricesArrayDouble[i] = Integer.parseInt(pricesArrayString[i]);
 		}
 
 		log.info("ciclo di somma");
-		int finalPrice = 0;
-		for (int i = 0; i < pricesArrayInt.length; i++) {
-			finalPrice += pricesArrayInt[i];
+		double finalPrice = 0;
+		for (int i = 0; i < pricesArrayDouble.length; i++) {
+			finalPrice += pricesArrayDouble[i];
 		}
 
 		// generazione codice casuale
