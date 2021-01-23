@@ -41,7 +41,14 @@ public class InvoiceRestController {
 		String lista = body.substring(arr[2] + 1, arr[3]);
 		String price = body.substring(arr[6] + 1, arr[7]);
 		String customerId = body.substring(arr[10] + 1, arr[11]);
-		String sconto=body.substring(arr[14]+1,arr[15]);
+		String sconto;
+		if((body.substring(arr[14]+1,arr[15])).equals("")) {
+			sconto="0";
+		}else {
+			sconto=body.substring(arr[14]+1,arr[15]);
+			
+		}
+		
 		
 		price = price.substring(0, price.length() - 1);
 		
