@@ -14,7 +14,6 @@ import it.gestionalejaclsg.jac.dao.InvoiceRepository;
 import it.gestionalejaclsg.jac.dto.InvoiceDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Invoice;
-import jdk.internal.org.jline.utils.Log;
 
 @Service
 public class InvoiceService {
