@@ -116,7 +116,7 @@ public class ProductService {
 	}
 
 	//update product
-	public Response<ProductDTO> updateUser(int id, String code, String name, String description, String price, String measureUnit) {
+	public Response<ProductDTO> updateProduct(int id, String code, String name, String description, String price, String measureUnit) {
 
 		Response<ProductDTO> response = new Response<ProductDTO>();
 
