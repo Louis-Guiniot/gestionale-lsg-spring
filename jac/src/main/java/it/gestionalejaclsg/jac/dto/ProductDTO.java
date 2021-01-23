@@ -24,6 +24,8 @@ public class ProductDTO {
 	
 	private String measureUnit;
 	
+	private String img;
+	
 	public static ProductDTO build(Product product) {
 
 		ProductDTO result = new ProductDTO();

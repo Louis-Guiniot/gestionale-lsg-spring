@@ -34,6 +34,8 @@ public class Product {
 	@Column(name = "price")
 	private String price;
 	
+	@Column(name="img")
+	private String img;
 	
 	//migrata da measure unit
 	@Column(name = "measure_unit")
