@@ -71,6 +71,9 @@ public class InvoiceRestController {
 		log.info("ciclo di conversione");
 		double[] pricesArrayDouble = new double[pricesArrayString.length];
 		for (int i = 0; i < pricesArrayString.length; i++) {
+			if(pricesArrayString[i].equals("undefined")) {
+				pricesArrayString[i]="0";
+			}
 			pricesArrayDouble[i] = Integer.parseInt(pricesArrayString[i]);
 		}
 
@@ -107,11 +110,11 @@ public class InvoiceRestController {
 		invoice.setSconto(sconto);
 		invoice.setIva("22");
 		
-		double ivaPriceDouble=finalPrice+(finalPrice*0.22);
+		double ivaPriceDouble=finalPrice-(finalPrice*0.22);
 		invoice.setIvaPrice(str+ivaPriceDouble);
 		
-		double ttp=ivaPriceDouble-(ivaPriceDouble*(Double.parseDouble(sconto)/100));
-		invoice.setTotalToPay(str+ttp);
+		//double ttp=ivaPriceDouble-(ivaPriceDouble*(Double.parseDouble(sconto)/100));
+		invoice.setTotalToPay(str+finalPrice);
 		
 		return this.invoiceService.createInvoice(invoice);
 	}
