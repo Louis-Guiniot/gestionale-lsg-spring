@@ -34,6 +34,7 @@ public class AppConfiguration extends WebSecurityConfigurerAdapter implements We
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/rest/product/**").allowedMethods("GET", "POST");
 		registry.addMapping("/rest/invoice/**").allowedMethods("GET", "POST");
+		registry.addMapping("/rest/customer/**").allowedMethods("GET", "POST");
 		//registry.addMapping("/rest/user/**").allowedMethods("GET", "POST").allowedOrigins("localhost:4200/**");
 	}
 
