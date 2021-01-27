@@ -114,36 +114,35 @@ public class CustomerService {
 		}
 
 		//update customer
-//		public Response<CustomerDTO> updateUser(int id, String name, String surname, String email) {
-//
-//			Response<CustomerDTO> response = new Response<CustomerDTO>();
-//
-//			try {
-//				Customer customer = this.customerRepository.findById(id).get();
-//
-//				if (name != null)
-//					customer.setName(name);
-//				
-//				if (surname != null)
-//					customer.setSurname(surname);
-//
-//				if (email != null)
-//					customer.setEmail(email);				
-//				
-//				
-//				this.customerRepository.save(customer);
-//				
-//				response.setResult(CustomerDTO.build(customer));
-//				response.setResultTest(true);
-//
-//			} catch (Exception e) {
-//				
-//				response.setError(error);
-//				
-//			}	
-//
-//			return response;
-//		}
+		public Response<CustomerDTO> updateUser(int id, String name, String surname, String email) {
+
+			Response<CustomerDTO> response = new Response<CustomerDTO>();
+			try {
+				Customer customer = this.customerRepository.findById(id).get();
+
+				if (name != null)
+					customer.setName(name);
+				
+				if (surname != null)
+					customer.setSurname(surname);
+
+				if (email != null)
+					customer.setEmail(email);				
+				
+				
+				this.customerRepository.save(customer);
+				
+				response.setResult(CustomerDTO.build(customer));
+				response.setResultTest(true);
+
+			} catch (Exception e) {
+				
+				response.setError(error);
+				
+			}	
+
+			return response;
+		}
 		
 
 
