@@ -14,7 +14,7 @@ public class ProductDTO {
 	
 	private int id;
 	
-	private String code;
+	private String codeProduct;
 	
 	private String name;
 	
