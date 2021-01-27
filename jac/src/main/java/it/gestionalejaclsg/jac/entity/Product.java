@@ -40,6 +40,10 @@ public class Product {
 	//migrata da measure unit
 	@Column(name = "measure_unit")
 	private String measureUnit;
+	
+	@Column(name = "measure_unit_id")
+	private int measureUnit_id;
+
 
 
 

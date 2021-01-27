@@ -19,6 +19,8 @@ public class InvoiceDTO {
 	
 	private String idCustomer;
 	
+	private int customer_id;
+	
 	private String dateTime;
 	
     String fields;

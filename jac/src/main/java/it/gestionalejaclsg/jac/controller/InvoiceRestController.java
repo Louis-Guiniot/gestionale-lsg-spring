@@ -109,6 +109,7 @@ public class InvoiceRestController {
 		invoice.setCodeInvoice(generatedString);
 		invoice.setSconto(sconto);
 		invoice.setIva("22");
+		invoice.setCustomer_id(Integer.parseInt(customerId));
 		
 		double ivaPriceDouble=finalPrice-(finalPrice*0.22);
 		invoice.setIvaPrice(str+ivaPriceDouble);
