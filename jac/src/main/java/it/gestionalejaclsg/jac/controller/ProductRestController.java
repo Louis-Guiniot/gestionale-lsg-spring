@@ -54,17 +54,20 @@ public class ProductRestController {
 				conta++;
 			}
 		}
-		String number = body.substring(arr[2] + 1, arr[3]);
-		String name = body.substring(arr[6] + 1, arr[7]);
-		String surname = body.substring(arr[10] + 1, arr[11]);
-
-		log.info("number: " + number + "\nname: " + name + "\n" + "surname: " + surname);
+		String code = body.substring(arr[2] + 1, arr[3]);
+		String description = body.substring(arr[6] + 1, arr[7]);
+		String measureUnit = body.substring(arr[10] + 1, arr[11]);
+		String name = body.substring(arr[14] + 1, arr[15]);
+		String price = body.substring(arr[18] + 1, arr[19]);
+		log.info("code: " + code + "\ndescr: " + description +
+				"\n" + "measure unit: " + measureUnit+"\nname "+name+
+				"\nprice: "+price);
 		
-//		product.setCodeProduct(codeProduct);
-//		product.setName(name);
-//		product.setDescription(description);
-//		product.setPrice(price);
-//		product.setMeasureUnit(measureUnit);
+		product.setCodeProduct(code);
+		product.setName(name);
+		product.setDescription(description);
+		product.setPrice(price);
+		product.setMeasureUnit(measureUnit);
 		
 		return productService.createProduct(product);
 	}
