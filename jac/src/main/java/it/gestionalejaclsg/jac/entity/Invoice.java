@@ -33,6 +33,9 @@ public class Invoice {
 	@Column(name = "id_customer")
 	private String idCustomer;
 	
+	@Column(name="customer_id")
+	private int customer_id;
+	
 	//bisogna capire se funzia --> se no usare codice e/o id
 	@Column(name = "product_fields")
     private String fields;
