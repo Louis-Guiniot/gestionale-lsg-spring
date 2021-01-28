@@ -59,15 +59,14 @@ public class ProductRestController {
 		String measureUnit = body.substring(arr[10] + 1, arr[11]);
 		String name = body.substring(arr[14] + 1, arr[15]);
 		String price = body.substring(arr[18] + 1, arr[19]);
-		log.info("code: " + code + "\ndescr: " + description +
-				"\n" + "measure unit: " + measureUnit+"\nname "+name+
-				"\nprice: "+price);
+		log.info("code: " + code + "\ndescr: " + description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
 		
 		product.setCodeProduct(code);
 		product.setName(name);
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setMeasureUnit(measureUnit);
+		product.setMeasureUnit_id(1);//da modificare poi rip
 		
 		return productService.createProduct(product);
 	}
