@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.gestionalejaclsg.jac.dao.ProductRepository;
+import it.gestionalejaclsg.jac.dto.InvoiceDTO;
 import it.gestionalejaclsg.jac.dto.ProductDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;
@@ -92,6 +93,18 @@ public class ProductService {
 		return response;
 
 	}
+	// findLast
+			public Response<ProductDTO> findLastProduct() {
+
+				
+				List<ProductDTO> list=this.findAllProducts().getResult();
+				
+				ProductDTO lastProd=list.get(list.size()-1);
+				int last=lastProd.getId();
+						
+				return findProductById(last);
+
+			}
 
 	//find product by id
 	public Response<ProductDTO> findProductById(int id) {

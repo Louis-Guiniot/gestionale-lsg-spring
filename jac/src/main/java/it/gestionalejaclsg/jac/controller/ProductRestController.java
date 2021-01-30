@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.gestionalejaclsg.jac.dto.ProductDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;
 import it.gestionalejaclsg.jac.service.MeasureService;
@@ -66,7 +67,36 @@ public class ProductRestController {
 		String price = body.substring(arr[18] + 1, arr[19]);
 		log.info("code: " + code + "\ndescr: " + description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
 		
-		product.setCodeProduct(code);
+		//incrementazione automatica
+		ProductDTO lastProduct=productService.findLastProduct().getResult();
+		String codeStringed=lastProduct.getCodeProduct();
+		log.info("\n\ncodeStringed: "+codeStringed);
+		//A1
+		String codeNumberPartStringed=codeStringed.substring(1,2);
+		
+		log.info("\n\nla parte di numero del codice è: "+codeNumberPartStringed);
+		
+		int codeNumberPartInteger=0;
+		String codeAlphaPartStringed=codeStringed.substring(0,1);
+		
+		log.info("\n\ncodeAlphaPartStringed: "+codeAlphaPartStringed);
+		
+		//se arriva a A999 il successivo sarà B1
+		char c;
+		if(Integer.parseInt(codeNumberPartStringed)+1<1000) {
+			codeNumberPartInteger=Integer.parseInt(codeNumberPartStringed)+1;
+		}else {
+			codeNumberPartInteger=1;
+			c=codeAlphaPartStringed.charAt(0);
+			int asciiC=(int)c+1;
+			codeAlphaPartStringed=Character.toString((char)asciiC);
+		}
+		
+		
+		
+		String automaticCode=codeAlphaPartStringed+codeNumberPartInteger;
+		
+		product.setCodeProduct(automaticCode);
 		product.setName(name);
 		product.setDescription(description);
 		product.setPrice(price);
