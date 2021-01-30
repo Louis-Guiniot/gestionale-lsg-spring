@@ -13,3 +13,4 @@ public interface MeasureRepository extends CrudRepository<MeasureUnit, Integer> 
 	public MeasureUnit findByUnit(String unit);
 
 }
+
