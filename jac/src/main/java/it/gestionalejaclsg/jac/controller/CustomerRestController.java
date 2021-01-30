@@ -82,6 +82,7 @@ public class CustomerRestController {
 		String email = body.substring(arr[14] + 1, arr[15]);
 		
 		return customerService.updateUser(Integer.parseInt(id), name, surname, email);
+	
 	}
 
 }
