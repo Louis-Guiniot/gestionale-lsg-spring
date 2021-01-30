@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;
-import it.gestionalejaclsg.jac.service.MeasureService;
 import it.gestionalejaclsg.jac.service.ProductService;
 
 
@@ -25,9 +24,9 @@ public class ProductRestController {
 	private ProductService productService;
 	
 	
-	@Autowired
-	private MeasureService measureService;
-	
+//	@Autowired
+//	private MeasureService measureService;
+//	
 	
 	@PostMapping("/create")
 	public Response<?> createProduct(@RequestBody String body) {
@@ -71,8 +70,8 @@ public class ProductRestController {
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setMeasureUnit(measureUnit);
-		
-		product.setMeasureUnit_id(measureService.findMeasureIdByMeasureUnit(measureUnit));
+		//int id=measureService.findMeasureIdByMeasureUnit(measureUnit);
+		product.setMeasureUnit_id(1);
 		
 		return productService.createProduct(product);
 	}
@@ -86,34 +85,40 @@ public class ProductRestController {
 		
 	}
 	
-//	@PostMapping("/update")
-//	public Response<?> updateCustomer(@RequestBody String body){
-//		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"update\n\n\n");
-//		int conta = 0;
-//		int[] arr = new int[body.length()];
-//		for (int i = 0; i < body.length(); i++) {
-//			if (body.charAt(i) == '"') {
-//				arr[conta] = i;
-//				conta++;
-//			}
-//		}
-//		String id = body.substring(arr[2] + 1, arr[3]);
-//		String name = body.substring(arr[6] + 1, arr[7]);
-//		if(name.equals("")) {
-//			name=productService.findCustomerById(Integer.parseInt(id)).getResult().getName();
-//		}
-//		String surname = body.substring(arr[10] + 1, arr[11]);
-//		if(surname.equals("")) {
-//			surname=customerService.findCustomerById(Integer.parseInt(id)).getResult().getSurname();
-//		}
-//		String email = body.substring(arr[14] + 1, arr[15]);
-//		if(email.equals("")) {
-//			email=customerService.findCustomerById(Integer.parseInt(id)).getResult().getEmail();
-//		}
-//		
-//		return customerService.updateUser(Integer.parseInt(id), name, surname, email);
-//	
-//	}
+	@PostMapping("/update")
+	public Response<?> updateCustomer(@RequestBody String body){
+		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"update\n\n\n");
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+		}
+		String id = body.substring(arr[2] + 1, arr[3]);
+		String description = body.substring(arr[6] + 1, arr[7]);
+		
+		if(description.equals("")) {
+			description=productService.findProductById(Integer.parseInt(id)).getResult().getDescription();
+		}
+		
+		String measureUnit = body.substring(arr[10] + 1, arr[11]);
+		if(measureUnit.equals("")) {
+			measureUnit=productService.findProductById(Integer.parseInt(id)).getResult().getMeasureUnit();
+		}
+		String name = body.substring(arr[14] + 1, arr[15]);
+		if(name.equals("")) {
+			name=productService.findProductById(Integer.parseInt(id)).getResult().getName();
+		}
+		String price= body.substring(arr[18]+1, arr[19]);
+		if(price.equals("")) {
+			price=productService.findProductById(Integer.parseInt(id)).getResult().getPrice();
+		}
+		
+		return productService.updateProduct(Integer.parseInt(id),description, measureUnit, name,price);
+	
+	}
 	
 
 	

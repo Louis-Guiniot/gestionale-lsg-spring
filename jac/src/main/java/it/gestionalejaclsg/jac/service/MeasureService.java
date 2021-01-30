@@ -113,26 +113,26 @@ public class MeasureService {
 
 	}
 
-	public int findMeasureIdByMeasureUnit(String unit) {
-
-		int id=0;
-		
-		try {
-			
-			MeasureUnit m=this.measureRepository.findByUnit(unit);
-			
-			if(m.getType().equals(unit)) {
-				id=m.getId();
-			}
-			
-		} catch (Exception e) {
-
-			e.getStackTrace();
-		}
-
-		return id;
-
-	}
+//	public int findMeasureIdByMeasureUnit(String unit) {
+//
+//		int id=0;
+//		
+//		try {
+//			
+//			MeasureUnit m=this.measureRepository.findByUnit(unit);
+//			
+//			if(m.getType().equals(unit)) {
+//				id=m.getId();
+//			}
+//			
+//		} catch (Exception e) {
+//
+//			e.getStackTrace();
+//		}
+//
+//		return id;
+//
+//	}
 	
 	// update measureUnit
 //	public Response<MeasureDTO> updateUser(int id, String type) {

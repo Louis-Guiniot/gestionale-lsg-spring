@@ -10,7 +10,7 @@ import it.gestionalejaclsg.jac.entity.MeasureUnit;
 @Repository
 public interface MeasureRepository extends CrudRepository<MeasureUnit, Integer> {
 	
-	public MeasureUnit findByUnit(String unit);
+	//public MeasureUnit findByUnit(String unit);
 
 }
 
