@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;
+import it.gestionalejaclsg.jac.service.MeasureService;
 import it.gestionalejaclsg.jac.service.ProductService;
 
 
@@ -22,6 +23,10 @@ public class ProductRestController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	
+	@Autowired
+	private MeasureService measureService;
 	
 	
 	@PostMapping("/create")
@@ -66,7 +71,8 @@ public class ProductRestController {
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setMeasureUnit(measureUnit);
-		product.setMeasureUnit_id(1);//da modificare poi rip
+		
+		product.setMeasureUnit_id(measureService.findMeasureIdByMeasureUnit(measureUnit));
 		
 		return productService.createProduct(product);
 	}
