@@ -13,7 +13,6 @@ import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Customer;
 
 @Service
-
 public class CustomerService {
 	
 	@Autowired

@@ -78,8 +78,17 @@ public class CustomerRestController {
 		}
 		String id = body.substring(arr[2] + 1, arr[3]);
 		String name = body.substring(arr[6] + 1, arr[7]);
+		if(name.equals("")) {
+			name=customerService.findCustomerById(Integer.parseInt(id)).getResult().getName();
+		}
 		String surname = body.substring(arr[10] + 1, arr[11]);
+		if(surname.equals("")) {
+			surname=customerService.findCustomerById(Integer.parseInt(id)).getResult().getSurname();
+		}
 		String email = body.substring(arr[14] + 1, arr[15]);
+		if(email.equals("")) {
+			email=customerService.findCustomerById(Integer.parseInt(id)).getResult().getEmail();
+		}
 		
 		return customerService.updateUser(Integer.parseInt(id), name, surname, email);
 	
