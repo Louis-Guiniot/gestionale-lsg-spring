@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.gestionalejaclsg.jac.dao.ProductRepository;
-import it.gestionalejaclsg.jac.dto.InvoiceDTO;
 import it.gestionalejaclsg.jac.dto.ProductDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Product;

@@ -59,8 +59,18 @@ public class CustomerRestController {
 	public Response<?> deleteCustomer(@RequestBody String body){
 		
 		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"eliminazione\n\n\n");
+		int pPartenza=0;
+		int pArrivo=0;
 		
-		String id = body.substring(6,7);
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == ':') {
+				pPartenza = i+1;
+			}
+			if(body.charAt(i)=='}') {
+				pArrivo=i;
+			}
+		}
+		String id = body.substring(pPartenza,pArrivo);
 		log.info("\n\n\n\nbody: " + id + "\n\n\n"+"eliminazione\n\n\n");
 		return customerService.deleteCustomerById(Integer.parseInt(id));
 	}
