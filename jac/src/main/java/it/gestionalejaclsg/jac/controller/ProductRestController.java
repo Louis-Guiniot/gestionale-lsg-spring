@@ -81,12 +81,12 @@ public class ProductRestController {
 				conta++;
 			}
 		}
-		String code = body.substring(arr[2] + 1, arr[3]);
-		String description = body.substring(arr[6] + 1, arr[7]);
-		String measureUnit = body.substring(arr[10] + 1, arr[11]);
-		String name = body.substring(arr[14] + 1, arr[15]);
-		String price = body.substring(arr[18] + 1, arr[19]);
-		log.info("code: " + code + "\ndescr: " + description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
+		String description = body.substring(arr[2] + 1, arr[3]);
+		String measureUnit = body.substring(arr[6] + 1, arr[7]);
+		String name = body.substring(arr[10] + 1, arr[11]);
+		String price = body.substring(arr[14] + 1, arr[15]);
+	
+		log.info("\ndescription: "+ description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
 		
 		//incrementazione automatica
 		ProductDTO lastProduct=productService.findLastProduct().getResult();
