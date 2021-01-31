@@ -134,7 +134,7 @@ public class InvoiceRestController {
 	@GetMapping(path = "/findLast")
 	public Response<?> findLastInvoice() {
 
-		log.info("Ricevuta richiesta della lista di tutti i prodotti");
+		log.info("\n\n\nRicevuta richiesta della lista di tutti i prodotti\n\n\n");
 		
 		return invoiceService.findLastInvoice();
 		
