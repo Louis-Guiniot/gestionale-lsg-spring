@@ -33,6 +33,14 @@ public class InvoiceDTO {
     
     private String totalToPay;
     
+    private String totaleServizi;
+    
+    private String imponibile;
+    
+    private String tipoDocumento;
+    
+    private String condizionePagamento;
+    
 	public static InvoiceDTO build(Invoice invoice) {
 
 		InvoiceDTO result = new InvoiceDTO();

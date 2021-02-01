@@ -28,6 +28,8 @@ public class ProductDTO {
 	
 	private String img;
 	
+	private String scontoProd;
+	
 	public static ProductDTO build(Product product) {
 
 		ProductDTO result = new ProductDTO();

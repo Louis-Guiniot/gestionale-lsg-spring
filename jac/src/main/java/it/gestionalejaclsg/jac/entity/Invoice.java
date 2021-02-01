@@ -54,4 +54,16 @@ public class Invoice {
 	
 	@Column(name="totalToPay")
 	private String totalToPay;
+	
+	@Column(name="totale_servizi")
+	private String totaleServizi;
+	
+	@Column(name="imponibile")
+	private String imponibile;
+	
+	@Column(name="tipo_documento")
+	private String tipoDocumento;
+	
+	@Column(name="condizione_pagamento")
+	private String condizionePagamento;
 }

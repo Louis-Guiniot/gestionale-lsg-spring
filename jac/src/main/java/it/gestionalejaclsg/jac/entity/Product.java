@@ -44,7 +44,8 @@ public class Product {
 	@Column(name = "measure_unit_id")
 	private int measureUnit_id;
 
-
+	@Column(name="sconto_prod")
+	private String scontoProd;
 
 
 	
