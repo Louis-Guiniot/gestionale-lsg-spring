@@ -85,7 +85,7 @@ public class ProductRestController {
 		String measureUnit = body.substring(arr[6] + 1, arr[7]);
 		String name = body.substring(arr[10] + 1, arr[11]);
 		String price = body.substring(arr[14] + 1, arr[15]);
-	
+		String sconto = body.substring(arr[18] + 1, arr[19]);
 		log.info("\ndescription: "+ description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
 		
 		//incrementazione automatica
@@ -122,6 +122,7 @@ public class ProductRestController {
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setMeasureUnit(measureUnit);
+		product.setScontoProd(sconto);
 		int id=measureService.findMeasureIdByMeasureUnit(measureUnit);
 		product.setMeasureUnit_id(id);
 		
@@ -167,8 +168,11 @@ public class ProductRestController {
 		if(price.equals("")) {
 			price=productService.findProductById(Integer.parseInt(id)).getResult().getPrice();
 		}
-		
-		return productService.updateProduct(Integer.parseInt(id),description, measureUnit, name,price);
+		String sconto=body.substring(arr[22]+1, arr[23]);
+		if(sconto.equals("")) {
+			sconto=productService.findProductById(Integer.parseInt(id)).getResult().getScontoProd();
+		}
+		return productService.updateProduct(Integer.parseInt(id),description, measureUnit, name,price,sconto);
 	
 	}
 	
