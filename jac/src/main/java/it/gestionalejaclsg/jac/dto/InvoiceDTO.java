@@ -25,6 +25,7 @@ public class InvoiceDTO {
 	
     String fields;
     
+    
     private String sconto;
     
     private String iva;
