@@ -49,9 +49,11 @@ public class CustomerRestController {
 		String partitaIva = body.substring(arr[10] + 1, arr[11]);
 		String sede = body.substring(arr[14] + 1, arr[15]);
 		String residenza = body.substring(arr[18] + 1, arr[19]);
+		String nome=body.substring(arr[21] + 1, arr[22]);
 		
 		Customer c=new Customer();
 		c.setEmail(email);
+		c.setName(nome);
 		c.setRagioneSociale(ragioneSociale);
 		c.setPartitaIva(partitaIva);
 		c.setSede(sede);
@@ -110,6 +112,10 @@ public class CustomerRestController {
 		String residenza = body.substring(arr[22] + 1, arr[23]);
 		if(residenza.equals("")) {
 			residenza=customerService.findCustomerById(Integer.parseInt(id)).getResult().getResidenza();
+		}
+		String nome = body.substring(arr[25] + 1, arr[26]);
+		if(nome.equals("")) {
+			nome=customerService.findCustomerById(Integer.parseInt(id)).getResult().getName();
 		}
 		
 		return customerService.updateUser(Integer.parseInt(id), ragioneSociale, partitaIva, email, sede, residenza);
