@@ -18,6 +18,14 @@ public class CustomerDTO {
 	
 	private String email;
 	
+	private String ragioneSociale;
+	
+	private String partitaIva;
+	
+	private String sede;
+	
+	private String residenza;
+	
 	public static CustomerDTO build(Customer customer) {
 
 		CustomerDTO result = new CustomerDTO();

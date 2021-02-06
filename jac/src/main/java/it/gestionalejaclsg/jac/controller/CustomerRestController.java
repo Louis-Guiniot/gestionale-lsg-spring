@@ -45,13 +45,17 @@ public class CustomerRestController {
 			}
 		}
 		String email = body.substring(arr[2] + 1, arr[3]);
-		String name = body.substring(arr[6] + 1, arr[7]);
-		String surname = body.substring(arr[10] + 1, arr[11]);
+		String ragioneSociale = body.substring(arr[6] + 1, arr[7]);
+		String partitaIva = body.substring(arr[10] + 1, arr[11]);
+		String sede = body.substring(arr[14] + 1, arr[15]);
+		String residenza = body.substring(arr[18] + 1, arr[19]);
 		
 		Customer c=new Customer();
 		c.setEmail(email);
-		c.setName(name);
-		c.setSurname(surname);
+		c.setRagioneSociale(ragioneSociale);
+		c.setPartitaIva(partitaIva);
+		c.setSede(sede);
+		c.setResidenza(residenza);
 		return customerService.createCustomer(c);
 	}
 	
@@ -87,20 +91,28 @@ public class CustomerRestController {
 			}
 		}
 		String id = body.substring(arr[2] + 1, arr[3]);
-		String name = body.substring(arr[6] + 1, arr[7]);
-		if(name.equals("")) {
-			name=customerService.findCustomerById(Integer.parseInt(id)).getResult().getName();
+		String ragioneSociale = body.substring(arr[6] + 1, arr[7]);
+		if(ragioneSociale.equals("")) {
+			ragioneSociale=customerService.findCustomerById(Integer.parseInt(id)).getResult().getRagioneSociale();
 		}
-		String surname = body.substring(arr[10] + 1, arr[11]);
-		if(surname.equals("")) {
-			surname=customerService.findCustomerById(Integer.parseInt(id)).getResult().getSurname();
+		String partitaIva = body.substring(arr[10] + 1, arr[11]);
+		if(partitaIva.equals("")) {
+			partitaIva=customerService.findCustomerById(Integer.parseInt(id)).getResult().getPartitaIva();
 		}
 		String email = body.substring(arr[14] + 1, arr[15]);
 		if(email.equals("")) {
 			email=customerService.findCustomerById(Integer.parseInt(id)).getResult().getEmail();
 		}
+		String sede = body.substring(arr[18] + 1, arr[19]);
+		if(sede.equals("")) {
+			sede=customerService.findCustomerById(Integer.parseInt(id)).getResult().getSede();
+		}
+		String residenza = body.substring(arr[22] + 1, arr[23]);
+		if(residenza.equals("")) {
+			residenza=customerService.findCustomerById(Integer.parseInt(id)).getResult().getResidenza();
+		}
 		
-		return customerService.updateUser(Integer.parseInt(id), name, surname, email);
+		return customerService.updateUser(Integer.parseInt(id), ragioneSociale, partitaIva, email, sede, residenza);
 	
 	}
 

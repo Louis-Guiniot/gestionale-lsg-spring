@@ -113,20 +113,26 @@ public class CustomerService {
 		}
 
 		//update customer
-		public Response<CustomerDTO> updateUser(int id, String name, String surname, String email) {
+		public Response<CustomerDTO> updateUser(int id, String ragioneSociale, String partitaIva, String email, String sede, String residenza) {
 
 			Response<CustomerDTO> response = new Response<CustomerDTO>();
 			try {
 				Customer customer = this.customerRepository.findById(id).get();
 
-				if (name != null)
-					customer.setName(name);
+				if (ragioneSociale != null)
+					customer.setRagioneSociale(ragioneSociale);
 				
-				if (surname != null)
-					customer.setSurname(surname);
+				if (partitaIva != null)
+					customer.setPartitaIva(partitaIva);
 
 				if (email != null)
-					customer.setEmail(email);				
+					customer.setEmail(email);	
+				
+				if (sede != null)
+					customer.setSede(sede);
+				
+				if (residenza != null)
+					customer.setResidenza(residenza);
 				
 				
 				this.customerRepository.save(customer);

@@ -23,17 +23,19 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "surname")
-	private String surname;
-	
 	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "ragione_sociale")
+	private String ragioneSociale;
 
+	@Column(name = "partita_iva")
+	private String partitaIva;
 	
-
+	@Column(name = "sede")
+	private String sede;
+	
+	@Column(name = "residenza")
+	private String residenza;
 	
 }
