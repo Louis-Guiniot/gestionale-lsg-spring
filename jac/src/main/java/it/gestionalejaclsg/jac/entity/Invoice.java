@@ -58,6 +58,9 @@ public class Invoice {
 	@Column(name="totale_servizi")
 	private String totaleServizi;
 	
+	//Per imponibile o nella dizione estesa base imponibile, 
+	//s'intende l'importo sul quale, teoricamente, 
+	//potrà essere calcolata e applicata un'imposta o un contributo.
 	@Column(name="imponibile")
 	private String imponibile;
 	

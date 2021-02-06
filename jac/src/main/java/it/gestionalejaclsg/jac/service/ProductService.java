@@ -128,7 +128,7 @@ public class ProductService {
 	}
 
 	//update product
-	public Response<ProductDTO> updateProduct(int id,String description,  String measureUnit, String name, String price) {
+	public Response<ProductDTO> updateProduct(int id,String description,  String measureUnit, String name, String price, String sconto) {
 
 		Response<ProductDTO> response = new Response<ProductDTO>();
 
@@ -148,6 +148,8 @@ public class ProductService {
 
 			if (measureUnit != null)
 				product.setMeasureUnit(measureUnit);
+			if (sconto != null)
+				product.setScontoProd(sconto);
 
 			
 			
