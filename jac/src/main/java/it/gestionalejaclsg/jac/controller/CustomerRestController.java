@@ -49,7 +49,7 @@ public class CustomerRestController {
 		String partitaIva = body.substring(arr[10] + 1, arr[11]);
 		String sede = body.substring(arr[14] + 1, arr[15]);
 		String residenza = body.substring(arr[18] + 1, arr[19]);
-		String nome=body.substring(arr[21] + 1, arr[22]);
+		String nome=body.substring(arr[22] + 1, arr[23]);
 		
 		Customer c=new Customer();
 		c.setEmail(email);
