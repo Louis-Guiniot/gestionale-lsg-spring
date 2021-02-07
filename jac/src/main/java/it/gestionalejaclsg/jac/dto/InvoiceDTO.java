@@ -2,6 +2,8 @@ package it.gestionalejaclsg.jac.dto;
 
 
 
+import javax.persistence.Column;
+
 import org.springframework.beans.BeanUtils;
 
 import it.gestionalejaclsg.jac.entity.Invoice;
@@ -41,6 +43,12 @@ public class InvoiceDTO {
     private String tipoDocumento;
     
     private String condizionePagamento;
+    
+    private String quantita;
+	
+	private String importoSconto;
+	
+	private String totaleMerci;
     
 	public static InvoiceDTO build(Invoice invoice) {
 

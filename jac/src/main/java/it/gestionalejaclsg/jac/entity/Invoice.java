@@ -69,4 +69,16 @@ public class Invoice {
 	
 	@Column(name="condizione_pagamento")
 	private String condizionePagamento;
+	
+	
+	@Column(name="quantita")
+	private String quantita;
+	
+	
+	@Column(name="importo_sconto")
+	private String importoSconto;
+	
+	
+	@Column(name="totale_merci")
+	private String totaleMerci;
 }
