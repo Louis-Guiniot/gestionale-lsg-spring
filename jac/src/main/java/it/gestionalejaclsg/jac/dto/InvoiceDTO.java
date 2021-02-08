@@ -2,7 +2,7 @@ package it.gestionalejaclsg.jac.dto;
 
 
 
-import javax.persistence.Column;
+
 
 import org.springframework.beans.BeanUtils;
 
