@@ -1,6 +1,7 @@
 package it.gestionalejaclsg.jac.controller;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,13 +53,13 @@ public class InvoiceRestController {
 		String paymentCondition = body.substring(arr[6] + 1, arr[7]);
 		String docType = body.substring(arr[10] + 1, arr[11]);
 		String sconto;
-		if((body.substring(arr[14]+1,arr[15])).equals("")) {
-			sconto="0";
-			flag=false;
-		}else {
-			sconto=body.substring(arr[14]+1,arr[15]);
-			
-		}
+//		if((body.substring(arr[14]+1,arr[15])).equals("")) {
+//			sconto="0";
+//			flag=false;
+//		}else {
+//			sconto=body.substring(arr[14]+1,arr[15]);
+//			
+//		}
 		String aricles=body.substring(arr[18] + 1, arr[19]);
 		//String taxable=body.substring(arr[22] + 1, arr[23]);
 		Calendar calndr = Calendar.getInstance();
@@ -72,7 +73,7 @@ public class InvoiceRestController {
 		
 		invoice.setCondizionePagamento(paymentCondition);
 		invoice.setTipoDocumento(docType);
-		invoice.setSconto(sconto);
+		//invoice.setSconto(sconto);
 		invoice.setFields(aricles);
 		//invoice.setImponibile(taxable);
 		log.info("\n\n inizio quantita \n\n");
@@ -88,13 +89,22 @@ public class InvoiceRestController {
 		
 		invoice.setIva(22+"");
 		invoice.setQuantita(conta2+"");
+		
+		
+		
+		//CREAZIONE CODICE
+		
 		log.info("\n\n codice fattura \n\n");
 		String codeStr=invoiceService.findLastInvoice().getResult().getCodeInvoice() ; //20211 - .substring(4,5))+1
 		log.info("\n\n CODICE STR "+codeStr+"\n\n");
 		int codeInt=Integer.parseInt(codeStr)+1;
-		invoice.setCodeInvoice(calndr.getTime().getYear()+""+codeInt); //es cod 20211-20212-20213
+		
+		invoice.setCodeInvoice(codeInt+""); //es cod 20211-20212-20213
 		log.info("\n\n inizio splits \n\n");
 		String[] arrArt=aricles.split(";");
+		
+		
+		
 		
 		//ciclo somma prezzi stonks
 		log.info("\n\n inizio ciclo somma \n\n");
@@ -102,6 +112,14 @@ public class InvoiceRestController {
 		for(int i=0; i<arrArt.length; i++) {
 			sommaPrices=sommaPrices+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice()) ;
 		}
+		double sommaSconti=0;
+		for(int i=0; i<arrArt.length; i++) {
+			sommaSconti=sommaSconti+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd()) ;
+		}
+		if(sommaSconti>50) {
+			sommaSconti=50;
+		}
+		invoice.setSconto((sommaPrices*sommaSconti/100)+"");
 		invoice.setTotalPrice(sommaPrices+"");
 		invoice.setIvaPrice((sommaPrices*0.22)+"");
 		invoice.setImponibile((sommaPrices*0.22)+"");
@@ -109,7 +127,7 @@ public class InvoiceRestController {
 		if(flag==false) {
 			invoice.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
 		}else {
-			double saldo=Double.parseDouble(sconto)/100*sommaPrices;
+			double saldo=(sommaSconti)/100*sommaPrices;
 			invoice.setImportoSconto(saldo+"");
 			invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
 		}
