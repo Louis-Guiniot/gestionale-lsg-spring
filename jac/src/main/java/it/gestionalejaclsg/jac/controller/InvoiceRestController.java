@@ -140,6 +140,26 @@ public class InvoiceRestController {
 		return invoiceService.findLastInvoice();
 		
 	}
+	@PostMapping(path="/delete")
+	public Response<?> deleteInvoiceById(@RequestBody String body){
+	
+		
+		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"eliminazione\n\n\n");
+		int pPartenza=0;
+		int pArrivo=0;
+		
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == ':') {
+				pPartenza = i+1;
+			}
+			if(body.charAt(i)=='}') {
+				pArrivo=i;
+			}
+		}
+		String id = body.substring(pPartenza,pArrivo);
+		
+		return invoiceService.deleteInvoiceById(Integer.parseInt(id));
+	}
 	
 	
 	
