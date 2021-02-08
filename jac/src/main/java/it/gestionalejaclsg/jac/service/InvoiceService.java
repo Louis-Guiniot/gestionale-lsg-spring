@@ -97,9 +97,31 @@ public class InvoiceService {
 	// findLast
 		public Response<InvoiceDTO> findLastInvoice() {
 
-			
-			int last=this.findAllInvoices().getResult().size();
+			Response<List<InvoiceDTO>> response = new Response<List<InvoiceDTO>>();
+		
+			int last=0;
+			try {
 
+				Iterator<Invoice> iterator = this.invoiceRepository.findAll().iterator();
+
+				while (iterator.hasNext()) {
+
+					Invoice invoice = iterator.next();
+					
+					if(!iterator.hasNext()) {						
+						last=invoice.getId();
+					}
+
+				}
+				
+
+
+			} catch (Exception e) {
+
+				response.setError(error);
+
+			}
+			
 			log.info("passaggio prima del return\nid last: "+last+"\n\n\n\n\n");
 			return findInvoiceById(last);
 

@@ -60,7 +60,7 @@ public class InvoiceRestController {
 			
 		}
 		String aricles=body.substring(arr[18] + 1, arr[19]);
-		String taxable=body.substring(arr[22] + 1, arr[23]);
+		//String taxable=body.substring(arr[22] + 1, arr[23]);
 		Calendar calndr = Calendar.getInstance();
 		
 		invoice.setDateTime(calndr.getTime().toString());
@@ -74,7 +74,7 @@ public class InvoiceRestController {
 		invoice.setTipoDocumento(docType);
 		invoice.setSconto(sconto);
 		invoice.setFields(aricles);
-		invoice.setImponibile(taxable);
+		//invoice.setImponibile(taxable);
 		log.info("\n\n inizio quantita \n\n");
 		int conta2 = 0; //è la quantita
 		int[] arr2 = new int[aricles.length()];
@@ -89,9 +89,9 @@ public class InvoiceRestController {
 		invoice.setIva(22+"");
 		invoice.setQuantita(conta2+"");
 		log.info("\n\n codice fattura \n\n");
-		String codeStr=invoiceService.findLastInvoice().getResult().getCodeInvoice().substring(4,5)+1 ; //20211 - .substring(4,5))+1
+		String codeStr=invoiceService.findLastInvoice().getResult().getCodeInvoice() ; //20211 - .substring(4,5))+1
 		log.info("\n\n CODICE STR "+codeStr+"\n\n");
-		int codeInt=Integer.parseInt(codeStr);
+		int codeInt=Integer.parseInt(codeStr)+1;
 		invoice.setCodeInvoice(calndr.getTime().getYear()+""+codeInt); //es cod 20211-20212-20213
 		log.info("\n\n inizio splits \n\n");
 		String[] arrArt=aricles.split(";");
@@ -114,7 +114,8 @@ public class InvoiceRestController {
 			invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
 		}
 		invoice.setQuantita(arrArt.length+"");
-		
+		int manodopera=10;
+		invoice.setTotaleServizi(((sommaPrices+sommaPrices*0.22)+manodopera)+"");
 		
 		return this.invoiceService.createInvoice(invoice);
 		
