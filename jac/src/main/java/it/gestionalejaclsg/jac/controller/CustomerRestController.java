@@ -93,32 +93,51 @@ public class CustomerRestController {
 			}
 		}
 		String id = body.substring(arr[2] + 1, arr[3]);
+		log.info("id: "+id);
+		
+		
 		String ragioneSociale = body.substring(arr[6] + 1, arr[7]);
+		log.info("ragioneSociale: "+ragioneSociale);
 		if(ragioneSociale.equals("")) {
 			ragioneSociale=customerService.findCustomerById(Integer.parseInt(id)).getResult().getRagioneSociale();
 		}
+		
+		
 		String partitaIva = body.substring(arr[10] + 1, arr[11]);
+		log.info("partitaIva: "+partitaIva);
 		if(partitaIva.equals("")) {
 			partitaIva=customerService.findCustomerById(Integer.parseInt(id)).getResult().getPartitaIva();
 		}
+		
+		
+		
 		String email = body.substring(arr[14] + 1, arr[15]);
+		log.info("email: "+email);
 		if(email.equals("")) {
 			email=customerService.findCustomerById(Integer.parseInt(id)).getResult().getEmail();
 		}
+		
+		
 		String sede = body.substring(arr[18] + 1, arr[19]);
+		log.info("sede: "+sede);
 		if(sede.equals("")) {
 			sede=customerService.findCustomerById(Integer.parseInt(id)).getResult().getSede();
 		}
+		
+		
 		String residenza = body.substring(arr[22] + 1, arr[23]);
+		log.info("residenza: "+residenza);
 		if(residenza.equals("")) {
 			residenza=customerService.findCustomerById(Integer.parseInt(id)).getResult().getResidenza();
 		}
-		String nome = body.substring(arr[25] + 1, arr[26]);
+		
+		String nome = body.substring(arr[26] + 1, arr[27]);
+		log.info("nome: "+nome);
 		if(nome.equals("")) {
 			nome=customerService.findCustomerById(Integer.parseInt(id)).getResult().getName();
 		}
 		
-		return customerService.updateUser(Integer.parseInt(id), ragioneSociale, partitaIva, email, sede, residenza);
+		return customerService.updateUser(Integer.parseInt(id), ragioneSociale, partitaIva, email, sede, residenza, nome);
 	
 	}
 

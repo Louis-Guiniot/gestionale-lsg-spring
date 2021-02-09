@@ -113,7 +113,7 @@ public class CustomerService {
 		}
 
 		//update customer
-		public Response<CustomerDTO> updateUser(int id, String ragioneSociale, String partitaIva, String email, String sede, String residenza) {
+		public Response<CustomerDTO> updateUser(int id, String ragioneSociale, String partitaIva, String email, String sede, String residenza, String nome) {
 
 			Response<CustomerDTO> response = new Response<CustomerDTO>();
 			try {
@@ -133,6 +133,9 @@ public class CustomerService {
 				
 				if (residenza != null)
 					customer.setResidenza(residenza);
+				
+				if (nome != null)
+					customer.setName(nome);
 				
 				
 				this.customerRepository.save(customer);
