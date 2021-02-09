@@ -122,8 +122,10 @@ public class ProductRestController {
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setMeasureUnit(measureUnit);
+		log.info("measure unit: "+measureUnit);
 		product.setScontoProd(sconto);
 		int id=measureService.findMeasureIdByMeasureUnit(measureUnit);
+		log.info("measure unit ID: "+id);
 		product.setMeasureUnit_id(id);
 		
 		return productService.createProduct(product);
