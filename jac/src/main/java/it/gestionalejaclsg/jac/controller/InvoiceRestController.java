@@ -1,7 +1,6 @@
 package it.gestionalejaclsg.jac.controller;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +57,6 @@ public class InvoiceRestController {
 //			flag=false;
 //		}else {
 //			sconto=body.substring(arr[14]+1,arr[15]);
-//			
 //		}
 		String aricles=body.substring(arr[18] + 1, arr[19]);
 		//String taxable=body.substring(arr[22] + 1, arr[23]);
@@ -125,24 +123,23 @@ public class InvoiceRestController {
 		if(sommaSconti>50) {
 			sommaSconti=50;
 		}
-		invoice.setSconto((sommaPrices*sommaSconti/100)+"");
-		invoice.setTotalPrice(sommaPrices+"");
-		invoice.setIvaPrice((sommaPrices*0.22)+"");
-		invoice.setImponibile((sommaPrices*0.22)+"");
-		invoice.setTotaleMerci((sommaPrices+sommaPrices*0.22)+"");
-		if(flag==false) {
-			invoice.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
-		}else {
-			double saldo=(sommaSconti)/100*sommaPrices;
-			invoice.setImportoSconto(saldo+"");
-			invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
-		}
-		invoice.setQuantita(arrArt.length+"");
-		int manodopera=10;
-		invoice.setTotaleServizi(((sommaPrices+sommaPrices*0.22)+manodopera)+"");
+		invoice.setSconto((sommaPrices-(sommaPrices*sommaSconti/100))+""); //prezzo degli articoli scontati
+		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
+		invoice.setIvaPrice((sommaPrices+(sommaPrices*0.22))+"");//prezzo totale dei prodotti con aggiunta di iva
+		invoice.setImponibile((sommaPrices*0.22)+"");//calcolo dell'iva
+		invoice.setTotaleMerci(arrArt.length+"");//numero prodotti totali
+//		if(flag==false) {
+//			invoice.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
+//		}else {
+		double saldo=sommaPrices*sommaSconti/100;
+		invoice.setImportoSconto(saldo+"");
+		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
+//		}
+		invoice.setQuantita(arrArt.length+"");//quantita prodotti
+		int manodopera=63;
+		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*0.22))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
 		return this.invoiceService.createInvoice(invoice);
-		
 	}
 	
 	
@@ -185,7 +182,39 @@ public class InvoiceRestController {
 		return invoiceService.deleteInvoiceById(Integer.parseInt(id));
 	}
 	
-	
+	@PostMapping(path="/update")
+	public Response<?> updateInvoice(@RequestBody String body){
+		log.info("\n\n\n\n\n\n\n update invoice: "+body);
+		
+		Invoice invoiceUpd = new Invoice();
+		
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+		}
+		log.info("\n\n inizio substrings \n\n");
+		
+		boolean flag=true;
+		String customerId = body.substring(arr[2] + 1, arr[3]);
+		String date = body.substring(arr[6] + 1, arr[7]);
+		String payCondition = body.substring(arr[10] + 1, arr[11]);
+		String docType = body.substring(arr[14] + 1, arr[15]);
+		String sale = body.substring(arr[18] + 1, arr[19]);
+		String articles = body.substring(arr[22] + 1, arr[23]);
+		String taxable = body.substring(arr[26] + 1, arr[27]);
+		String quantity = body.substring(arr[30] + 1, arr[31]);
+		String saleImport = body.substring(arr[34] + 1, arr[35]);
+		
+		
+		
+		
+		
+		return null;
+	}
 	
 	
 	
