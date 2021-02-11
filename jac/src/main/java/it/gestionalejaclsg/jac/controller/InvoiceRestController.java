@@ -85,7 +85,7 @@ public class InvoiceRestController {
 				conta2++;
 			}
 		}
-		log.info("\n\n dine qnt \n\n");
+		log.info("\n\n fine qnt \n\n");
 		
 		invoice.setIva(22+"");
 		invoice.setQuantita(conta2+"");
@@ -95,7 +95,13 @@ public class InvoiceRestController {
 		//CREAZIONE CODICE
 		
 		log.info("\n\n codice fattura \n\n");
-		String codeStr=invoiceService.findLastInvoice().getResult().getCodeInvoice() ; //20211 - .substring(4,5))+1
+		String codeStr= "";
+		if(invoiceService.findLastInvoice().getResult().getCodeInvoice().equals("null")) {
+			codeStr=Calendar.YEAR+"1";
+			log.info("calendar: "+Calendar.YEAR);
+		}else {
+			codeStr=invoiceService.findLastInvoice().getResult().getCodeInvoice() ; //20211 - .substring(4,5))+1
+		}
 		log.info("\n\n CODICE STR "+codeStr+"\n\n");
 		int codeInt=Integer.parseInt(codeStr)+1;
 		
@@ -103,7 +109,7 @@ public class InvoiceRestController {
 		log.info("\n\n inizio splits \n\n");
 		String[] arrArt=aricles.split(";");
 		
-		
+		log.info("articolo 1: "+arrArt[0]);
 		
 		
 		//ciclo somma prezzi stonks

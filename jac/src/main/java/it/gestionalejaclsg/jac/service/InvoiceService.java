@@ -131,23 +131,31 @@ public class InvoiceService {
 	public Response<InvoiceDTO> findInvoiceById(int id) {
 		log.info("findo invoice by id");
 		Response<InvoiceDTO> response = new Response<InvoiceDTO>();
+		
+		if(id!=0) {
+			try {
 
-		try {
+				Invoice invoice = this.invoiceRepository.findById(id).get();
 
-			Invoice invoice = this.invoiceRepository.findById(id).get();
+				response.setResult(InvoiceDTO.build(invoice));
+				response.setResultTest(true);
 
-			response.setResult(InvoiceDTO.build(invoice));
-			response.setResultTest(true);
+			} catch (Exception e) {
 
-		} catch (Exception e) {
+				response.setError(error);
 
-			response.setError(error);
+			}
 
+			return response;
+		}else {
+			log.info("siamo nell'else");
+			Response<InvoiceDTO>response2= new Response<InvoiceDTO>();
+			Invoice invoice2 = new Invoice();
+			invoice2.setCodeInvoice("null");
+			response2.setResult(InvoiceDTO.build(invoice2));
+			return response2;
 		}
-
-		return response;
-
-	}
+		}
 
 	// update invoice
 	public Response<InvoiceDTO> updateUser(int id, String code, String totalPrice, String idCustomer, String fields) {
