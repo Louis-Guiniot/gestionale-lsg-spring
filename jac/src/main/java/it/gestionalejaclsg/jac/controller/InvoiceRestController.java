@@ -184,41 +184,8 @@ public class InvoiceRestController {
 		return invoiceService.deleteInvoiceById(Integer.parseInt(id));
 	}
 	
-	@PostMapping(path="/update")
-<<<<<<< HEAD
-	public Response<?> updateInvoice(@RequestBody String body){
-		log.info("\n\n\n\n\n\n\n update invoice: "+body);
-		
-		Invoice invoiceUpd = new Invoice();
-		
-		int conta = 0;
-		int[] arr = new int[body.length()];
-		for (int i = 0; i < body.length(); i++) {
-			if (body.charAt(i) == '"') {
-				arr[conta] = i;
-				conta++;
-			}
-		}
-		log.info("\n\n inizio substrings \n\n");
-		
-		boolean flag=true;
-		String customerId = body.substring(arr[2] + 1, arr[3]);
-		String date = body.substring(arr[6] + 1, arr[7]);
-		String payCondition = body.substring(arr[10] + 1, arr[11]);
-		String docType = body.substring(arr[14] + 1, arr[15]);
-		String sale = body.substring(arr[18] + 1, arr[19]);
-		String articles = body.substring(arr[22] + 1, arr[23]);
-		String taxable = body.substring(arr[26] + 1, arr[27]);
-		String quantity = body.substring(arr[30] + 1, arr[31]);
-		String saleImport = body.substring(arr[34] + 1, arr[35]);
-		
-		
-		
-		
-		
-		return null;
-	}
-=======
+	
+
 	public Response<?> updateInvoice(@RequestBody String body) throws ParseException{
 		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
 		
@@ -247,7 +214,7 @@ public class InvoiceRestController {
 	
 		
 		invoiceUpd.setId(Integer.parseInt(idS));
->>>>>>> refs/remotes/origin/mmatteo
+
 	
 		int codInv=(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCodeInvoice()));
 		invoiceUpd.setCodeInvoice(codInv+"");
