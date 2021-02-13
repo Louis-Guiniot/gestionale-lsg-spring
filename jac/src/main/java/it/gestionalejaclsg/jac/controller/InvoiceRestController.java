@@ -1,8 +1,10 @@
 package it.gestionalejaclsg.jac.controller;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,7 +188,7 @@ public class InvoiceRestController {
 	}
 	
 	@PostMapping(path="/update")
-	public Response<?> updateInvoice(@RequestBody String body){
+	public Response<?> updateInvoice(@RequestBody String body) throws ParseException{
 		log.info("\n\n\n\n\n\n\n update invoice: "+body);
 		
 		Invoice invoiceUpd = new Invoice();
@@ -301,10 +303,16 @@ public class InvoiceRestController {
 		}else {
 			invoiceUpd.setQuantita(quantity);
 		}
+		
+		if(saleImport==null) {
+			invoiceUpd.setImportoSconto(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImportoSconto());
+		}else {
+			invoiceUpd.setImportoSconto(saleImport);
+		}
 
 		invoiceUpd.setIva(22+"");
 		//ciclo somma prezzi stonks
-				log.info("\n\n inizio ciclo somma \n\n");
+				log.info("\n\n inizio service \n\n");
 				
 		
 		
