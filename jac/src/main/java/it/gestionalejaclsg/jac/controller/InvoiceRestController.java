@@ -2,8 +2,7 @@ package it.gestionalejaclsg.jac.controller;
 
 import java.util.Calendar;
 
-import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
+
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ public class InvoiceRestController {
 	@Autowired
 	private ProductService productService;
 
-	@SuppressWarnings("deprecation")
+	
 	@PostMapping("/create")
 	public Response<?> createInvoice(@RequestBody String body) {
 		
@@ -54,7 +53,7 @@ public class InvoiceRestController {
 		String customerId = body.substring(arr[2] + 1, arr[3]);
 		String paymentCondition = body.substring(arr[6] + 1, arr[7]);
 		String docType = body.substring(arr[10] + 1, arr[11]);
-		String sconto;
+		//String sconto;
 //		if((body.substring(arr[14]+1,arr[15])).equals("")) {
 //			sconto="0";
 //			flag=false;
@@ -205,39 +204,33 @@ public class InvoiceRestController {
 		
 		boolean flag=true;
 		String idS = body.substring(arr[2] + 1, arr[3]);
-		log.info("idS "+idS);
 		String customerId = body.substring(arr[6] + 1, arr[7]);
-		log.info("customerId "+customerId);
-		String date = body.substring(arr[10] + 1, arr[11]);
-		log.info("date "+date);
-		String payCondition = body.substring(arr[14] + 1, arr[15]);
-		log.info("payCondition "+payCondition);
-		String docType = body.substring(arr[18] + 1, arr[19]);
-		log.info("docType "+docType);
-		String sale = body.substring(arr[22] + 1, arr[23]);
-		log.info("sale "+sale);
-		String articles = body.substring(arr[26] + 1, arr[27]);
-		log.info("articles "+articles);
-		String taxable = body.substring(arr[30] + 1, arr[31]);
-		log.info("articles "+articles);
-		String quantity = body.substring(arr[34] + 1, arr[35]);
-		log.info("quantity "+quantity);
-		String saleImport = body.substring(arr[38] + 1, arr[39]);
-		log.info("saleImport "+saleImport);
+		String payCondition = body.substring(arr[10] + 1, arr[11]);
+		String docType = body.substring(arr[14] + 1, arr[15]);
+		String sale = body.substring(arr[18] + 1, arr[19]);
+		String articles = body.substring(arr[22] + 1, arr[23]);
+		String taxable = body.substring(arr[26] + 1, arr[27]);
+		String quantity = body.substring(arr[30] + 1, arr[31]);
+		String saleImport = body.substring(arr[34] + 1, arr[35]);
+	
 		
 		invoiceUpd.setId(Integer.parseInt(idS));
+	
+		int codInv=(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCodeInvoice()));
+		invoiceUpd.setCodeInvoice(codInv+"");
 		
 		if(customerId=="") {
+			int idcustomer= Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer());
+			invoiceUpd.setIdCustomer(idcustomer+"");
 			invoiceUpd.setCustomer_id(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer()));
 		}else {
+			invoiceUpd.setIdCustomer(customerId+"");
 			invoiceUpd.setCustomer_id(Integer.parseInt(customerId));
 		}
 		
-		if(date=="") {
-			invoiceUpd.setDateTime(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getDateTime());
-		}else {
-			invoiceUpd.setDateTime(date);
-		}
+		
+		invoiceUpd.setDateTime(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getDateTime());
+	
 		
 		if(payCondition=="") {
 			invoiceUpd.setCondizionePagamento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCondizionePagamento());
