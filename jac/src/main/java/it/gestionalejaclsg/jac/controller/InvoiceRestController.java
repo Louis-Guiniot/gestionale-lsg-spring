@@ -49,7 +49,7 @@ public class InvoiceRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
-		boolean flag=true;
+	
 		String customerId = body.substring(arr[2] + 1, arr[3]);
 		String paymentCondition = body.substring(arr[6] + 1, arr[7]);
 		String docType = body.substring(arr[10] + 1, arr[11]);
@@ -185,7 +185,7 @@ public class InvoiceRestController {
 	}
 	
 	
-
+	@PostMapping(path="/update")
 	public Response<?> updateInvoice(@RequestBody String body) throws ParseException{
 		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
 		
