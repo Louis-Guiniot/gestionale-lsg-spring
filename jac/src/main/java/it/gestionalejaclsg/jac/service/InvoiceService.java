@@ -158,24 +158,49 @@ public class InvoiceService {
 		}
 
 	// update invoice
-	public Response<InvoiceDTO> updateUser(int id, String code, String totalPrice, String idCustomer, String fields) {
+//	public Response<InvoiceDTO> updateInvoice(int id, String code, String totalPrice, String idCustomer, String fields) {
+//
+//		Response<InvoiceDTO> response = new Response<InvoiceDTO>();
+//
+//		try {
+//			Invoice invoice = this.invoiceRepository.findById(id).get();
+//
+//			if (code != null)
+//				invoice.setCodeInvoice(code);
+//			
+//			if (totalPrice != null)
+//				invoice.setTotalPrice(totalPrice);
+//			
+//			if (idCustomer != null)
+//				invoice.setIdCustomer(idCustomer);
+//			
+//			if (fields != null)
+//				invoice.setFields(fields);
+//
+//			this.invoiceRepository.save(invoice);
+//
+//			response.setResult(InvoiceDTO.build(invoice));
+//			response.setResultTest(true);
+//
+//		} catch (Exception e) {
+//
+//			response.setError(error);
+//
+//		}
+//
+//		return response;
+//	}
+	
+	
+	
+	
+	
+	
+	public Response<InvoiceDTO> updateInvoice(Invoice invoice) {
 
 		Response<InvoiceDTO> response = new Response<InvoiceDTO>();
 
 		try {
-			Invoice invoice = this.invoiceRepository.findById(id).get();
-
-			if (code != null)
-				invoice.setCodeInvoice(code);
-			
-			if (totalPrice != null)
-				invoice.setTotalPrice(totalPrice);
-			
-			if (idCustomer != null)
-				invoice.setIdCustomer(idCustomer);
-			
-			if (fields != null)
-				invoice.setFields(fields);
 
 			this.invoiceRepository.save(invoice);
 

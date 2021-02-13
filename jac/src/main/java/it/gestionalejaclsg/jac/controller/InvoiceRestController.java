@@ -2,6 +2,8 @@ package it.gestionalejaclsg.jac.controller;
 
 import java.util.Calendar;
 
+
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class InvoiceRestController {
 	@Autowired
 	private ProductService productService;
 
-	@SuppressWarnings("deprecation")
+	
 	@PostMapping("/create")
 	public Response<?> createInvoice(@RequestBody String body) {
 		
@@ -51,7 +53,7 @@ public class InvoiceRestController {
 		String customerId = body.substring(arr[2] + 1, arr[3]);
 		String paymentCondition = body.substring(arr[6] + 1, arr[7]);
 		String docType = body.substring(arr[10] + 1, arr[11]);
-		String sconto;
+		//String sconto;
 //		if((body.substring(arr[14]+1,arr[15])).equals("")) {
 //			sconto="0";
 //			flag=false;
@@ -183,6 +185,7 @@ public class InvoiceRestController {
 	}
 	
 	@PostMapping(path="/update")
+<<<<<<< HEAD
 	public Response<?> updateInvoice(@RequestBody String body){
 		log.info("\n\n\n\n\n\n\n update invoice: "+body);
 		
@@ -215,8 +218,142 @@ public class InvoiceRestController {
 		
 		return null;
 	}
+=======
+	public Response<?> updateInvoice(@RequestBody String body) throws ParseException{
+		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
+		
+		Invoice invoiceUpd = new Invoice();
+		
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+		}
+		log.info("\n\n inizio substrings \n\n");
+		
+		boolean flag=true;
+		String idS = body.substring(arr[2] + 1, arr[3]);
+		String customerId = body.substring(arr[6] + 1, arr[7]);
+		String payCondition = body.substring(arr[10] + 1, arr[11]);
+		String docType = body.substring(arr[14] + 1, arr[15]);
+		String sale = body.substring(arr[18] + 1, arr[19]);
+		String articles = body.substring(arr[22] + 1, arr[23]);
+		String taxable = body.substring(arr[26] + 1, arr[27]);
+		String quantity = body.substring(arr[30] + 1, arr[31]);
+		String saleImport = body.substring(arr[34] + 1, arr[35]);
 	
+		
+		invoiceUpd.setId(Integer.parseInt(idS));
+>>>>>>> refs/remotes/origin/mmatteo
 	
+		int codInv=(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCodeInvoice()));
+		invoiceUpd.setCodeInvoice(codInv+"");
+		
+		if(customerId=="") {
+			int idcustomer= Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer());
+			invoiceUpd.setIdCustomer(idcustomer+"");
+			invoiceUpd.setCustomer_id(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer()));
+		}else {
+			invoiceUpd.setIdCustomer(customerId+"");
+			invoiceUpd.setCustomer_id(Integer.parseInt(customerId));
+		}
+		
+		
+		invoiceUpd.setDateTime(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getDateTime());
 	
-	
+		
+		if(payCondition=="") {
+			invoiceUpd.setCondizionePagamento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCondizionePagamento());
+		}else {
+			invoiceUpd.setCondizionePagamento(payCondition);
+		}
+		
+		if(docType=="") {
+			invoiceUpd.setTipoDocumento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTipoDocumento());
+		}else {
+			invoiceUpd.setTipoDocumento(docType);
+		}
+
+		if(articles=="") {
+			articles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
+			invoiceUpd.setFields(articles);
+			sale=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getSconto();
+			invoiceUpd.setSconto(sale);
+			invoiceUpd.setTotalPrice(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotalPrice());
+			invoiceUpd.setIvaPrice(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIvaPrice());
+			invoiceUpd.setTotaleMerci(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleMerci());
+			invoiceUpd.setTotalToPay(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotalToPay());
+			invoiceUpd.setTotaleServizi(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleServizi());
+		}else {
+			invoiceUpd.setFields(articles);
+			String[] arrArt=articles.split(";");
+			double sommaPrices=0;
+			for(int i=0; i<arrArt.length; i++) {
+				sommaPrices=sommaPrices+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice()) ;
+			}
+			double sommaSconti=0;
+			for(int i=0; i<arrArt.length; i++) {
+				sommaSconti=sommaSconti+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd()) ;
+			}
+			if(sommaSconti>50) {
+				sommaSconti=50;
+			}
+
+			invoiceUpd.setTotalPrice(sommaPrices+"");
+			invoiceUpd.setIvaPrice((sommaPrices*0.22)+"");
+			invoiceUpd.setImponibile((sommaPrices*0.22)+"");
+			invoiceUpd.setTotaleMerci((sommaPrices+sommaPrices*0.22)+"");
+			if(flag==false) {
+				invoiceUpd.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
+			}else {
+				double saldo=(sommaSconti)/100*sommaPrices;
+				invoiceUpd.setImportoSconto(saldo+"");
+				invoiceUpd.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
+			}
+			invoiceUpd.setQuantita(arrArt.length+"");
+			int manodopera=10;
+			invoiceUpd.setTotaleServizi(((sommaPrices+sommaPrices*0.22)+manodopera)+"");
+			invoiceUpd.setSconto((sommaPrices*sommaSconti/100)+"");
+		}
+		
+		//calcolo quantita
+		int qnt = 0; //è la quantita
+		int[] art = new int[articles.length()];
+		for (int i = 0; i < articles.length(); i++) {
+			if (body.charAt(i) == ';') {
+				art[qnt] = i;
+				qnt++;
+			}
+		}
+		
+		if(taxable=="") {
+			invoiceUpd.setImponibile(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImponibile());
+		}else {
+			invoiceUpd.setImponibile(taxable);
+		}
+
+		if(quantity=="") {
+			invoiceUpd.setQuantita(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getQuantita());
+		}else {
+			invoiceUpd.setQuantita(quantity);
+		}
+		
+		if(saleImport=="") {
+			invoiceUpd.setImportoSconto(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImportoSconto());
+		}else {
+			invoiceUpd.setImportoSconto(saleImport);
+		}
+
+		invoiceUpd.setIva(22+"");
+		//ciclo somma prezzi stonks
+				log.info("\n\n inizio service \n\n");
+				
+		
+		
+		
+		return this.invoiceService.updateInvoice(invoiceUpd);
+	}
 }
