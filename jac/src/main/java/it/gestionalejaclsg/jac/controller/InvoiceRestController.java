@@ -189,7 +189,7 @@ public class InvoiceRestController {
 	
 	@PostMapping(path="/update")
 	public Response<?> updateInvoice(@RequestBody String body) throws ParseException{
-		log.info("\n\n\n\n\n\n\n update invoice: "+body);
+		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
 		
 		Invoice invoiceUpd = new Invoice();
 		
@@ -205,42 +205,53 @@ public class InvoiceRestController {
 		
 		boolean flag=true;
 		String idS = body.substring(arr[2] + 1, arr[3]);
+		log.info("idS "+idS);
 		String customerId = body.substring(arr[6] + 1, arr[7]);
+		log.info("customerId "+customerId);
 		String date = body.substring(arr[10] + 1, arr[11]);
+		log.info("date "+date);
 		String payCondition = body.substring(arr[14] + 1, arr[15]);
+		log.info("payCondition "+payCondition);
 		String docType = body.substring(arr[18] + 1, arr[19]);
+		log.info("docType "+docType);
 		String sale = body.substring(arr[22] + 1, arr[23]);
+		log.info("sale "+sale);
 		String articles = body.substring(arr[26] + 1, arr[27]);
+		log.info("articles "+articles);
 		String taxable = body.substring(arr[30] + 1, arr[31]);
+		log.info("articles "+articles);
 		String quantity = body.substring(arr[34] + 1, arr[35]);
+		log.info("quantity "+quantity);
 		String saleImport = body.substring(arr[38] + 1, arr[39]);
+		log.info("saleImport "+saleImport);
 		
+		invoiceUpd.setId(Integer.parseInt(idS));
 		
-		if(customerId==null) {
+		if(customerId=="") {
 			invoiceUpd.setCustomer_id(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer()));
 		}else {
 			invoiceUpd.setCustomer_id(Integer.parseInt(customerId));
 		}
 		
-		if(date==null) {
+		if(date=="") {
 			invoiceUpd.setDateTime(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getDateTime());
 		}else {
 			invoiceUpd.setDateTime(date);
 		}
 		
-		if(payCondition==null) {
+		if(payCondition=="") {
 			invoiceUpd.setCondizionePagamento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCondizionePagamento());
 		}else {
 			invoiceUpd.setCondizionePagamento(payCondition);
 		}
 		
-		if(docType==null) {
+		if(docType=="") {
 			invoiceUpd.setTipoDocumento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTipoDocumento());
 		}else {
 			invoiceUpd.setTipoDocumento(docType);
 		}
 
-		if(articles==null) {
+		if(articles=="") {
 			articles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
 			invoiceUpd.setFields(articles);
 			sale=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getSconto();
@@ -292,19 +303,19 @@ public class InvoiceRestController {
 			}
 		}
 		
-		if(taxable==null) {
+		if(taxable=="") {
 			invoiceUpd.setImponibile(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImponibile());
 		}else {
 			invoiceUpd.setImponibile(taxable);
 		}
 
-		if(quantity==null) {
+		if(quantity=="") {
 			invoiceUpd.setQuantita(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getQuantita());
 		}else {
 			invoiceUpd.setQuantita(quantity);
 		}
 		
-		if(saleImport==null) {
+		if(saleImport=="") {
 			invoiceUpd.setImportoSconto(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImportoSconto());
 		}else {
 			invoiceUpd.setImportoSconto(saleImport);
