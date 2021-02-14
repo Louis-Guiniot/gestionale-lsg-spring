@@ -136,28 +136,28 @@ public class MeasureService {
 
 	}
 	
-	// update measureUnit
-//	public Response<MeasureDTO> updateUser(int id, String type) {
-//
-//		Response<MeasureDTO> response = new Response<MeasureDTO>();
-//
-//		try {
-//			MeasureUnit measureUnit = this.measureRepository.findById(id).get();
-//
-//			if (type != null)
-//				measureUnit.setType(type);
-//
-//			this.measureRepository.save(measureUnit);
-//
-//			response.setResult(MeasureDTO.build(measureUnit));
-//			response.setResultTest(true);
-//
-//		} catch (Exception e) {
-//
-//			response.setError(error);
-//
-//		}
-//
-//		return response;
-//	}
+//	 update measureUnit
+	public Response<MeasureDTO> updateMeasureUnit(int id, String type) {
+
+		Response<MeasureDTO> response = new Response<MeasureDTO>();
+
+		try {
+			MeasureUnit measureUnit = this.measureRepository.findById(id).get();
+
+			if (type != null)
+				measureUnit.setType(type);
+
+			this.measureRepository.save(measureUnit);
+
+			response.setResult(MeasureDTO.build(measureUnit));
+			response.setResultTest(true);
+
+		} catch (Exception e) {
+
+			response.setError(error);
+
+		}
+
+		return response;
+	}
 }
