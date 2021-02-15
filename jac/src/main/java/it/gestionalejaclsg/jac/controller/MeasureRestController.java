@@ -35,7 +35,7 @@ public class MeasureRestController {
 	
 
 	
-	@PostMapping("/update")
+	@PostMapping(path ="/update")
 	public Response<?> updateMeasure(@RequestBody String body) {
 		
 		MeasureUnit m=new MeasureUnit();
@@ -63,7 +63,7 @@ public class MeasureRestController {
 		
 	}
 	
-	@PostMapping("/create")
+	@PostMapping(path="/create")
 	public Response<?> createMeasure(@RequestBody String body) {
 		
 		MeasureUnit m=new MeasureUnit();
@@ -71,7 +71,7 @@ public class MeasureRestController {
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		
 		int conta = 0;
-		int[] arr = new int[body.length()];
+		int[] arr = new int[body.length()+1];
 		for (int i = 0; i < body.length(); i++) {
 			if (body.charAt(i) == '"') {
 				arr[conta] = i;
@@ -82,7 +82,7 @@ public class MeasureRestController {
 		
 		int measureId = this.measureService.findLastMeasure().getResult().getId()+1;
 		String tipoM = body.substring(arr[2] + 1, arr[3]);
-		
+		log.info("\n\ntipoM: "+tipoM+"\n\n");
 
 		m.setId(measureId);
 		m.setType(tipoM);
