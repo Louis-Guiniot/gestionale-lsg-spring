@@ -28,6 +28,25 @@ public class InvoiceRestController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	
+	@PostMapping("/search")
+	public Response<?> searchInvoices(@RequestBody String body){
+		log.info("\n\n\n\nbody: " + body + "\n\n\n");
+		
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+				
+		}
+		String termine = body.substring(arr[2] + 1, arr[3]);
+		
+		return this.invoiceService.findInvoiceByTerm(termine);
+	}
 
 	
 	@PostMapping("/create")
