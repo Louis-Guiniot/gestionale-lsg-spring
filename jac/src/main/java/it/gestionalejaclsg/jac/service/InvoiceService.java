@@ -230,6 +230,8 @@ public class InvoiceService {
 	    return true;
 	}
 	
+	
+	//louis la carogna
 	public Response<List<InvoiceDTO>> findInvoiceByTerm(String termine) {
 		Response<List<InvoiceDTO>> response = new Response<List<InvoiceDTO>>();
 
