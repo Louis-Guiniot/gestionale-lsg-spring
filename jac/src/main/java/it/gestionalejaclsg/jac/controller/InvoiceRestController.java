@@ -306,6 +306,7 @@ public class InvoiceRestController {
 		}
 		
 		//calcolo quantita
+		//"comunque questo è il backend"
 		int qnt = 0; //è la quantita
 		int[] art = new int[articles.length()];
 		for (int i = 0; i < articles.length(); i++) {
