@@ -90,6 +90,36 @@ public class MeasureService {
 		return response;
 
 	}
+	public Response<MeasureDTO> findLastMeasure() {
+
+		Response<List<MeasureDTO>> response = new Response<List<MeasureDTO>>();
+	
+		int last=0;
+		try {
+
+			Iterator<MeasureUnit> iterator = this.measureRepository.findAll().iterator();
+
+			while (iterator.hasNext()) {
+
+				MeasureUnit measureUnit = iterator.next();
+				
+				if(!iterator.hasNext()) {						
+					last=measureUnit.getId();
+				}
+
+			}
+			
+
+
+		} catch (Exception e) {
+
+			response.setError(error);
+
+		}
+		
+		return findMeasureUnitById(last);
+
+	}
 	
 	
 

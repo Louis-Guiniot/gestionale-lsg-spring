@@ -1,8 +1,9 @@
 package it.gestionalejaclsg.jac.controller;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
+
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,27 @@ public class InvoiceRestController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	
+	@PostMapping("/search")
+	public Response<?> searchInvoices(@RequestBody String body){
+		log.info("\n\n\n\nbody: " + body + "\n\n\n");
+		
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+				
+		}
+		String termine = body.substring(arr[2] + 1, arr[3]);
+		
+		return this.invoiceService.findInvoiceByTerm(termine);
+	}
 
-	@SuppressWarnings("deprecation")
+	
 	@PostMapping("/create")
 	public Response<?> createInvoice(@RequestBody String body) {
 		
@@ -48,17 +68,16 @@ public class InvoiceRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
-		boolean flag=true;
+	
 		String customerId = body.substring(arr[2] + 1, arr[3]);
 		String paymentCondition = body.substring(arr[6] + 1, arr[7]);
 		String docType = body.substring(arr[10] + 1, arr[11]);
-		String sconto;
+		//String sconto;
 //		if((body.substring(arr[14]+1,arr[15])).equals("")) {
 //			sconto="0";
 //			flag=false;
 //		}else {
 //			sconto=body.substring(arr[14]+1,arr[15]);
-//			
 //		}
 		String aricles=body.substring(arr[18] + 1, arr[19]);
 		//String taxable=body.substring(arr[22] + 1, arr[23]);
@@ -125,24 +144,23 @@ public class InvoiceRestController {
 		if(sommaSconti>50) {
 			sommaSconti=50;
 		}
-		invoice.setSconto((sommaPrices*sommaSconti/100)+"");
-		invoice.setTotalPrice(sommaPrices+"");
-		invoice.setIvaPrice((sommaPrices*0.22)+"");
-		invoice.setImponibile((sommaPrices*0.22)+"");
-		invoice.setTotaleMerci((sommaPrices+sommaPrices*0.22)+"");
-		if(flag==false) {
-			invoice.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
-		}else {
-			double saldo=(sommaSconti)/100*sommaPrices;
-			invoice.setImportoSconto(saldo+"");
-			invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
-		}
-		invoice.setQuantita(arrArt.length+"");
-		int manodopera=10;
-		invoice.setTotaleServizi(((sommaPrices+sommaPrices*0.22)+manodopera)+"");
+		invoice.setSconto((sommaPrices-(sommaPrices*sommaSconti/100))+""); //prezzo degli articoli scontati
+		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
+		invoice.setIvaPrice((sommaPrices+(sommaPrices*0.22))+"");//prezzo totale dei prodotti con aggiunta di iva
+		invoice.setImponibile((sommaPrices*0.22)+"");//calcolo dell'iva
+		invoice.setTotaleMerci(arrArt.length+"");//numero prodotti totali
+//		if(flag==false) {
+//			invoice.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
+//		}else {
+		double saldo=sommaPrices*sommaSconti/100;
+		invoice.setImportoSconto(saldo+"");
+		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
+//		}
+		invoice.setQuantita(arrArt.length+"");//quantita prodotti
+		int manodopera=63;
+		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*0.22))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
 		return this.invoiceService.createInvoice(invoice);
-		
 	}
 	
 	
@@ -185,9 +203,10 @@ public class InvoiceRestController {
 		return invoiceService.deleteInvoiceById(Integer.parseInt(id));
 	}
 	
+	
 	@PostMapping(path="/update")
-	public Response<?> updateInvoice(@RequestBody String body){
-		log.info("\n\n\n\n\n\n\n update invoice: "+body);
+	public Response<?> updateInvoice(@RequestBody String body) throws ParseException{
+		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
 		
 		Invoice invoiceUpd = new Invoice();
 		
@@ -204,41 +223,47 @@ public class InvoiceRestController {
 		boolean flag=true;
 		String idS = body.substring(arr[2] + 1, arr[3]);
 		String customerId = body.substring(arr[6] + 1, arr[7]);
-		String date = body.substring(arr[10] + 1, arr[11]);
-		String payCondition = body.substring(arr[14] + 1, arr[15]);
-		String docType = body.substring(arr[18] + 1, arr[19]);
-		String sale = body.substring(arr[22] + 1, arr[23]);
-		String articles = body.substring(arr[26] + 1, arr[27]);
-		String taxable = body.substring(arr[30] + 1, arr[31]);
-		String quantity = body.substring(arr[34] + 1, arr[35]);
-		String saleImport = body.substring(arr[38] + 1, arr[39]);
+		String payCondition = body.substring(arr[10] + 1, arr[11]);
+		String docType = body.substring(arr[14] + 1, arr[15]);
+		String sale = body.substring(arr[18] + 1, arr[19]);
+		String articles = body.substring(arr[22] + 1, arr[23]);
+		String taxable = body.substring(arr[26] + 1, arr[27]);
+		String quantity = body.substring(arr[30] + 1, arr[31]);
+		String saleImport = body.substring(arr[34] + 1, arr[35]);
+	
 		
+		invoiceUpd.setId(Integer.parseInt(idS));
+
+	
+		int codInv=(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCodeInvoice()));
+		invoiceUpd.setCodeInvoice(codInv+"");
 		
-		if(customerId==null) {
+		if(customerId=="") {
+			int idcustomer= Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer());
+			invoiceUpd.setIdCustomer(idcustomer+"");
 			invoiceUpd.setCustomer_id(Integer.parseInt(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIdCustomer()));
 		}else {
+			invoiceUpd.setIdCustomer(customerId+"");
 			invoiceUpd.setCustomer_id(Integer.parseInt(customerId));
 		}
 		
-		if(date==null) {
-			invoiceUpd.setDateTime(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getDateTime());
-		}else {
-			invoiceUpd.setDateTime(date);
-		}
 		
-		if(payCondition==null) {
+		invoiceUpd.setDateTime(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getDateTime());
+	
+		
+		if(payCondition=="") {
 			invoiceUpd.setCondizionePagamento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getCondizionePagamento());
 		}else {
 			invoiceUpd.setCondizionePagamento(payCondition);
 		}
 		
-		if(docType==null) {
+		if(docType=="") {
 			invoiceUpd.setTipoDocumento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTipoDocumento());
 		}else {
 			invoiceUpd.setTipoDocumento(docType);
 		}
 
-		if(articles==null) {
+		if(articles=="") {
 			articles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
 			invoiceUpd.setFields(articles);
 			sale=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getSconto();
@@ -281,6 +306,7 @@ public class InvoiceRestController {
 		}
 		
 		//calcolo quantita
+		//"comunque questo è il backend"
 		int qnt = 0; //è la quantita
 		int[] art = new int[articles.length()];
 		for (int i = 0; i < articles.length(); i++) {
@@ -290,21 +316,27 @@ public class InvoiceRestController {
 			}
 		}
 		
-		if(taxable==null) {
+		if(taxable=="") {
 			invoiceUpd.setImponibile(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImponibile());
 		}else {
 			invoiceUpd.setImponibile(taxable);
 		}
 
-		if(quantity==null) {
+		if(quantity=="") {
 			invoiceUpd.setQuantita(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getQuantita());
 		}else {
 			invoiceUpd.setQuantita(quantity);
 		}
+		
+		if(saleImport=="") {
+			invoiceUpd.setImportoSconto(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImportoSconto());
+		}else {
+			invoiceUpd.setImportoSconto(saleImport);
+		}
 
 		invoiceUpd.setIva(22+"");
 		//ciclo somma prezzi stonks
-				log.info("\n\n inizio ciclo somma \n\n");
+				log.info("\n\n inizio service \n\n");
 				
 		
 		

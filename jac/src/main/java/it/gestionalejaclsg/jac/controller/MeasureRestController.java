@@ -1,6 +1,5 @@
 package it.gestionalejaclsg.jac.controller;
 
-import java.util.Calendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dto.Response;
-import it.gestionalejaclsg.jac.entity.Invoice;
+
 import it.gestionalejaclsg.jac.entity.MeasureUnit;
 import it.gestionalejaclsg.jac.service.MeasureService;
 
@@ -36,8 +35,8 @@ public class MeasureRestController {
 	
 
 	
-	@PostMapping("/create")
-	public Response<?> createMeasure(@RequestBody String body) {
+	@PostMapping(path ="/update")
+	public Response<?> updateMeasure(@RequestBody String body) {
 		
 		MeasureUnit m=new MeasureUnit();
 
@@ -53,11 +52,39 @@ public class MeasureRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
-		String measureId = body.substring(arr[2] + 1, arr[3]);
-		String tipoM = body.substring(arr[6] + 1, arr[7]);
+		String tipoM  = body.substring(arr[2] + 1, arr[3]);
+		String measureId = body.substring(arr[6] + 1, arr[7]);
 		
 
 		m.setId(Integer.parseInt(measureId));
+		m.setType(tipoM);
+		
+		return this.measureService.createMeasureUnit(m);
+		
+	}
+	
+	@PostMapping(path="/create")
+	public Response<?> createMeasure(@RequestBody String body) {
+		
+		MeasureUnit m=new MeasureUnit();
+
+		log.info("\n\n\n\nbody: " + body + "\n\n\n");
+		
+		int conta = 0;
+		int[] arr = new int[body.length()+1];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+		}
+		log.info("\n\n inizio substrings \n\n");
+		
+		int measureId = this.measureService.findLastMeasure().getResult().getId()+1;
+		String tipoM = body.substring(arr[2] + 1, arr[3]);
+		log.info("\n\ntipoM: "+tipoM+"\n\n");
+
+		m.setId(measureId);
 		m.setType(tipoM);
 		
 		return this.measureService.createMeasureUnit(m);
@@ -70,27 +97,6 @@ public class MeasureRestController {
 	public Response<?> deleteMeasureById(@RequestBody String body){
 	
 		
-		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"eliminazione\n\n\n");
-		int pPartenza=0;
-		int pArrivo=0;
-		
-		for (int i = 0; i < body.length(); i++) {
-			if (body.charAt(i) == ':') {
-				pPartenza = i+1;
-			}
-			if(body.charAt(i)=='}') {
-				pArrivo=i;
-			}
-		}
-		String id = body.substring(pPartenza,pArrivo);
-		
-		return measureService.deleteMeasureUnitById(Integer.parseInt(id));
-	}
-	
-	
-	@PostMapping("/update")
-	public Response<?> updateMeasure(@RequestBody String body){
-		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"update\n\n\n");
 		int conta = 0;
 		int[] arr = new int[body.length()];
 		for (int i = 0; i < body.length(); i++) {
@@ -99,19 +105,16 @@ public class MeasureRestController {
 				conta++;
 			}
 		}
+		log.info("\n\n inizio substrings \n\n");
+		
+		
 		String id = body.substring(arr[2] + 1, arr[3]);
-		log.info("id: "+id);
 		
-		
-		String tipoM = body.substring(arr[6] + 1, arr[7]);
-		log.info("tipo: "+tipoM);
-		if(tipoM.equals("")) {
-			tipoM=measureService.findMeasureUnitById(Integer.parseInt(id)).getResult().getType();
-		}
-		
-		return measureService.updateMeasureUnit(Integer.parseInt(id), tipoM);
-	
+		return measureService.deleteMeasureUnitById(Integer.parseInt(id));
 	}
+	
+	
+	
 	
 
 }
