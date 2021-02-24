@@ -251,39 +251,22 @@ public class InvoiceService {
 
 				Invoice invoice = iterator.next();
 				
-				if(
-						(invoice.getCodeInvoice().equals(termine)||
-						invoice.getCondizionePagamento().equals(termine)||						
-						invoice.getDateTime().equals(termine)||
-						invoice.getFields().equals(termine)||
-						invoice.getIdCustomer().equals(termine)||
-						invoice.getImponibile().equals(termine)||
-						invoice.getImportoSconto().equals(termine)||
-						invoice.getIva().equals(termine)||
-						invoice.getIvaPrice().equals(termine)||
-						invoice.getQuantita().equals(termine)||
-						invoice.getSconto().equals(termine)||
-						invoice.getTipoDocumento().equals(termine)||
-						invoice.getTotaleMerci().equals(termine)||
-						invoice.getTotaleServizi().equals(termine)||
-						invoice.getTotalPrice().equals(termine)||
-						invoice.getTotalToPay().equals(termine))&&isNumeric==false
-					) {
+				if((invoice.getCodeInvoice().equals(termine)||invoice.getCondizionePagamento().equals(termine)||invoice.getDateTime().equals(termine)||invoice.getFields().equals(termine)||invoice.getIdCustomer().equals(termine)||invoice.getImponibile().equals(termine)||invoice.getImportoSconto().equals(termine)||invoice.getIva().equals(termine)||invoice.getIvaPrice().equals(termine)||invoice.getQuantita().equals(termine)||invoice.getSconto().equals(termine)||invoice.getTipoDocumento().equals(termine)||invoice.getTotaleMerci().equals(termine)||invoice.getTotaleServizi().equals(termine)||invoice.getTotalPrice().equals(termine)||invoice.getTotalToPay().equals(termine))&&isNumeric==false) {
 					log.info("\n\n\nparametro trovato!\n\n\n");
 					result.add(InvoiceDTO.build(invoice));
 				}else {
-					if(isNumeric==true&&(
-							invoice.getId()==(Integer.parseInt(termine))||
-							invoice.getCustomer_id()==(Integer.parseInt(termine))
-							)) {
+					if(isNumeric==true&&(invoice.getId()==(Integer.parseInt(termine))||invoice.getCustomer_id()==(Integer.parseInt(termine)))) {
 					log.info("\n\n\nparametro trovato!\n\n\n");
 					result.add(InvoiceDTO.build(invoice));
+					}else {
+						log.info("\n\n\nEH VOLEVI!\n\n\n");
 					}
 				}
 
 			}
 
 			response.setResult(result);
+			
 			response.setResultTest(true);
 
 		} catch (Exception e) {
@@ -291,7 +274,7 @@ public class InvoiceService {
 			response.setError(error);
 
 		}
-
+		log.info("\n\nResponse: "+result+"\n\n");
 		return response;
 	}
 }
