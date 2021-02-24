@@ -57,7 +57,7 @@ public class InvoiceRestController {
 		//body: {"custId":"1","payCondition":"payment","docType":"doc","sale":"","articles":"1","taxable":"tax"}
 
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
-		
+		double iva=0.22;
 		int conta = 0;
 		int[] arr = new int[body.length()];
 		for (int i = 0; i < body.length(); i++) {
@@ -144,21 +144,22 @@ public class InvoiceRestController {
 		if(sommaSconti>50) {
 			sommaSconti=50;
 		}
+		
 		invoice.setSconto((sommaPrices-(sommaPrices*sommaSconti/100))+""); //prezzo degli articoli scontati
 		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
-		invoice.setIvaPrice((sommaPrices+(sommaPrices*0.22))+"");//prezzo totale dei prodotti con aggiunta di iva
-		invoice.setImponibile((sommaPrices*0.22)+"");//calcolo dell'iva
+		invoice.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
+		invoice.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
 		invoice.setTotaleMerci(arrArt.length+"");//numero prodotti totali
 //		if(flag==false) {
-//			invoice.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
+//			invoice.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
 //		}else {
 		double saldo=sommaPrices*sommaSconti/100;
 		invoice.setImportoSconto(saldo+"");
-		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
+		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
 //		}
 		invoice.setQuantita(arrArt.length+"");//quantita prodotti
 		int manodopera=63;
-		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*0.22))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
+		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
 		return this.invoiceService.createInvoice(invoice);
 	}
@@ -209,7 +210,7 @@ public class InvoiceRestController {
 		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
 		
 		Invoice invoiceUpd = new Invoice();
-		
+		double iva=0.22;
 		int conta = 0;
 		int[] arr = new int[body.length()];
 		for (int i = 0; i < body.length(); i++) {
@@ -289,19 +290,19 @@ public class InvoiceRestController {
 			}
 
 			invoiceUpd.setTotalPrice(sommaPrices+"");
-			invoiceUpd.setIvaPrice((sommaPrices*0.22)+"");
-			invoiceUpd.setImponibile((sommaPrices*0.22)+"");
-			invoiceUpd.setTotaleMerci((sommaPrices+sommaPrices*0.22)+"");
+			invoiceUpd.setIvaPrice((sommaPrices*iva)+"");
+			invoiceUpd.setImponibile((sommaPrices*iva)+"");
+			invoiceUpd.setTotaleMerci((sommaPrices+sommaPrices*iva)+"");
 			if(flag==false) {
-				invoiceUpd.setTotalToPay(sommaPrices+(sommaPrices*0.22)+"");
+				invoiceUpd.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
 			}else {
 				double saldo=(sommaSconti)/100*sommaPrices;
 				invoiceUpd.setImportoSconto(saldo+"");
-				invoiceUpd.setTotalToPay((sommaPrices-saldo)+(sommaPrices*0.22)+"");
+				invoiceUpd.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
 			}
 			invoiceUpd.setQuantita(arrArt.length+"");
 			int manodopera=10;
-			invoiceUpd.setTotaleServizi(((sommaPrices+sommaPrices*0.22)+manodopera)+"");
+			invoiceUpd.setTotaleServizi(((sommaPrices+sommaPrices*iva)+manodopera)+"");
 			invoiceUpd.setSconto((sommaPrices*sommaSconti/100)+"");
 		}
 		
