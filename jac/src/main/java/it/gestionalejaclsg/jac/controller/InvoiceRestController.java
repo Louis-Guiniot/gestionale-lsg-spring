@@ -29,6 +29,7 @@ public class InvoiceRestController {
 	@Autowired
 	private ProductService productService;
 	
+	private static final double iva=0.22;
 	
 	@PostMapping("/search")
 	public Response<?> searchInvoices(@RequestBody String body){
@@ -54,7 +55,7 @@ public class InvoiceRestController {
 		
 		Invoice invoice=new Invoice();
 
-		//body: {"custId":"1","payCondition":"payment","docType":"doc","sale":"","articles":"1","taxable":"tax"}
+		//body: {"custId":"1","payCondition":"123","docType":"123","sale":"123","idItemsString":"123;123;123;123;","qntItemsString":"123;123;123;123;"}
 
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		double iva=0.22;
@@ -72,15 +73,15 @@ public class InvoiceRestController {
 		String customerId = body.substring(arr[2] + 1, arr[3]);
 		String paymentCondition = body.substring(arr[6] + 1, arr[7]);
 		String docType = body.substring(arr[10] + 1, arr[11]);
-		//String sconto;
-//		if((body.substring(arr[14]+1,arr[15])).equals("")) {
-//			sconto="0";
-//			flag=false;
-//		}else {
-//			sconto=body.substring(arr[14]+1,arr[15]);
-//		}
-		String aricles=body.substring(arr[18] + 1, arr[19]);
-		//String taxable=body.substring(arr[22] + 1, arr[23]);
+		String sconto;
+		if((body.substring(arr[14]+1,arr[15])).equals("")) {
+			sconto="0";
+			
+		}else {
+			sconto=body.substring(arr[14]+1,arr[15]);
+		}
+		String idAricles=body.substring(arr[18] + 1, arr[19]);
+		String articlesQuantity=body.substring(arr[22] + 1, arr[23]);
 		Calendar calndr = Calendar.getInstance();
 		
 		invoice.setDateTime(calndr.getTime().toString());
@@ -92,26 +93,18 @@ public class InvoiceRestController {
 		
 		invoice.setCondizionePagamento(paymentCondition);
 		invoice.setTipoDocumento(docType);
-		//invoice.setSconto(sconto);
-		invoice.setFields(aricles);
-		//invoice.setImponibile(taxable);
-		log.info("\n\n inizio quantita \n\n");
-		int conta2 = 0; //è la quantita
-		int[] arr2 = new int[aricles.length()];
-		for (int i = 0; i < aricles.length(); i++) {
-			if (body.charAt(i) == ';') {
-				arr2[conta2] = i;
-				conta2++;
-			}
-		}
-		log.info("\n\n fine qnt \n\n");
+		invoice.setSconto(sconto);
+		invoice.setFields(idAricles);
+		invoice.setQuantita(articlesQuantity);
 		
-		invoice.setIva(22+"");
-		invoice.setQuantita(conta2+"");
+		
+		invoice.setIva(iva+"");
+	
 		
 		
 		
 		//CREAZIONE CODICE
+		/**questo blocco è ok**/
 		
 		log.info("\n\n codice fattura \n\n");
 		String codeStr= "";
@@ -125,8 +118,12 @@ public class InvoiceRestController {
 		int codeInt=Integer.parseInt(codeStr)+1;
 		
 		invoice.setCodeInvoice(codeInt+""); //es cod 20211-20212-20213
+		
+		//FINE CREAZIONE CODICE 
+		
 		log.info("\n\n inizio splits \n\n");
-		String[] arrArt=aricles.split(";");
+		String[] arrArt=idAricles.split(";");
+		String[] arrQntArt=articlesQuantity.split(";");
 		
 		log.info("articolo 1: "+arrArt[0]);
 		
@@ -134,30 +131,47 @@ public class InvoiceRestController {
 		//ciclo somma prezzi stonks
 		log.info("\n\n inizio ciclo somma \n\n");
 		double sommaPrices=0;
+		double valoreSconto=0;
+		double prezzoArticolo=0;
+		double prezzoScontato=0;
+		
+		//cicla per fare la somma dei prezzi tentendo conto VERAMENTE degli sconti applicati ai prodotti
 		for(int i=0; i<arrArt.length; i++) {
-			sommaPrices=sommaPrices+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice()) ;
-		}
-		double sommaSconti=0;
-		for(int i=0; i<arrArt.length; i++) {
-			sommaSconti=sommaSconti+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd()) ;
-		}
-		if(sommaSconti>50) {
-			sommaSconti=50;
+			//recupera il prezzo dall'id moltiplicandolo per la quantita
+			prezzoArticolo=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice())*Integer.parseInt(arrQntArt[i]);
+			
+			//controlla se lo sconto è 0 per evitare problemi di calcolo
+			if(Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd())==0) {
+				//se è 0 moltiplica per 1 che se non ricordo male in 5 elementare mi hanno detto che ogni numero moltiplicato per uno dà il numero stesso come risultato
+				prezzoScontato=prezzoArticolo*1;
+			}else {	
+				//altrimenti calcola lo sconto
+				valoreSconto=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd());
+				prezzoScontato=prezzoArticolo-(prezzoArticolo*(valoreSconto/100));
+			}
+			
+			
+			sommaPrices+=prezzoScontato;
 		}
 		
-		invoice.setSconto((sommaPrices-(sommaPrices*sommaSconti/100))+""); //prezzo degli articoli scontati
+		int totMerci=0;
+		for(int j=0;j<arrQntArt.length;j++) {
+			totMerci+=Integer.parseInt(arrQntArt[j]);
+		}
+		String totMercis=totMerci+"";
+		invoice.setSconto(sconto+""); //prezzo degli articoli scontati
 		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
 		invoice.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
 		invoice.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
-		invoice.setTotaleMerci(arrArt.length+"");//numero prodotti totali
+		invoice.setTotaleMerci(totMercis);//numero prodotti totali
 //		if(flag==false) {
 //			invoice.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
 //		}else {
-		double saldo=sommaPrices*sommaSconti/100;
+		double saldo=sommaPrices*Double.parseDouble(sconto)/100;
 		invoice.setImportoSconto(saldo+"");
 		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
 //		}
-		invoice.setQuantita(arrArt.length+"");//quantita prodotti
+		
 		int manodopera=63;
 		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
@@ -210,7 +224,7 @@ public class InvoiceRestController {
 		log.info("\n\n\n\n\n\n\n update invoice: \n"+body+"\n\n\n\n\n\n");
 		
 		Invoice invoiceUpd = new Invoice();
-		double iva=0.22;
+		
 		int conta = 0;
 		int[] arr = new int[body.length()];
 		for (int i = 0; i < body.length(); i++) {
