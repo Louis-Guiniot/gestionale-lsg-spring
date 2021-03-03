@@ -89,7 +89,7 @@ public class InvoiceRestController {
 
 		Date date = cal.getTime();             
 
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");          
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd | HH:mm:ss");          
 
 		String inActiveDate = null;
 		inActiveDate = format1.format(date);
