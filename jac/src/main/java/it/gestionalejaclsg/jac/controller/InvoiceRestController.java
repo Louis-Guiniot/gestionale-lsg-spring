@@ -1,7 +1,8 @@
 package it.gestionalejaclsg.jac.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import java.util.Date;
 
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -82,9 +83,18 @@ public class InvoiceRestController {
 		}
 		String idAricles=body.substring(arr[18] + 1, arr[19]);
 		String articlesQuantity=body.substring(arr[22] + 1, arr[23]);
-		Calendar calndr = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
+
+		cal.add(Calendar.DATE, 1);
+
+		Date date = cal.getTime();             
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");          
+
+		String inActiveDate = null;
+		inActiveDate = format1.format(date);
 		
-		invoice.setDateTime(calndr.getTime().toString());
+		invoice.setDateTime(inActiveDate);;
 		
 		
 		invoice.setCustomer_id(Integer.parseInt(customerId));
