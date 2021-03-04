@@ -253,16 +253,19 @@ public class InvoiceRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
-		boolean flag=true;
+		
 		String idS = body.substring(arr[2] + 1, arr[3]);
 		String customerId = body.substring(arr[6] + 1, arr[7]);
 		String payCondition = body.substring(arr[10] + 1, arr[11]);
 		String docType = body.substring(arr[14] + 1, arr[15]);
 		String sale = body.substring(arr[18] + 1, arr[19]);
-		String articles = body.substring(arr[22] + 1, arr[23]);
-		String taxable = body.substring(arr[26] + 1, arr[27]);
-		String quantity = body.substring(arr[30] + 1, arr[31]);
-		String saleImport = body.substring(arr[34] + 1, arr[35]);
+		
+		String idArticles = body.substring(arr[22] + 1, arr[23]);
+		String articlesQuantity= body.substring(arr[26] + 1, arr[27]);
+		
+		String siva=body.substring(arr[29] + 1, arr[30]);
+		double iva=Double.parseDouble(siva)/100;
+		
 	
 		
 		invoiceUpd.setId(Integer.parseInt(idS));
@@ -296,9 +299,9 @@ public class InvoiceRestController {
 			invoiceUpd.setTipoDocumento(docType);
 		}
 
-		if(articles=="") {
-			articles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
-			invoiceUpd.setFields(articles);
+		if(idArticles=="") {
+			idArticles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
+			invoiceUpd.setFields(idArticles);
 			sale=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getSconto();
 			invoiceUpd.setSconto(sale);
 			invoiceUpd.setTotalPrice(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotalPrice());
@@ -307,70 +310,72 @@ public class InvoiceRestController {
 			invoiceUpd.setTotalToPay(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotalToPay());
 			invoiceUpd.setTotaleServizi(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleServizi());
 		}else {
-			invoiceUpd.setFields(articles);
-			String[] arrArt=articles.split(";");
+			log.info("\n\n inizio splits \n\n");
+			String[] arrArt=idArticles.split(";");
+			String[] arrQntArt=articlesQuantity.split(";");
+			
+
+			//ciclo somma prezzi stonks
+			log.info("\n\n inizio ciclo somma \n\n");
 			double sommaPrices=0;
+			double valoreSconto=0;
+			double prezzoArticolo=0;
+			double prezzoScontato=0;
+			
+			//cicla per fare la somma dei prezzi tentendo conto VERAMENTE degli sconti applicati ai prodotti
 			for(int i=0; i<arrArt.length; i++) {
-				sommaPrices=sommaPrices+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice()) ;
-			}
-			double sommaSconti=0;
-			for(int i=0; i<arrArt.length; i++) {
-				sommaSconti=sommaSconti+Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd()) ;
-			}
-			if(sommaSconti>50) {
-				sommaSconti=50;
-			}
-
-//			invoiceUpd.setTotalPrice(sommaPrices+"");
-//			invoiceUpd.setIvaPrice((sommaPrices*iva)+"");
-//			invoiceUpd.setImponibile((sommaPrices*iva)+"");
-//			invoiceUpd.setTotaleMerci((sommaPrices+sommaPrices*iva)+"");
-//			if(flag==false) {
-//				invoiceUpd.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
-//			}else {
-//				double saldo=(sommaSconti)/100*sommaPrices;
-//				invoiceUpd.setImportoSconto(saldo+"");
-//				invoiceUpd.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
-//			}
-//			invoiceUpd.setQuantita(arrArt.length+"");
-//			int manodopera=10;
-//			invoiceUpd.setTotaleServizi(((sommaPrices+sommaPrices*iva)+manodopera)+"");
-//			invoiceUpd.setSconto((sommaPrices*sommaSconti/100)+"");
-		}
-		
-		//calcolo quantita
-		//"comunque questo è il backend"
-		int qnt = 0; //è la quantita
-		int[] art = new int[articles.length()];
-		for (int i = 0; i < articles.length(); i++) {
-			if (body.charAt(i) == ';') {
-				art[qnt] = i;
-				qnt++;
-			}
-		}
-		
-		if(taxable=="") {
-			invoiceUpd.setImponibile(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImponibile());
-		}else {
-			invoiceUpd.setImponibile(taxable);
-		}
-
-		if(quantity=="") {
-			invoiceUpd.setQuantita(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getQuantita());
-		}else {
-			invoiceUpd.setQuantita(quantity);
-		}
-		
-		if(saleImport=="") {
-			invoiceUpd.setImportoSconto(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getImportoSconto());
-		}else {
-			invoiceUpd.setImportoSconto(saleImport);
-		}
-
-		invoiceUpd.setIva(22+"");
-		//ciclo somma prezzi stonks
-				log.info("\n\n inizio service \n\n");
+				//recupera il prezzo dall'id moltiplicandolo per la quantita
+				prezzoArticolo=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice())*Integer.parseInt(arrQntArt[i]);
 				
+				//controlla se lo sconto è 0 per evitare problemi di calcolo
+				if(Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd())==0) {
+					//se è 0 moltiplica per 1 che se non ricordo male in 5 elementare mi hanno detto che ogni numero moltiplicato per uno dà il numero stesso come risultato
+					prezzoScontato=prezzoArticolo*1;
+				}else {	
+					//altrimenti calcola lo sconto
+					valoreSconto=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd());
+					prezzoScontato=prezzoArticolo-(prezzoArticolo*(valoreSconto/100));
+				}
+				
+				
+				sommaPrices+=prezzoScontato;
+			}
+			
+			int totMerci=0;
+			for(int j=0;j<arrQntArt.length;j++) {
+				totMerci+=Integer.parseInt(arrQntArt[j]);
+			}
+			String totMercis=totMerci+"";
+			invoiceUpd.setSconto(sale+""); //prezzo degli articoli scontati
+			invoiceUpd.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
+			
+			if(iva!=0)
+				invoiceUpd.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
+			else
+				invoiceUpd.setIvaPrice(sommaPrices+"");
+				
+			
+			if(iva!=0)
+				invoiceUpd.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
+			else
+				invoiceUpd.setImponibile(sommaPrices+"");//calcolo dell'iva
+
+				
+			invoiceUpd.setTotaleMerci(totMercis);//numero prodotti totali
+//			if(flag==false) {
+//				invoice.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
+//			}else {
+			double saldo=sommaPrices*Double.parseDouble(sale)/100;
+			invoiceUpd.setImportoSconto(saldo+"");
+			invoiceUpd.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
+//			}
+			
+			int manodopera=63;
+			invoiceUpd.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
+		}
+		
+		
+		
 		
 		
 		
