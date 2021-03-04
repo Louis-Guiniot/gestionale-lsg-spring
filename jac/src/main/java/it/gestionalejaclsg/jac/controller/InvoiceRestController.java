@@ -1,7 +1,7 @@
 package it.gestionalejaclsg.jac.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -84,9 +84,13 @@ public class InvoiceRestController {
 		String articlesQuantity=body.substring(arr[22] + 1, arr[23]);
 		String siva=body.substring(arr[26] + 1, arr[27]);
 		double iva=Double.parseDouble(siva)/100;
+		
+		
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");	
+		
 		Calendar calndr = Calendar.getInstance();
 		
-		invoice.setDateTime(calndr.getTime().toString());
+		invoice.setDateTime(sdf.format(calndr.getTime()).toString());
 		
 		
 		
