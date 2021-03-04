@@ -89,6 +89,7 @@ public class InvoiceRestController {
 		invoice.setDateTime(calndr.getTime().toString());
 		
 		
+		
 		invoice.setCustomer_id(Integer.parseInt(customerId));
 		invoice.setIdCustomer(customerId);
 		
