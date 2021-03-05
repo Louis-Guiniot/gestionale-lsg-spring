@@ -50,10 +50,12 @@ public class IvaRestController {
 		
 		int measureId = this.ivaService.findLastIva().getResult().getId()+1;
 		String tipoIva = body.substring(arr[2] + 1, arr[3]);
+		String info= body.substring(arr[6] + 1, arr[7]);
 		log.info("\n\ntipoIva: "+tipoIva+"\n\n");
 
 		iva.setId(measureId);
 		iva.setPercentualeIva(tipoIva);
+		iva.setInfo(info);
 		
 		return ivaService.createIva(iva);
 		

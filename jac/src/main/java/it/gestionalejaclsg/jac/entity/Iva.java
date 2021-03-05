@@ -23,5 +23,8 @@ public class Iva {
 	
 	@Column(name = "percentuale_iva")
 	private String percentualeIva;
+	
+	@Column(name = "info")
+	private String info;
 
 }
