@@ -3,7 +3,7 @@ package it.gestionalejaclsg.jac.dto;
 import org.springframework.beans.BeanUtils;
 
 import it.gestionalejaclsg.jac.entity.DocumentType;
-import it.gestionalejaclsg.jac.entity.PayCondition;
+
 import lombok.Data;
 
 @Data
