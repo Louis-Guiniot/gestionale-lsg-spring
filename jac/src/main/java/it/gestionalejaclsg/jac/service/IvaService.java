@@ -22,7 +22,7 @@ public class IvaService {
 
 	// create
 
-	public Response<Iva> createPaymentCondition(Iva payCondition) {
+	public Response<Iva> createIva(Iva payCondition) {
 
 		Response<Iva> response = new Response<Iva>();
 
@@ -43,7 +43,7 @@ public class IvaService {
 	}
 
 	// delete
-	public Response<String> deleteMeasureUnitById(int id) {
+	public Response<String> deleteIvaById(int id) {
 
 		Response<String> response = new Response<String>();
 
@@ -60,7 +60,7 @@ public class IvaService {
 	}
 
 	// findAll
-	public Response<List<IvaDTO>> findAlPaymentConditions() {
+	public Response<List<IvaDTO>> findAllIvas() {
 
 		Response<List<IvaDTO>> response = new Response<List<IvaDTO>>();
 
@@ -89,6 +89,37 @@ public class IvaService {
 		return response;
 
 	}
+	public Response<IvaDTO> findLastIva() {
+
+		Response<List<IvaDTO>> response = new Response<List<IvaDTO>>();
+	
+		int last=0;
+		try {
+
+			Iterator<Iva> iterator = this.ivaRepository.findAll().iterator();
+
+			while (iterator.hasNext()) {
+
+				Iva iva= iterator.next();
+				
+				if(!iterator.hasNext()) {						
+					last=iva.getId();
+				}
+
+			}
+			
+
+
+		} catch (Exception e) {
+
+			response.setError(error);
+
+		}
+		
+		return findIvaById(last);
+
+	}
+	
 //	public Response<IvaDTO> findLastMeasure() {
 //
 //		Response<List<IvaDTO>> response = new Response<List<IvaDTO>>();
@@ -123,7 +154,7 @@ public class IvaService {
 	
 
 	// find payCondition by id
-	public Response<IvaDTO> findPaymentConditionById(int id) {
+	public Response<IvaDTO> findIvaById(int id) {
 
 		Response<IvaDTO> response = new Response<IvaDTO>();
 
@@ -146,7 +177,7 @@ public class IvaService {
 
 	
 //	 update payCondition
-	public Response<IvaDTO> payCondition(Iva pc) {
+	public Response<IvaDTO> updateIva(Iva pc) {
 
 		Response<IvaDTO> response = new Response<IvaDTO>();
 
