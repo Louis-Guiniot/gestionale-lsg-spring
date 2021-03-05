@@ -22,5 +22,5 @@ public class DocumentType {
 	private int id;
 	
 	@Column(name = "tipo")
-	private String tipo;
+	private String tipoDocumento;
 }

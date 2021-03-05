@@ -12,7 +12,7 @@ public class DocumentTypeDTO {
 	
 	private int id;
 	
-	private String tipo;
+	private String tipoDocumento;
 	
 	public static DocumentTypeDTO build(DocumentType documentType) {
 
