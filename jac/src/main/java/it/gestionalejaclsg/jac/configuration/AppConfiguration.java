@@ -36,6 +36,7 @@ public class AppConfiguration extends WebSecurityConfigurerAdapter implements We
 		registry.addMapping("/rest/invoice/**").allowedMethods("GET", "POST");
 		registry.addMapping("/rest/customer/**").allowedMethods("GET", "POST");
 		registry.addMapping("/rest/measure/**").allowedMethods("GET", "POST");
+		registry.addMapping("/rest/iva/**").allowedMethods("GET", "POST");
 		//registry.addMapping("/rest/user/**").allowedMethods("GET", "POST").allowedOrigins("localhost:4200/**");
 	}
 
