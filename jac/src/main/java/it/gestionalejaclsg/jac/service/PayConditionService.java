@@ -63,7 +63,7 @@ public class PayConditionService {
 	}
 
 	// findAll
-	public Response<List<PayConditionDTO>> findAlPaymentConditions() {
+	public Response<List<PayConditionDTO>> findAllPaymentConditions() {
 
 		Response<List<PayConditionDTO>> response = new Response<List<PayConditionDTO>>();
 
