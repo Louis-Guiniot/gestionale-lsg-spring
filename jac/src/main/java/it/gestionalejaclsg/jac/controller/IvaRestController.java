@@ -79,6 +79,8 @@ public class IvaRestController {
 		
 		String id = body.substring(arr[2] + 1, arr[3]);
 		
+		log.info(id+ "id iva");
+		
 		return ivaService.deleteIvaById(Integer.parseInt(id));
 	}
 	
