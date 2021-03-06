@@ -101,12 +101,21 @@ public class IvaRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
-		int measureId = this.ivaService.findLastIva().getResult().getId()+1;
-		String tipoIva = body.substring(arr[2] + 1, arr[3]);
-		log.info("\n\ntipoIva: "+tipoIva+"\n\n");
+		String id = body.substring(arr[2] + 1, arr[3]);
+		String percentuale = body.substring(arr[6] + 1, arr[7]);
+		String info = body.substring(arr[6] + 1, arr[7]);
+		
+		if(percentuale.equals("")) {
+			percentuale=ivaService.findIvaById(Integer.parseInt(id)).getResult().getPercentualeIva();
+		}
+		if(info.equals("")) {
+			info=ivaService.findIvaById(Integer.parseInt(id)).getResult().getInfo();
+		}
+		
 
-		iva.setId(measureId);
-		iva.setPercentualeIva(tipoIva);
+		iva.setId(Integer.parseInt(id));
+		iva.setPercentualeIva(percentuale);
+		iva.setInfo(info);
 		
 		return ivaService.updateIva(iva);
 	}
