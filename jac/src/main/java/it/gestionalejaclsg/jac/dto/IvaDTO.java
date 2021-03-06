@@ -11,6 +11,7 @@ public class IvaDTO {
 private int id;
 	
 	private String percentualeIva;
+	private String info;
 	
 	public static IvaDTO build(Iva iva) {
 
