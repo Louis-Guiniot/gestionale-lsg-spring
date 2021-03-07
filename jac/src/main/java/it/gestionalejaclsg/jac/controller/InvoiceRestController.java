@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Invoice;
+import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
 import it.gestionalejaclsg.jac.service.InvoiceService;
+import it.gestionalejaclsg.jac.service.ProductHasInvoiceService;
 import it.gestionalejaclsg.jac.service.ProductService;
 
 @RestController
@@ -25,6 +27,9 @@ public class InvoiceRestController {
 
 	@Autowired
 	private InvoiceService invoiceService;
+	
+	@Autowired
+	private ProductHasInvoiceService productHasInvoiceService;
 	
 	@Autowired
 	private ProductService productService;
@@ -54,6 +59,7 @@ public class InvoiceRestController {
 	public Response<?> createInvoice(@RequestBody String body) {
 		
 		Invoice invoice=new Invoice();
+		ProductHasInvoice phi=new ProductHasInvoice();
 
 		//body: {"custId":"1","payCondition":"123","docType":"123","sale":"123","idItemsString":"123;123;123;123;","qntItemsString":"123;123;123;123;"}
 
@@ -146,6 +152,12 @@ public class InvoiceRestController {
 		for(int i=0; i<arrArt.length; i++) {
 			//recupera il prezzo dall'id moltiplicandolo per la quantita
 			prezzoArticolo=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice())*Integer.parseInt(arrQntArt[i]);
+			phi.setInvoice_id(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
+			
+			phi.setProduct_id(arrArt[i]);
+			phi.setQuantity(arrQntArt[i]+"");
+			
+			
 			
 			//controlla se lo sconto è 0 per evitare problemi di calcolo
 			if(Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getScontoProd())==0) {
@@ -192,6 +204,8 @@ public class InvoiceRestController {
 		
 		int manodopera=63;
 		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
+		
+		productHasInvoiceService.createProductHasInvoice(phi);
 		
 		return this.invoiceService.createInvoice(invoice);
 	}
@@ -253,6 +267,9 @@ public class InvoiceRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
+		
+		//{"idS":"18","custId":"","payCondition":"","docType":"","sale":"","idItemsString":"","qntItemsString":"","iva":"0.10"}
+
 		
 		String idS = body.substring(arr[2] + 1, arr[3]);
 		String customerId = body.substring(arr[6] + 1, arr[7]);

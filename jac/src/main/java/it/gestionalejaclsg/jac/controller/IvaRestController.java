@@ -88,7 +88,11 @@ public class IvaRestController {
 	public Response<?> updateIva(@RequestBody String body) {
 		
 		Iva iva=new Iva();
+		
+		
+		
 
+		
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		
 		int conta = 0;
@@ -103,7 +107,7 @@ public class IvaRestController {
 		
 		String id = body.substring(arr[2] + 1, arr[3]);
 		String percentuale = body.substring(arr[6] + 1, arr[7]);
-		String info = body.substring(arr[6] + 1, arr[7]);
+		String info = body.substring(arr[10] + 1, arr[11]);
 		
 		if(percentuale.equals("")) {
 			percentuale=ivaService.findIvaById(Integer.parseInt(id)).getResult().getPercentualeIva();
