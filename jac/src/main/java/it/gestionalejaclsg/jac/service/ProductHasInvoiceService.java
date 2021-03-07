@@ -120,14 +120,14 @@ public class ProductHasInvoiceService {
 //	
 	
 
-	// find phi by id
+	// find phi by id invoice
 	public Response<ProductHasInvoiceDTO> findProductHasInvoiceById(int id) {
 
 		Response<ProductHasInvoiceDTO> response = new Response<ProductHasInvoiceDTO>();
 
 		try {
 
-			ProductHasInvoice phi = this.productHasInvoiceRepository.findById(id).get();
+			ProductHasInvoice phi = this.productHasInvoiceRepository.findByInvoiceId(id);
 
 			response.setResult(ProductHasInvoiceDTO.build(phi));
 			response.setResultTest(true);

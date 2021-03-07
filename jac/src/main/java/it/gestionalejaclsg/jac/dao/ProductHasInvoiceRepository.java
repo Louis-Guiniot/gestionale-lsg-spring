@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository;
 import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
 @Repository
 public interface ProductHasInvoiceRepository extends CrudRepository<ProductHasInvoice, Integer>{
+	
+	public ProductHasInvoice findByInvoiceId(int id);
 
 }
