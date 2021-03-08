@@ -60,7 +60,7 @@ public class ProductHasInvoiceRestController {
 		String quantity = body.substring(arr[6] + 1, arr[7]);
 	
 		
-		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+"");
+		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");
 		phi.setProductId(productId);
 		phi.setQuantity(quantity);
 		
@@ -86,7 +86,7 @@ public class ProductHasInvoiceRestController {
 		String productId = body.substring(arr[2] + 1, arr[3]);
 		String quantity = body.substring(arr[6] + 1, arr[7]);
 		
-		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+"");
+		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");
 		phi.setProductId(productId);
 		phi.setQuantity(quantity);
 		
