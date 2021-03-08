@@ -99,7 +99,7 @@ public class ProductHasInvoiceService {
 				ProductHasInvoice phi = iterator.next();
 				if(phic.getInvoiceId().equals(phi.getInvoiceId())&&phic.getProductId().equals(phic.getProductId())&&phic.getQuantity().equals(phic.getQuantity())&&flag==false) {
 					flag=true;
-					result.add(ProductHasInvoiceDTO.build(phi));
+					this.productHasInvoiceRepository.delete(phic);
 				}
 
 			}
