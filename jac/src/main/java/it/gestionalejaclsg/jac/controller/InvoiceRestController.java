@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.Invoice;
-import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
+
 import it.gestionalejaclsg.jac.service.InvoiceService;
-import it.gestionalejaclsg.jac.service.ProductHasInvoiceService;
 import it.gestionalejaclsg.jac.service.ProductService;
 
 @RestController
@@ -28,9 +27,9 @@ public class InvoiceRestController {
 	@Autowired
 	private InvoiceService invoiceService;
 	
-	@Autowired
-	private ProductHasInvoiceService productHasInvoiceService;
-	
+//	@Autowired
+//	private ProductHasInvoiceService productHasInvoiceService;
+//	
 	@Autowired
 	private ProductService productService;
 	
@@ -59,7 +58,7 @@ public class InvoiceRestController {
 	public Response<?> createInvoice(@RequestBody String body) {
 		
 		Invoice invoice=new Invoice();
-		ProductHasInvoice phi=new ProductHasInvoice();
+		//ProductHasInvoice phi=new ProductHasInvoice();
 
 		//body: {"custId":"1","payCondition":"123","docType":"123","sale":"123","idItemsString":"123;123;123;123;","qntItemsString":"123;123;123;123;"}
 
@@ -148,14 +147,14 @@ public class InvoiceRestController {
 		double prezzoArticolo=0;
 		double prezzoScontato=0;
 		
-		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
+		//phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
 		//cicla per fare la somma dei prezzi tentendo conto VERAMENTE degli sconti applicati ai prodotti
 		for(int i=0; i<arrArt.length; i++) {
 			//recupera il prezzo dall'id moltiplicandolo per la quantita
 			prezzoArticolo=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice())*Integer.parseInt(arrQntArt[i]);
 			
-			phi.setProductId(arrArt[i]);
-			phi.setQuantity(arrQntArt[i]+"");
+			//phi.setProductId(arrArt[i]);
+			//phi.setQuantity(arrQntArt[i]+"");
 			
 			
 			
@@ -205,7 +204,7 @@ public class InvoiceRestController {
 		int manodopera=63;
 		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
-		productHasInvoiceService.createProductHasInvoice(phi);
+		//productHasInvoiceService.createProductHasInvoice(phi);
 		
 		return this.invoiceService.createInvoice(invoice);
 	}
@@ -267,7 +266,7 @@ public class InvoiceRestController {
 		}
 		log.info("\n\n inizio substrings \n\n");
 		
-		ProductHasInvoice phi=new ProductHasInvoice();
+		//ProductHasInvoice phi=new ProductHasInvoice();
 		//{"idS":"18","custId":"","payCondition":"","docType":"","sale":"","idItemsString":"","qntItemsString":"","iva":"0.10"}
 
 		
@@ -322,10 +321,10 @@ public class InvoiceRestController {
 			idArticles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
 			invoiceUpd.setFields(idArticles);
 			//phi
-			phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
+		//	phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
 			
-			phi.setProductId(idArticles);
-			phi.setQuantity(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleMerci()+"");
+			//phi.setProductId(idArticles);
+			//phi.setQuantity(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleMerci()+"");
 			//phi
 			sale=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getSconto();
 			invoiceUpd.setSconto(sale);
@@ -346,15 +345,15 @@ public class InvoiceRestController {
 			double valoreSconto=0;
 			double prezzoArticolo=0;
 			double prezzoScontato=0;
-			phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
+			//phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
 			//cicla per fare la somma dei prezzi tentendo conto VERAMENTE degli sconti applicati ai prodotti
 			for(int i=0; i<arrArt.length; i++) {
 				//recupera il prezzo dall'id moltiplicandolo per la quantita
 				prezzoArticolo=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice())*Integer.parseInt(arrQntArt[i]);
 				
 				//product has invoice
-				phi.setProductId(arrArt[i]);
-				phi.setQuantity(arrQntArt[i]+"");
+				//phi.setProductId(arrArt[i]);
+				//phi.setQuantity(arrQntArt[i]+"");
 				
 				
 				//controlla se lo sconto è 0 per evitare problemi di calcolo
