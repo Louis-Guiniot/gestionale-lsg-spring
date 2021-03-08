@@ -47,7 +47,7 @@ public class ProductHasInvoiceRestController {
 	
 	
 	@PostMapping("/findAll")
-	public Response<?> findByall(){
+	public Response<?> findAll(){
 	
 		return productHasInvoiceService.findAllProductHasInvoices();
 	}
