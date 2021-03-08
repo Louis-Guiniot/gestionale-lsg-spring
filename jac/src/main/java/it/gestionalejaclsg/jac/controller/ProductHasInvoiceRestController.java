@@ -57,10 +57,10 @@ public class ProductHasInvoiceRestController {
 		ProductHasInvoice phi=new ProductHasInvoice();
 		
 		String productId = body.substring(arr[2] + 1, arr[3]);
-		String invoiceId = body.substring(arr[6] + 1, arr[7]);
-		String quantity = body.substring(arr[10] + 1, arr[11]);
+		String quantity = body.substring(arr[6] + 1, arr[7]);
+	
 		
-		phi.setInvoiceId(invoiceId);
+		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+"");
 		phi.setProductId(productId);
 		phi.setQuantity(quantity);
 		
