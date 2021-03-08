@@ -1,5 +1,7 @@
 package it.gestionalejaclsg.jac.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +23,11 @@ public class ProductHasInvoiceRestController {
 	@Autowired
 	private InvoiceService invoiceService;
 	
+	private static Logger log = LoggerFactory.getLogger(ProductHasInvoiceRestController.class);
+	
 	@PostMapping("/findByIdInvoice")
 	public Response<?> findByIdInvoice(@RequestBody String body){
-		
+		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		
 		int conta = 0;
 		int[] arr = new int[body.length()];
@@ -43,7 +47,7 @@ public class ProductHasInvoiceRestController {
 	
 	@PostMapping("/delete")
 	public Response<?> deletePhiByPhi(String body){
-		
+		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		int conta = 0;
 		int[] arr = new int[body.length()];
 		for (int i = 0; i < body.length(); i++) {
@@ -70,7 +74,7 @@ public class ProductHasInvoiceRestController {
 	
 	@PostMapping("/create")
 	public Response<?> createPhi(String body){
-		
+		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		int conta = 0;
 		int[] arr = new int[body.length()];
 		for (int i = 0; i < body.length(); i++) {
