@@ -152,9 +152,9 @@ public class InvoiceRestController {
 		for(int i=0; i<arrArt.length; i++) {
 			//recupera il prezzo dall'id moltiplicandolo per la quantita
 			prezzoArticolo=Double.parseDouble(productService.findProductById(Integer.parseInt(arrArt[i])).getResult().getPrice())*Integer.parseInt(arrQntArt[i]);
-			phi.setInvoice_id(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
+			phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
 			
-			phi.setProduct_id(arrArt[i]);
+			phi.setProductId(arrArt[i]);
 			phi.setQuantity(arrQntArt[i]+"");
 			
 			
