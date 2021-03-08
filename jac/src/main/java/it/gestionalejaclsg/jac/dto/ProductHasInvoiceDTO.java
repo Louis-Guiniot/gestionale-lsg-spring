@@ -12,9 +12,9 @@ public class ProductHasInvoiceDTO {
 	
 
 	
-	private String product_id;
+	private String productId;
 	
-	private String invoice_id;
+	private String invoiceId;
 
 	private String quantity;
 	

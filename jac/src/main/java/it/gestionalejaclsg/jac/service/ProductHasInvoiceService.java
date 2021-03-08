@@ -14,7 +14,7 @@ import it.gestionalejaclsg.jac.dao.ProductHasInvoiceRepository;
 import it.gestionalejaclsg.jac.dto.ProductHasInvoiceDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
-import jdk.internal.org.jline.utils.Log;
+
 
 @Service
 public class ProductHasInvoiceService {
@@ -92,7 +92,7 @@ public class ProductHasInvoiceService {
 		
 		
 		boolean flag=false;//se lo trova
-		List<ProductHasInvoiceDTO> result = new ArrayList<>();
+		//List<ProductHasInvoiceDTO> result = new ArrayList<>();
 
 		try {
 
@@ -145,12 +145,14 @@ public class ProductHasInvoiceService {
 			response.setResultTest(true);
 
 		} catch (Exception e) {
+			e.getStackTrace();
 
 			response.setError(error);
 
 		}
 
 		log.info("retunr ok");
+		log.info(response.getResult().toString());
 		return response;
 
 	}
