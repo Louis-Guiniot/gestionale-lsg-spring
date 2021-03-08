@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
+import it.gestionalejaclsg.jac.service.InvoiceService;
 import it.gestionalejaclsg.jac.service.ProductHasInvoiceService;
 
 @Controller
@@ -16,6 +17,9 @@ public class ProductHasInvoiceRestController {
 	
 	@Autowired
 	private ProductHasInvoiceService productHasInvoiceService;
+	
+	@Autowired
+	private InvoiceService invoiceService;
 	
 	@PostMapping("/findByIdInvoice")
 	public Response<?> findByIdInvoice(@RequestBody String body){
@@ -80,10 +84,9 @@ public class ProductHasInvoiceRestController {
 		ProductHasInvoice phi=new ProductHasInvoice();
 		
 		String productId = body.substring(arr[2] + 1, arr[3]);
-		String invoiceId = body.substring(arr[6] + 1, arr[7]);
-		String quantity = body.substring(arr[10] + 1, arr[11]);
+		String quantity = body.substring(arr[6] + 1, arr[7]);
 		
-		phi.setInvoiceId(invoiceId);
+		phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+"");
 		phi.setProductId(productId);
 		phi.setQuantity(quantity);
 		
