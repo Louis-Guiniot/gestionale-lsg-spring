@@ -8,5 +8,8 @@ import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
 public interface ProductHasInvoiceRepository extends CrudRepository<ProductHasInvoice, Integer>{
 	
 	public ProductHasInvoice findByInvoiceId(int id);
+	public ProductHasInvoice findByQuantity(int id);
+	public ProductHasInvoice findByProductId(int id);
+	
 
 }

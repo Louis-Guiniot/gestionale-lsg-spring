@@ -39,6 +39,27 @@ public class ProductHasInvoiceService {
 		return response;
 
 	}
+	// find phi by id invoice
+    public Response<ProductHasInvoiceDTO> findProductHasInvoiceById(int id) {
+
+        Response<ProductHasInvoiceDTO> response = new Response<ProductHasInvoiceDTO>();
+
+        try {
+
+            ProductHasInvoice phi = this.productHasInvoiceRepository.findByInvoiceId(id);
+
+            response.setResult(ProductHasInvoiceDTO.build(phi));
+            response.setResultTest(true);
+
+        } catch (Exception e) {
+
+            response.setError(error);
+
+        }
+
+        return response;
+
+    }
 
 	// delete
 	public Response<String> deleteProductHasInvoiceById(int id) {
@@ -54,6 +75,44 @@ public class ProductHasInvoiceService {
 		} catch (Exception e) {
 			response.setError("phi non eliminata correttamente.");
 		}
+		return response;
+	}
+	
+	
+	public Response<String> deleteProductHasInvoiceByPhi(ProductHasInvoice phic){
+		Response<String> response = new Response<String>();
+		
+		//Response<List<ProductHasInvoiceDTO>> phiDTIO=findAllProductHasInvoices();
+		
+		
+		boolean flag=false;//se lo trova
+		List<ProductHasInvoiceDTO> result = new ArrayList<>();
+
+		try {
+
+			Iterator<ProductHasInvoice> iterator = this.productHasInvoiceRepository.findAll().iterator();
+
+			while (iterator.hasNext()) {
+				
+				
+
+				ProductHasInvoice phi = iterator.next();
+				if(phic.getInvoiceId().equals(phi.getInvoiceId())&&phic.getProductId().equals(phic.getProductId())&&phic.getQuantity().equals(phic.getQuantity())&&flag==false) {
+					flag=true;
+					result.add(ProductHasInvoiceDTO.build(phi));
+				}
+
+			}
+
+			response.setResult("eliminato");
+			response.setResultTest(true);
+
+		} catch (Exception e) {
+
+			response.setError(error);
+
+		}
+
 		return response;
 	}
 
@@ -87,60 +146,9 @@ public class ProductHasInvoiceService {
 		return response;
 
 	}
-//	public Response<ProductHasInvoiceDTO> findLastMeasure() {
-//
-//		Response<List<ProductHasInvoiceDTO>> response = new Response<List<ProductHasInvoiceDTO>>();
-//	
-//		int last=0;
-//		try {
-//
-//			Iterator<ProductHasInvoice> iterator = this.productHasInvoiceRepository.findAll().iterator();
-//
-//			while (iterator.hasNext()) {
-//
-//				ProductHasInvoice phi = iterator.next();
-//				
-//				if(!iterator.hasNext()) {						
-//					last=phi.getId();
-//				}
-//
-//			}
-//			
-//
-//
-//		} catch (Exception e) {
-//
-//			response.setError(error);
-//
-//		}
-//		
-//		return findMeasureUnitById(last);
-//
-//	}
-//	
+
+
 	
-
-	// find phi by id invoice
-	public Response<ProductHasInvoiceDTO> findProductHasInvoiceById(int id) {
-
-		Response<ProductHasInvoiceDTO> response = new Response<ProductHasInvoiceDTO>();
-
-		try {
-
-			ProductHasInvoice phi = this.productHasInvoiceRepository.findByInvoiceId(id);
-
-			response.setResult(ProductHasInvoiceDTO.build(phi));
-			response.setResultTest(true);
-
-		} catch (Exception e) {
-
-			response.setError(error);
-
-		}
-
-		return response;
-
-	}
 
 	
 //	 update phi
