@@ -22,7 +22,7 @@ public class DocumentTypeService {
 
 	// create
 
-	public Response<DocumentType> createPaymentCondition(DocumentType payCondition) {
+	public Response<DocumentType> createDocType(DocumentType payCondition) {
 
 		Response<DocumentType> response = new Response<DocumentType>();
 
@@ -60,7 +60,7 @@ public class DocumentTypeService {
 	}
 
 	// findAll
-	public Response<List<DocumentTypeDTO>> findAlPaymentConditions() {
+	public Response<List<DocumentTypeDTO>> findAlDocTypes() {
 
 		Response<List<DocumentTypeDTO>> response = new Response<List<DocumentTypeDTO>>();
 
@@ -123,7 +123,7 @@ public class DocumentTypeService {
 	
 
 	// find payCondition by id
-	public Response<DocumentTypeDTO> findPaymentConditionById(int id) {
+	public Response<DocumentTypeDTO> findDocTypeById(int id) {
 
 		Response<DocumentTypeDTO> response = new Response<DocumentTypeDTO>();
 
