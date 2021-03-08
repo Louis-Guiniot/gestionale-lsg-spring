@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.gestionalejaclsg.jac.controller.PayConditionRestController;
 import it.gestionalejaclsg.jac.dao.ProductHasInvoiceRepository;
 import it.gestionalejaclsg.jac.dto.ProductHasInvoiceDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
+import jdk.internal.org.jline.utils.Log;
 
 @Service
 public class ProductHasInvoiceService {
@@ -19,6 +23,8 @@ public class ProductHasInvoiceService {
 	private ProductHasInvoiceRepository productHasInvoiceRepository;
 	
 	final static String error = "Nessuna phi trovata.";
+	
+	private static Logger log = LoggerFactory.getLogger(PayConditionRestController.class);
 	
 	public Response<ProductHasInvoice> createProductHasInvoice(ProductHasInvoice phi) {
 
@@ -131,6 +137,7 @@ public class ProductHasInvoiceService {
 
 				ProductHasInvoice phi = iterator.next();
 				result.add(ProductHasInvoiceDTO.build(phi));
+				log.info("1");
 
 			}
 
@@ -143,6 +150,7 @@ public class ProductHasInvoiceService {
 
 		}
 
+		log.info("retunr ok");
 		return response;
 
 	}

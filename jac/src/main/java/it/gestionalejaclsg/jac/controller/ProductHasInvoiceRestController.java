@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +47,10 @@ public class ProductHasInvoiceRestController {
 	}
 	
 	
-	@PostMapping("/findAll")
+	@GetMapping(path = "/findAllPhi")
 	public Response<?> findAll(){
+		
+		log.info("\n\n\nfind all phi");
 	
 		return productHasInvoiceService.findAllProductHasInvoices();
 	}
