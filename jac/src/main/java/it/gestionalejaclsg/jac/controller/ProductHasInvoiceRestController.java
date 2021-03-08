@@ -46,6 +46,13 @@ public class ProductHasInvoiceRestController {
 	}
 	
 	
+	@PostMapping("/findAll")
+	public Response<?> findByall(){
+	
+		return productHasInvoiceService.findAllProductHasInvoices();
+	}
+	
+	
 	@PostMapping("/delete")
 	public Response<?> deletePhiByPhi(@RequestBody String body){
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
