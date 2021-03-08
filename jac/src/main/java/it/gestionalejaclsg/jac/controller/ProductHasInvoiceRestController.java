@@ -63,5 +63,32 @@ public class ProductHasInvoiceRestController {
 		return productHasInvoiceService.deleteProductHasInvoiceByPhi(phi);
 		
 	}
-
+	
+	@PostMapping("/create")
+	public Response<?> createPhi(String body){
+		
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+				
+		}
+		
+		ProductHasInvoice phi=new ProductHasInvoice();
+		
+		String productId = body.substring(arr[2] + 1, arr[3]);
+		String invoiceId = body.substring(arr[6] + 1, arr[7]);
+		String quantity = body.substring(arr[10] + 1, arr[11]);
+		
+		phi.setInvoiceId(invoiceId);
+		phi.setProductId(productId);
+		phi.setQuantity(quantity);
+		
+		return productHasInvoiceService.createProductHasInvoice(phi);
+	
+		
+	}
 }
