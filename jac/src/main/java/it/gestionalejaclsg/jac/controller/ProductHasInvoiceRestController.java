@@ -47,7 +47,7 @@ public class ProductHasInvoiceRestController {
 	
 	
 	@PostMapping("/delete")
-	public Response<?> deletePhiByPhi(String body){
+	public Response<?> deletePhiByPhi(@RequestBody String body){
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		int conta = 0;
 		int[] arr = new int[body.length()];
@@ -74,7 +74,7 @@ public class ProductHasInvoiceRestController {
 	}
 	
 	@PostMapping("/create")
-	public Response<?> createPhi(@RequestParam String body){
+	public Response<?> createPhi(@RequestBody String body){
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		int conta = 0;
 		int[] arr = new int[body.length()];
