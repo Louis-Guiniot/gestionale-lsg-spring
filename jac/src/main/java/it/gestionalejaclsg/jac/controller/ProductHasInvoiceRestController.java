@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
@@ -73,7 +74,7 @@ public class ProductHasInvoiceRestController {
 	}
 	
 	@PostMapping("/create")
-	public Response<?> createPhi(String body){
+	public Response<?> createPhi(@RequestParam String body){
 		log.info("\n\n\n\nbody: " + body + "\n\n\n");
 		int conta = 0;
 		int[] arr = new int[body.length()];
