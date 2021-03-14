@@ -30,6 +30,30 @@ public class ProductRestController {
 	private MeasureService measureService;
 	
 	
+	
+	@PostMapping(path="/findById")
+	public Response<?> deleteMeasureById(@RequestBody String body){
+	
+		
+		int conta = 0;
+		int[] arr = new int[body.length()];
+		for (int i = 0; i < body.length(); i++) {
+			if (body.charAt(i) == '"') {
+				arr[conta] = i;
+				conta++;
+			}
+		}
+		log.info("\n\n inizio substrings \n\n");
+		
+		
+		String id = body.substring(arr[2] + 1, arr[3]);
+		
+		return productService.findProductById(Integer.parseInt(id));
+	}
+	
+	
+	
+	
 	@PostMapping("/delete")
 	public Response<?> deleteCustomer(@RequestBody String body){
 		
