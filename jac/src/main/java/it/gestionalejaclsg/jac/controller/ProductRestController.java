@@ -32,22 +32,16 @@ public class ProductRestController {
 	
 	
 	@PostMapping(path="/findById")
-	public Response<?> deleteMeasureById(@RequestBody String body){
+	public Response<?> findProductById(@RequestBody String body){
+		
 	
 		
-		int conta = 0;
-		int[] arr = new int[body.length()];
-		for (int i = 0; i < body.length(); i++) {
-			if (body.charAt(i) == '"') {
-				arr[conta] = i;
-				conta++;
-			}
-		}
-		log.info("\n\n inizio substrings \n\n");
 		
-		
-		String id = body.substring(arr[2] + 1, arr[3]);
-		
+		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"find\n\n\n");
+        
+        String id = body.substring(0,1);
+        
+        log.info("\n\n\nidFind: " + id);
 		return productService.findProductById(Integer.parseInt(id));
 	}
 	
