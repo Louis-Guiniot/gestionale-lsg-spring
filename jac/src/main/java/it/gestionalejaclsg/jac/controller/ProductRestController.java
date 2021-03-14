@@ -31,7 +31,7 @@ public class ProductRestController {
 	
 	
 	
-	@GetMapping(path="/findById")
+	@PostMapping(path="/findById")
 	public Response<?> deleteMeasureById(@RequestBody String body){
 	
 		
