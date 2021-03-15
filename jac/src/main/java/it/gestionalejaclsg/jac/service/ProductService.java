@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.gestionalejaclsg.jac.controller.ProductRestController;
 import it.gestionalejaclsg.jac.dao.ProductRepository;
 import it.gestionalejaclsg.jac.dto.ProductDTO;
 import it.gestionalejaclsg.jac.dto.Response;
@@ -17,6 +20,9 @@ import it.gestionalejaclsg.jac.entity.Product;
 @Service
 
 public class ProductService {
+	
+	private static Logger log = LoggerFactory.getLogger(ProductService.class);
+
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -122,6 +128,8 @@ public class ProductService {
 			response.setError(error);
 
 		}
+		
+		log.info("responose "+response);
 
 		return response;
 
@@ -156,7 +164,7 @@ public class ProductService {
 			this.productRepository.save(product);
 			
 			response.setResult(ProductDTO.build(product));
-			response.setResultTest(true);
+//			response.setResultTest(true);
 
 		} catch (Exception e) {
 			
