@@ -410,4 +410,11 @@ public class InvoiceRestController {
 		
 		return this.invoiceService.updateInvoice(invoiceUpd);
 	}
+	
+	
+	 @PostMapping(path="/findInvoiceById")
+	 public Response<?> findInvoiceById(String body){
+		 return invoiceService.findInvoiceById(Integer.parseInt(body));
+	 }
+	
 }
