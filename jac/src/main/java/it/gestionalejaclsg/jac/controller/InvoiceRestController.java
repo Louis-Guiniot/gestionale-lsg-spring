@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dto.Response;
+import it.gestionalejaclsg.jac.entity.BodyInvoice;
 import it.gestionalejaclsg.jac.entity.Invoice;
-
+import it.gestionalejaclsg.jac.entity.ProductHasInvoice;
 import it.gestionalejaclsg.jac.service.InvoiceService;
+import it.gestionalejaclsg.jac.service.ProductHasInvoiceService;
 import it.gestionalejaclsg.jac.service.ProductService;
 
 @RestController
@@ -27,9 +29,9 @@ public class InvoiceRestController {
 	@Autowired
 	private InvoiceService invoiceService;
 	
-//	@Autowired
-//	private ProductHasInvoiceService productHasInvoiceService;
-//	
+	@Autowired
+	private ProductHasInvoiceService productHasInvoiceService;
+	
 	@Autowired
 	private ProductService productService;
 	
@@ -59,7 +61,8 @@ public class InvoiceRestController {
 	public Response<?> createInvoice(@RequestBody String body) {
 		
 		Invoice invoice=new Invoice();
-		//ProductHasInvoice phi=new ProductHasInvoice();
+		BodyInvoice bInvoice=new BodyInvoice();
+		ProductHasInvoice phi=new ProductHasInvoice();
 
 		//body: {"custId":"1","payCondition":"123","docType":"123","sale":"123","idItemsString":"123;123;123;123;","qntItemsString":"123;123;123;123;"}
 
@@ -107,11 +110,14 @@ public class InvoiceRestController {
 		invoice.setCondizionePagamento(paymentCondition);
 		invoice.setTipoDocumento(docType);
 		invoice.setSconto(sconto);
-//		invoice.setFields(idAricles);
-//		invoice.setQuantita(articlesQuantity);
-//		
-//		
-//		invoice.setIva(iva+"");
+		
+		
+		invoice.setFields(idAricles);
+		
+		invoice.setQuantita(articlesQuantity);
+		
+		
+		invoice.setIva(iva+"");
 	
 		
 		
@@ -179,33 +185,33 @@ public class InvoiceRestController {
 		}
 		String totMercis=totMerci+"";
 		invoice.setSconto(sconto+""); //prezzo degli articoli scontati
-//		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
+		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
 		
-//		if(iva!=0)
-//			invoice.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
-//		else
-//			invoice.setIvaPrice(sommaPrices+"");
+		if(iva!=0)
+			invoice.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
+		else
+			invoice.setIvaPrice(sommaPrices+"");
 			
 		
-//		if(iva!=0)
-//			invoice.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
-//		else
-//			invoice.setImponibile(sommaPrices+"");//calcolo dell'iva
-//
-//			
-//		invoice.setTotaleMerci(totMercis);//numero prodotti totali
+		if(iva!=0)
+			invoice.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
+		else
+			invoice.setImponibile(sommaPrices+"");//calcolo dell'iva
+
+			
+		invoice.setTotaleMerci(totMercis);//numero prodotti totali
 //		if(flag==false) {
 //			invoice.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
 //		}else {
 		double saldo=sommaPrices*Double.parseDouble(sconto)/100;
-//		invoice.setImportoSconto(saldo+"");
-//		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
+		invoice.setImportoSconto(saldo+"");
+		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
 //		}
 		
 		int manodopera=63;
-//		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
+		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
-		//productHasInvoiceService.createProductHasInvoice(phi);
+		productHasInvoiceService.createProductHasInvoice(phi);
 		
 		return this.invoiceService.createInvoice(invoice);
 	}
