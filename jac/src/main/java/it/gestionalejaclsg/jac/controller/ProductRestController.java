@@ -30,6 +30,24 @@ public class ProductRestController {
 	private MeasureService measureService;
 	
 	
+	
+	@PostMapping(path="/findById")
+	public Response<?> findProductById(@RequestBody String body){
+		
+	
+		
+		
+		log.info("\n\n\n\nbody: " + body + "\n\n\n"+"find\n\n\n");
+        
+        String id = body.substring(0,1);
+        
+        log.info("\n\n\nidFind: " + id);
+		return productService.findProductById(Integer.parseInt(id));
+	}
+	
+	
+	
+	
 	@PostMapping("/delete")
 	public Response<?> deleteCustomer(@RequestBody String body){
 		
