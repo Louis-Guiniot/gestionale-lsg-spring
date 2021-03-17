@@ -7,6 +7,7 @@ package it.gestionalejaclsg.jac.dao;
 
 	@Repository
 	public interface TailInvoiceRepository extends CrudRepository<TailInvoice, Integer>{
+		
 
 	}
 
