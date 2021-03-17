@@ -38,23 +38,23 @@ public class InvoiceRestController {
 	//private static final double iva=0.22;
 	
 	
-	@PostMapping("/search")
-	public Response<?> searchInvoices(@RequestBody String body){
-		log.info("\n\n\n\nbody: " + body + "\n\n\n");
-		
-		int conta = 0;
-		int[] arr = new int[body.length()];
-		for (int i = 0; i < body.length(); i++) {
-			if (body.charAt(i) == '"') {
-				arr[conta] = i;
-				conta++;
-			}
-				
-		}
-		String termine = body.substring(arr[2] + 1, arr[3]);
-		
-		return this.invoiceService.findInvoiceByTerm(termine);
-	}
+//	@PostMapping("/search")
+//	public Response<?> searchInvoices(@RequestBody String body){
+//		log.info("\n\n\n\nbody: " + body + "\n\n\n");
+//		
+//		int conta = 0;
+//		int[] arr = new int[body.length()];
+//		for (int i = 0; i < body.length(); i++) {
+//			if (body.charAt(i) == '"') {
+//				arr[conta] = i;
+//				conta++;
+//			}
+//				
+//		}
+//		String termine = body.substring(arr[2] + 1, arr[3]);
+//		
+//		return this.invoiceService.findInvoiceByTerm(termine);
+//	}
 
 	
 	@PostMapping("/create")
@@ -109,15 +109,15 @@ public class InvoiceRestController {
 		
 		invoice.setCondizionePagamento(paymentCondition);
 		invoice.setTipoDocumento(docType);
-		invoice.setSconto(sconto);
-		
-		
-		invoice.setFields(idAricles);
-		
-		invoice.setQuantita(articlesQuantity);
-		
-		
-		invoice.setIva(iva+"");
+//		invoice.setSconto(sconto);
+//		
+//		
+//		invoice.setFields(idAricles);
+//		
+//		invoice.setQuantita(articlesQuantity);
+//		
+//		
+//		invoice.setIva(iva+"");
 	
 		
 		
@@ -184,32 +184,32 @@ public class InvoiceRestController {
 			totMerci+=Integer.parseInt(arrQntArt[j]);
 		}
 		String totMercis=totMerci+"";
-		invoice.setSconto(sconto+""); //prezzo degli articoli scontati
-		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
-		
-		if(iva!=0)
-			invoice.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
-		else
-			invoice.setIvaPrice(sommaPrices+"");
-			
-		
-		if(iva!=0)
-			invoice.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
-		else
-			invoice.setImponibile(sommaPrices+"");//calcolo dell'iva
-
-			
-		invoice.setTotaleMerci(totMercis);//numero prodotti totali
-//		if(flag==false) {
-//			invoice.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
-//		}else {
-		double saldo=sommaPrices*Double.parseDouble(sconto)/100;
-		invoice.setImportoSconto(saldo+"");
-		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
-//		}
+//		invoice.setSconto(sconto+""); //prezzo degli articoli scontati
+//		invoice.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
+//		
+//		if(iva!=0)
+//			invoice.setIvaPrice((sommaPrices+(sommaPrices*iva))+"");//prezzo totale dei prodotti con aggiunta di iva
+//		else
+//			invoice.setIvaPrice(sommaPrices+"");
+//			
+//		
+//		if(iva!=0)
+//			invoice.setImponibile((sommaPrices*iva)+"");//calcolo dell'iva
+//		else
+//			invoice.setImponibile(sommaPrices+"");//calcolo dell'iva
+//
+//			
+//		invoice.setTotaleMerci(totMercis);//numero prodotti totali
+////		if(flag==false) {
+////			invoice.setTotalToPay(sommaPrices+(sommaPrices*iva)+"");
+////		}else {
+//		double saldo=sommaPrices*Double.parseDouble(sconto)/100;
+//		invoice.setImportoSconto(saldo+"");
+//		invoice.setTotalToPay((sommaPrices-saldo)+(sommaPrices*iva)+"");
+////		}
 		
 		int manodopera=63;
-		invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
+		//invoice.setTotaleServizi((((sommaPrices-saldo)+(sommaPrices*iva))+manodopera)+"");//prezzo totale con sconti, iva e manodopera
 		
 		productHasInvoiceService.createProductHasInvoice(phi);
 		
@@ -316,16 +316,16 @@ public class InvoiceRestController {
 			invoiceUpd.setCondizionePagamento(payCondition);
 		}
 		
-		if(docType=="") {
-			invoiceUpd.setTipoDocumento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTipoDocumento());
-		}else {
-			invoiceUpd.setTipoDocumento(docType);
-		}
+//		if(docType=="") {
+//			invoiceUpd.setTipoDocumento(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTipoDocumento());
+//		}else {
+//			invoiceUpd.setTipoDocumento(docType);
+//		}
 
 		if(idArticles=="") {
 			
 			
-			idArticles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
+			//idArticles=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getFields();
 			//invoiceUpd.setFields(idArticles);
 			//phi
 		//	phi.setInvoiceId(invoiceService.findLastInvoice().getResult().getId()+1+"");//recupera l'ultimo id invoice e fa +1
@@ -334,7 +334,7 @@ public class InvoiceRestController {
 			//phi.setQuantity(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleMerci()+"");
 			//phi
 			sale=invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getSconto();
-			invoiceUpd.setSconto(sale);
+			//invoiceUpd.setSconto(sale);
 //			invoiceUpd.setTotalPrice(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotalPrice());
 //			invoiceUpd.setIvaPrice(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getIvaPrice());
 //			invoiceUpd.setTotaleMerci(invoiceService.findInvoiceById(Integer.parseInt(idS)).getResult().getTotaleMerci());
@@ -382,7 +382,7 @@ public class InvoiceRestController {
 				totMerci+=Integer.parseInt(arrQntArt[j]);
 			}
 			String totMercis=totMerci+"";
-			invoiceUpd.setSconto(sale+""); //prezzo degli articoli scontati
+			//invoiceUpd.setSconto(sale+""); //prezzo degli articoli scontati
 			//invoiceUpd.setTotalPrice(sommaPrices+"");//prezzo totale dei prodotti senza sconti ne iva
 			
 //			if(iva!=0)
