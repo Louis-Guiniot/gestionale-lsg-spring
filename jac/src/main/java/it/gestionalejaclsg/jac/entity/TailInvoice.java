@@ -21,16 +21,30 @@ public class TailInvoice {
 	@Column(name = "id_Invoice")
 	private int idInvoice;
 	
-	@Column(name = "total_price")
-	private String totalPrice;
+	@Column(name="totale_merce")
+	private String totaleMerce;
 	
-	@Column(name="ivaPrice")
-	private String ivaPrice;
+	@Column(name="totale_servizi")
+	private String totaleServizi;
+	
+	@Column(name="ulteriore_sconto")
+	private String ulterioreSconto;
+	
+	@Column(name="importo_sconto_coda")
+	private String importoScontoCoda;
+	
+	@Column(name="totale_sconti")
+	private String totaleSconti;
+	
+	@Column(name="imponibile")
+	private String imponibile;
+	
+	@Column(name = "totale_imposte")
+	private String totaleImposte;
 	
 	@Column(name="totalToPay")
 	private String totalToPay;
 	
-	@Column(name="totale_servizi")
-	private String totaleServizi;
+
 	
 }
