@@ -253,7 +253,7 @@ public class InvoiceService {
 
 				Invoice invoice = iterator.next();
 				
-				if((invoice.getCodeInvoice().equals(termine)||invoice.getCondizionePagamento().equals(termine)||invoice.getDateTime().equals(termine)||invoice.getFields().equals(termine)||invoice.getIdCustomer().equals(termine)||invoice.getImponibile().equals(termine)||invoice.getImportoSconto().equals(termine)||invoice.getIva().equals(termine)||invoice.getIvaPrice().equals(termine)||invoice.getQuantita().equals(termine)||invoice.getSconto().equals(termine)||invoice.getTipoDocumento().equals(termine)||invoice.getTotaleMerci().equals(termine)||invoice.getTotaleServizi().equals(termine)||invoice.getTotalPrice().equals(termine)||invoice.getTotalToPay().equals(termine))&&isNumeric==false) {
+				if((invoice.getCodeInvoice().equals(termine)||invoice.getCondizionePagamento().equals(termine)||invoice.getDateTime().equals(termine)||invoice.getIdCustomer().equals(termine)||invoice.getSconto().equals(termine)||invoice.getTipoDocumento().equals(termine))&&isNumeric==false) {
 					log.info("\n\n\nparametro trovato!\n\n\n");
 					result.add(InvoiceDTO.build(invoice));
 				}else {
