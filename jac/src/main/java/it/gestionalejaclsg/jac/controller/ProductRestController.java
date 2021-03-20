@@ -194,7 +194,11 @@ public class ProductRestController {
 		if(sconto.equals("")) {
 			sconto=productService.findProductById(Integer.parseInt(id)).getResult().getScontoProd();
 		}
-		return productService.updateProduct(Integer.parseInt(id),description, measureUnit, name,price,sconto);
+		String iva=body.substring(arr[26]+1, arr[27]);
+		if(iva.equals("")) {
+			iva=productService.findProductById(Integer.parseInt(id)).getResult().getIva()+"";
+		}
+		return productService.updateProduct(Integer.parseInt(id),description, measureUnit, name,price,sconto,iva);
 	
 	}
 	

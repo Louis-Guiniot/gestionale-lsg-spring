@@ -137,7 +137,7 @@ public class ProductService {
 	
 
 	//update product
-	public Response<ProductDTO> updateProduct(int id,String description,  String measureUnit, String name, String price, String sconto) {
+	public Response<ProductDTO> updateProduct(int id,String description,  String measureUnit, String name, String price, String sconto,String iva) {
 
 		Response<ProductDTO> response = new Response<ProductDTO>();
 
@@ -159,6 +159,8 @@ public class ProductService {
 				product.setMeasureUnit(measureUnit);
 			if (sconto != null)
 				product.setScontoProd(sconto);
+			if (iva!= null)
+				product.setIva(Integer.parseInt(iva));
 
 			
 			
