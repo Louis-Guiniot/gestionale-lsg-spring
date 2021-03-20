@@ -148,6 +148,7 @@ public class InvoiceService {
 
 			}
 
+			log.info("response    "+response);
 			return response;
 		}else {
 			log.info("siamo nell'else");

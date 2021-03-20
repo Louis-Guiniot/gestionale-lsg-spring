@@ -94,11 +94,10 @@ public class InvoiceRestController {
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");	
 		
 		Calendar calndr = Calendar.getInstance();
+
 		
 		invoice.setDateTime(sdf.format(calndr.getTime()).toString());
-		
-		
-		
+				
 		invoice.setCustomer_id(Integer.parseInt(customerId));
 		invoice.setIdCustomer(customerId);
 		
@@ -128,6 +127,8 @@ public class InvoiceRestController {
 		}
 		log.info("\n\n CODICE STR "+codeStr+"\n\n");
 		int codeInt=Integer.parseInt(codeStr)+1;
+		
+		log.info("data "+codeInt);
 		
 		invoice.setCodeInvoice(codeInt+""); //es cod 20211-20212-20213
 		
@@ -413,7 +414,8 @@ public class InvoiceRestController {
 	
 	
 	 @PostMapping(path="/findInvoiceById")
-	 public Response<?> findInvoiceById(String body){
+	 public Response<?> findInvoiceById(@RequestBody String body){
+		 log.info("body    "+body);
 		 return invoiceService.findInvoiceById(Integer.parseInt(body));
 	 }
 	
