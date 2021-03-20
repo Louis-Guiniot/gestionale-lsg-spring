@@ -104,6 +104,7 @@ public class ProductRestController {
 		String name = body.substring(arr[10] + 1, arr[11]);
 		String price = body.substring(arr[14] + 1, arr[15]);
 		String sconto = body.substring(arr[18] + 1, arr[19]);
+		String iva= body.substring(arr[22] + 1, arr[23]);
 		log.info("\ndescription: "+ description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
 		
 		//incrementazione automatica
@@ -145,6 +146,7 @@ public class ProductRestController {
 		int id=measureService.findMeasureIdByMeasureUnit(measureUnit);
 		log.info("measure unit ID: "+id);
 		product.setMeasureUnit_id(id);
+		product.setIva(Integer.parseInt(iva));
 		
 		return productService.createProduct(product);
 	}
