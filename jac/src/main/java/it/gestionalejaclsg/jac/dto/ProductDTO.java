@@ -30,6 +30,8 @@ public class ProductDTO {
 	
 	private String scontoProd;
 	
+	private int iva;
+	
 	public static ProductDTO build(Product product) {
 
 		ProductDTO result = new ProductDTO();

@@ -20,6 +20,7 @@ public class BodyInvoice {
 	
 	@Column(name = "id_Invoice")
 	private int idInvoice;
+	
 	@Column(name="codice_articolo")
 	private String codiceArticolo;
 	
