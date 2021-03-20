@@ -149,7 +149,6 @@ private static Logger log = LoggerFactory.getLogger(BodyInvoiceService.class);
 			log.info("siamo nell'else");
 			Response<BodyInvoiceDTO>response2= new Response<BodyInvoiceDTO>();
 			BodyInvoice invoice2 = new BodyInvoice();
-			invoice2.setCodeBodyInvoice("null");
 			response2.setResult(BodyInvoiceDTO.build(invoice2));
 			return response2;
 		}

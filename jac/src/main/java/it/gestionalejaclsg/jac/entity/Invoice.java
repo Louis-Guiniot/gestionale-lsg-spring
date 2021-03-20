@@ -23,10 +23,10 @@ public class Invoice {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	@Column(name = "id_customer")
-	private String idCustomer;
-	
+//
+//	@Column(name = "id_customer")
+//	private String idCustomer;
+//	
 	@Column(name="customer_id")
 	private int customer_id;
 	
