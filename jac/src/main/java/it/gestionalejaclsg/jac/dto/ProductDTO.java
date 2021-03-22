@@ -30,7 +30,7 @@ public class ProductDTO {
 	
 	private String scontoProd;
 	
-	private int iva;
+	private String iva;
 	
 	public static ProductDTO build(Product product) {
 

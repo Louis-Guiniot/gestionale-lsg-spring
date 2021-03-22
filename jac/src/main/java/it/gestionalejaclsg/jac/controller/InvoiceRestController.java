@@ -138,9 +138,20 @@ public class InvoiceRestController {
 		String [] arrProdotti=idAricles.split(";");
 		String [] arrProdQnt=articlesQuantity.split(";");
 		
-		BodyInvoice bInv = null;
+		String item = "";
+		for(int i = 0; i<arrProdotti.length; i++) {
+			log.info("item" + arrProdotti[i]);
+		}
+		
+		for(int i = 0; i<arrProdQnt.length; i++) {
+			log.info("qta" + arrProdQnt[i]);
+		}
+		
 		
 		for(int i=0; i<arrProdotti.length;i++) {
+			
+			BodyInvoice bInv = new BodyInvoice();
+			
 			p= this.productRepository.findById(Integer.parseInt(arrProdotti[i])).get();
 			
 			bInv.setCodiceArticolo(p.getCodeProduct());
@@ -148,15 +159,25 @@ public class InvoiceRestController {
 			bInv.setIdInvoice(invoiceService.findLastInvoice().getResult().getId()+1);
 			bInv.setUnitamisura(p.getMeasureUnit());
 			bInv.setQuantita(arrProdQnt[i]);
-			bInv.setImportoUnitario(Double.parseDouble(p.getPrice())*p.getIva()+"");
+			
+			
+			double prezzo = Double.parseDouble(p.getPrice());
+			int ivaProd = Integer.parseInt(p.getIva())/100;
+			
+			double importoUnitario = prezzo - (prezzo*ivaProd);
+			
+			bInv.setImportoUnitario(importoUnitario+"");
+			
 			bInv.setScontoFormula(p.getScontoProd());
 			bInv.setPrezzoNetto((Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))+""));
 			bInv.setImportoSconto((Double.parseDouble(p.getScontoProd())*Double.parseDouble(arrProdQnt[i])*Double.parseDouble(p.getPrice())/100)+"");
 			bInv.setImponibile((Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))*Double.parseDouble(arrProdQnt[i]))+"");
 			bInv.setIva(p.getIva()+"");
-			bInv.setImposta(p.getIva()/100*(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))*Double.parseDouble(arrProdQnt[i]))+"");
+			bInv.setImposta(Double.parseDouble(p.getIva())/100*(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))*Double.parseDouble(arrProdQnt[i]))+"");
 			bInv.setTotaleRighe(Double.parseDouble(bInv.getImponibile())+Double.parseDouble(bInv.getImposta())+"");
 			bodyInvoiceService.createBodyInvoice(bInv);
+			
+			log.info("i di infame"+i);
 		}
 		
 		//TAIL

@@ -106,6 +106,7 @@ public class ProductRestController {
 		String sconto = body.substring(arr[18] + 1, arr[19]);
 		String iva= body.substring(arr[22] + 1, arr[23]);
 		log.info("\ndescription: "+ description +"\n" + "measure unit: " + measureUnit+"\nname "+name+"\nprice: "+price);
+		log.info("iva:"+iva);
 		
 		//incrementazione automatica
 		ProductDTO lastProduct=productService.findLastProduct().getResult();
@@ -146,7 +147,9 @@ public class ProductRestController {
 		int id=measureService.findMeasureIdByMeasureUnit(measureUnit);
 		log.info("measure unit ID: "+id);
 		product.setMeasureUnit_id(id);
-		product.setIva(Integer.parseInt(iva));
+		product.setIva(iva);
+		
+
 		
 		return productService.createProduct(product);
 	}

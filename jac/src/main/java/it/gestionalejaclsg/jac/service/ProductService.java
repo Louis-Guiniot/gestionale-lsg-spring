@@ -70,14 +70,20 @@ public class ProductService {
 
 	// findAll
 	public Response<List<ProductDTO>> findAllProducts() {
+		
+		log.info("porco dio");
 
 		Response<List<ProductDTO>> response = new Response<List<ProductDTO>>();
 
 		List<ProductDTO> result = new ArrayList<>();
 
 		try {
+			
+			log.info("prima di iterator");
 
 			Iterator<Product> iterator = this.productRepository.findAll().iterator();
+
+			log.info("dopo di iterator");
 
 			while (iterator.hasNext()) {
 
@@ -88,6 +94,8 @@ public class ProductService {
 
 			response.setResult(result);
 			response.setResultTest(true);
+			
+			log.info("response = "+response);
 
 		} catch (Exception e) {
 
@@ -160,7 +168,7 @@ public class ProductService {
 			if (sconto != null)
 				product.setScontoProd(sconto);
 			if (iva!= null)
-				product.setIva(Integer.parseInt(iva));
+				product.setIva(iva);
 
 			
 			

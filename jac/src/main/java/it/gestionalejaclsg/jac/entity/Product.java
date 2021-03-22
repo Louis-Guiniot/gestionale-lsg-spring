@@ -47,7 +47,7 @@ public class Product {
 	private String scontoProd;
 	
 	@Column(name="iva")
-	private int iva;
+	private String iva;
 
 
 	
