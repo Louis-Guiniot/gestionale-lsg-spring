@@ -92,6 +92,38 @@ private static Logger log = LoggerFactory.getLogger(BodyInvoiceService.class);
 		return response;
 
 	}
+	public Response<List<BodyInvoiceDTO>> findAllBodyInvoicesByIds(int id) {
+
+		Response<List<BodyInvoiceDTO>> response = new Response<List<BodyInvoiceDTO>>();
+
+		List<BodyInvoiceDTO> result = new ArrayList<>();
+
+		try {
+
+			Iterator<BodyInvoice> iterator = this.invoiceRepository.findAll().iterator();
+
+			while (iterator.hasNext()) {
+			
+				BodyInvoice invoice = iterator.next();
+				if(invoice.getId()==id){
+					result.add(BodyInvoiceDTO.build(invoice));
+				}
+				
+
+			}
+
+			response.setResult(result);
+			response.setResultTest(true);
+
+		} catch (Exception e) {
+
+			response.setError(error);
+
+		}
+
+		return response;
+
+	}
 	// findLast
 		public Response<BodyInvoiceDTO> findLastBodyInvoice() {
 

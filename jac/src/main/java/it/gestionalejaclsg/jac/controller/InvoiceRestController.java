@@ -1,6 +1,7 @@
 package it.gestionalejaclsg.jac.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import it.gestionalejaclsg.jac.dao.ProductRepository;
 import it.gestionalejaclsg.jac.dto.BodyInvoiceDTO;
@@ -201,19 +204,50 @@ public class InvoiceRestController {
 		
 		TailInvoice tInv=new TailInvoice();
 		
-		tInv.setIdInvoice(invoiceService.findLastInvoice().getResult().getId()+1);
-		BodyInvoiceDTO bInvFound=bodyInvoiceService.findBodyInvoiceById(invoiceService.findLastInvoice().getResult().getId()+1).getResult();
-		tInv.setTotaleMerce(bInvFound.getTotaleMerce()+"");
-		tInv.setTotaleServizi(bInvFound.getTotaleServizi()+"");
-		tInv.setScontiApplicati(bInvFound.getImportoSconto()+"");
+		tInv.setIdInvoice(invoiceService.findLastInvoice().getResult().getId());
+		
+		
+		List<BodyInvoiceDTO> bInvFound = new ArrayList<>();
+		bInvFound=bodyInvoiceService.findAllBodyInvoicesByIds(invoiceService.findLastInvoice().getResult().getId()).getResult();
+		
+		
+		double totaleMerce=0;
+		double totaleServizi=0;
+		double importoScontiApplicati=0;
+		double importoScontoCoda=0;
+		double totaleScontiRiga=0;
+		double totaleSconti=0;
+		double imponibile=0;
+		double totaleImposte=0;
+		double totalToPay=0;
+		for(int i=0; i<bInvFound.size();i++) {
+			
+			
+			totaleMerce=totaleMerce+Double.parseDouble(bInvFound.get(i).getTotaleMerce());
+			totaleServizi=totaleServizi+Double.parseDouble(bInvFound.get(i).getTotaleServizi());
+			importoScontiApplicati=importoScontiApplicati+Double.parseDouble(bInvFound.get(i).getImportoSconto());
+			totaleScontiRiga=totaleScontiRiga+ Double.parseDouble(bInvFound.get(i).getImportoSconto());
+			totaleImposte=totaleImposte+Double.parseDouble(bInvFound.get(i).getImposta());
+			
+		}
+		
+		importoScontoCoda=(totaleMerce-(totaleMerce+(Double.parseDouble(sconto)/100)))+totaleServizi-(totaleServizi+(Double.parseDouble(sconto)/100));
+		
+		totaleSconti=totaleScontiRiga+importoScontoCoda;
+		imponibile=(totaleMerce+totaleServizi)-((totaleMerce+totaleServizi)*(Double.parseDouble(sconto)/100));
+		totalToPay=imponibile+totaleImposte;
+		
+		
+		tInv.setTotaleMerce(totaleMerce+"");
+		tInv.setTotaleServizi(totaleServizi+"");
+		tInv.setScontiApplicati(importoScontiApplicati+"");
 		tInv.setUlterioreSconto(sconto);
-		double importoScontoCoda=Double.parseDouble(bInvFound.getImportoSconto())-(Double.parseDouble(bInvFound.getImportoSconto())*Double.parseDouble(sconto)/100);
 		tInv.setImportoScontoCoda(importoScontoCoda+"");
-		tInv.setTotaleSconti(importoScontoCoda+bInvFound.getImportoSconto());
-		tInv.setImponibile(Double.parseDouble(bInvFound.getTotaleRighe())-(Double.parseDouble(bInvFound.getTotaleRighe())*Double.parseDouble(sconto)/100)+"");
-		tInv.setTotaleImposte(bInvFound.getTotaleRighe());
-		double nettoPagare=Double.parseDouble(bInvFound.getTotaleRighe())-(Double.parseDouble(bInvFound.getTotaleRighe())*Double.parseDouble(sconto)/100)+Double.parseDouble(bInvFound.getTotaleRighe());
-		tInv.setTotalToPay(nettoPagare+"");
+		tInv.setTotaleSconti(totaleSconti+"");
+		tInv.setImponibile(imponibile+"");
+		tInv.setTotaleImposte(totaleImposte+"");
+		
+		tInv.setTotalToPay(totalToPay+"");
 		
 		tailInvoiceService.createTailInvoice(tInv);
 		
