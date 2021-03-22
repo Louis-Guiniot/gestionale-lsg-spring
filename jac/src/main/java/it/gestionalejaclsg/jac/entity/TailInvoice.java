@@ -26,6 +26,9 @@ public class TailInvoice {
 	
 	@Column(name="totale_servizi")
 	private String totaleServizi;
+
+	@Column(name="sconti_applicati")
+	private String scontiApplicati;
 	
 	@Column(name="ulteriore_sconto")
 	private String ulterioreSconto;

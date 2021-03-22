@@ -57,4 +57,10 @@ public class BodyInvoice {
 	@Column(name="totale_righe")
 	private String totaleRighe;
 
+	@Column(name="totale_merce")
+	private String totaleMerce;
+
+	@Column(name="totale_servizi")
+	private String totaleServizi;
+
 }

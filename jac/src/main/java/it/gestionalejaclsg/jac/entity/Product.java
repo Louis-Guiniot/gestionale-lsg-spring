@@ -34,7 +34,8 @@ public class Product {
 	@Column(name = "price")
 	private String price;
 	
-	
+	@Column(name="genere")
+	private String genere;
 	
 	//migrata da measure unit
 	@Column(name = "measure_unit")

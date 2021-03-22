@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.gestionalejaclsg.jac.dao.ProductRepository;
+import it.gestionalejaclsg.jac.dto.BodyInvoiceDTO;
 import it.gestionalejaclsg.jac.dto.Response;
 import it.gestionalejaclsg.jac.entity.BodyInvoice;
 import it.gestionalejaclsg.jac.entity.Invoice;
@@ -22,7 +23,6 @@ import it.gestionalejaclsg.jac.entity.TailInvoice;
 import it.gestionalejaclsg.jac.service.BodyInvoiceService;
 import it.gestionalejaclsg.jac.service.InvoiceService;
 import it.gestionalejaclsg.jac.service.ProductHasInvoiceService;
-import it.gestionalejaclsg.jac.service.ProductService;
 import it.gestionalejaclsg.jac.service.TailInvoiceService;
 
 @RestController
@@ -36,14 +36,15 @@ public class InvoiceRestController {
 	@Autowired
 	private BodyInvoiceService bodyInvoiceService;
 
-	@Autowired
-	private TailInvoiceService tailInvoiceService;
+	
 
 	@Autowired
 	private ProductHasInvoiceService productHasInvoiceService;
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	
 
 
 
@@ -87,7 +88,7 @@ public class InvoiceRestController {
 		String idAricles = body.substring(arr[18] + 1, arr[19]);
 		String articlesQuantity = body.substring(arr[22] + 1, arr[23]);
 		String siva = body.substring(arr[26] + 1, arr[27]);
-		double iva = Double.parseDouble(siva) / 100;
+		double iva = Double.parseDouble(siva) / 100; //?????????? utile????????? BOOOOOOOOOOO
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
 
@@ -138,7 +139,7 @@ public class InvoiceRestController {
 		String [] arrProdotti=idAricles.split(";");
 		String [] arrProdQnt=articlesQuantity.split(";");
 		
-		String item = "";
+		
 		for(int i = 0; i<arrProdotti.length; i++) {
 			log.info("item" + arrProdotti[i]);
 		}
@@ -148,7 +149,11 @@ public class InvoiceRestController {
 		}
 		
 		
+		
 		for(int i=0; i<arrProdotti.length;i++) {
+			
+			double totMerci=0;
+			double totServizi=0;
 			
 			BodyInvoice bInv = new BodyInvoice();
 			
@@ -163,19 +168,29 @@ public class InvoiceRestController {
 			
 			double prezzo = Double.parseDouble(p.getPrice());
 			int ivaProd = Integer.parseInt(p.getIva())/100;
-			
+		
 			double importoUnitario = prezzo - (prezzo*ivaProd);
 			
 			bInv.setImportoUnitario(importoUnitario+"");
 			
 			bInv.setScontoFormula(p.getScontoProd());
 			bInv.setPrezzoNetto((Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))+""));
-			bInv.setImportoSconto((Double.parseDouble(p.getScontoProd())*Double.parseDouble(arrProdQnt[i])*Double.parseDouble(p.getPrice())/100)+"");
+			double importoSconto=(Double.parseDouble(p.getScontoProd())*Double.parseDouble(arrProdQnt[i])*Double.parseDouble(p.getPrice())/100);
+			bInv.setImportoSconto(importoSconto+"");
 			bInv.setImponibile((Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))*Double.parseDouble(arrProdQnt[i]))+"");
 			bInv.setIva(p.getIva()+"");
 			bInv.setImposta(Double.parseDouble(p.getIva())/100*(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100))*Double.parseDouble(arrProdQnt[i]))+"");
 			bInv.setTotaleRighe(Double.parseDouble(bInv.getImponibile())+Double.parseDouble(bInv.getImposta())+"");
+			if(p.getGenere().equals("servizi")) {
+				totServizi=(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100)))*Double.parseDouble(arrProdQnt[i]);
+				bInv.setTotaleServizi(totServizi+"");
+			}
+			if(p.getGenere().equals("merci")) {
+				totMerci=(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100)))*Double.parseDouble(arrProdQnt[i]);
+				bInv.setTotaleMerce(totMerci+"");
+			}
 			bodyInvoiceService.createBodyInvoice(bInv);
+			
 			
 			log.info("i di infame"+i);
 		}
@@ -185,7 +200,18 @@ public class InvoiceRestController {
 		TailInvoice tInv=new TailInvoice();
 		
 		tInv.setIdInvoice(invoiceService.findLastInvoice().getResult().getId()+1);
-		
+		BodyInvoiceDTO bInvFound=bodyInvoiceService.findBodyInvoiceById(invoiceService.findLastInvoice().getResult().getId()+1).getResult();
+		tInv.setTotaleMerce(bInvFound.getTotaleMerce()+"");
+		tInv.setTotaleServizi(bInvFound.getTotaleServizi()+"");
+		tInv.setScontiApplicati(bInvFound.getImportoSconto()+"");
+		tInv.setUlterioreSconto(sconto);
+		double importoScontoCoda=Double.parseDouble(bInvFound.getImportoSconto())-(Double.parseDouble(bInvFound.getImportoSconto())*Double.parseDouble(sconto)/100);
+		tInv.setImportoScontoCoda(importoScontoCoda+"");
+		tInv.setTotaleSconti(importoScontoCoda+bInvFound.getImportoSconto());
+		tInv.setImponibile(Double.parseDouble(bInvFound.getTotaleRighe())-(Double.parseDouble(bInvFound.getTotaleRighe())*Double.parseDouble(sconto)/100)+"");
+		tInv.setTotaleImposte(bInvFound.getTotaleRighe());
+		double nettoPagare=Double.parseDouble(bInvFound.getTotaleRighe())-(Double.parseDouble(bInvFound.getTotaleRighe())*Double.parseDouble(sconto)/100)+Double.parseDouble(bInvFound.getTotaleRighe());
+		tInv.setTotalToPay(nettoPagare+"");
 		
 		
 		

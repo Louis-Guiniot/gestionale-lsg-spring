@@ -1,5 +1,7 @@
 package it.gestionalejaclsg.jac.dto;
 
+import javax.persistence.Column;
+
 import org.springframework.beans.BeanUtils;
 
 import it.gestionalejaclsg.jac.entity.BodyInvoice;
@@ -10,19 +12,38 @@ import lombok.Data;
 public class BodyInvoiceDTO {
 
 	private int id;
+
+	private int idInvoice;
+
+	private String codiceArticolo;
 	
-	private String idInvoice;
+
+	private String descrizione;
 	
-	private String fields;
+	private String unitamisura;
 	
-	private int iva;
+	private String quantita;
+
+	private String importoUnitario;
+
+	private String scontoFormula;
+
+	private String prezzoNetto;		
+
+	private String importoSconto;
 	
 	private String imponibile;
-    
-    private String quantita;
-    
-    private String importoSconto;
-    
+
+	private String iva;
+	
+	private String imposta;
+
+	private String totaleRighe;
+	
+	private String totaleMerce;
+
+	private String totaleServizi;
+
 	public static BodyInvoiceDTO build(BodyInvoice bodyinvoice) {
 
 		BodyInvoiceDTO result = new BodyInvoiceDTO();
