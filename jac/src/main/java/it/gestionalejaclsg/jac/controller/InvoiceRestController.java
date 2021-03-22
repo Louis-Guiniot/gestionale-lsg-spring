@@ -182,8 +182,9 @@ public class InvoiceRestController {
 		
 		//TAIL
 		
-		TailInvoice tInv=null;
+		TailInvoice tInv=new TailInvoice();
 		
+		tInv.setIdInvoice(invoiceService.findLastInvoice().getResult().getId()+1);
 		
 		
 		
