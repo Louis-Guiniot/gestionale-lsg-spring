@@ -36,7 +36,9 @@ public class InvoiceRestController {
 	@Autowired
 	private BodyInvoiceService bodyInvoiceService;
 
-	
+	@Autowired
+	private TailInvoiceService tailInvoiceService;
+
 
 	@Autowired
 	private ProductHasInvoiceService productHasInvoiceService;
@@ -212,6 +214,8 @@ public class InvoiceRestController {
 		tInv.setTotaleImposte(bInvFound.getTotaleRighe());
 		double nettoPagare=Double.parseDouble(bInvFound.getTotaleRighe())-(Double.parseDouble(bInvFound.getTotaleRighe())*Double.parseDouble(sconto)/100)+Double.parseDouble(bInvFound.getTotaleRighe());
 		tInv.setTotalToPay(nettoPagare+"");
+		
+		tailInvoiceService.createTailInvoice(tInv);
 		
 		
 		
