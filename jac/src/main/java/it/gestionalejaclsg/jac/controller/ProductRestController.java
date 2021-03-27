@@ -152,6 +152,7 @@ public class ProductRestController {
 
 		
 		return productService.createProduct(product);
+		
 	}
 	
 	@GetMapping(path = "/findAll")

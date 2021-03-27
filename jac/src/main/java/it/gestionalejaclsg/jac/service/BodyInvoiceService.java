@@ -105,7 +105,8 @@ private static Logger log = LoggerFactory.getLogger(BodyInvoiceService.class);
 			while (iterator.hasNext()) {
 			
 				BodyInvoice invoice = iterator.next();
-				if(invoice.getId()==id){
+				log.info("iterator id: "+invoice.getIdInvoice());
+				if(invoice.getIdInvoice()==id){
 					result.add(BodyInvoiceDTO.build(invoice));
 				}
 				

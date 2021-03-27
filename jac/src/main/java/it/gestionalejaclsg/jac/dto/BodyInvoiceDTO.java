@@ -17,7 +17,6 @@ public class BodyInvoiceDTO {
 
 	private String codiceArticolo;
 	
-
 	private String descrizione;
 	
 	private String unitamisura;

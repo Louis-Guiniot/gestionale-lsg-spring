@@ -189,10 +189,14 @@ public class InvoiceRestController {
 			if(p.getGenere().equals("servizi")) {
 				totServizi=(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100)))*Double.parseDouble(arrProdQnt[i]);
 				bInv.setTotaleServizi(totServizi+"");
+				totMerci=0;
+				bInv.setTotaleMerce(totMerci+"");
 			}
 			if(p.getGenere().equals("merci")) {
+				totServizi=0;
 				totMerci=(Double.parseDouble(p.getPrice())-(Double.parseDouble(p.getPrice())*(Double.parseDouble(p.getScontoProd())/100)))*Double.parseDouble(arrProdQnt[i]);
 				bInv.setTotaleMerce(totMerci+"");
+				bInv.setTotaleServizi(totServizi+"");
 			}
 			bodyInvoiceService.createBodyInvoice(bInv);
 			
@@ -203,12 +207,16 @@ public class InvoiceRestController {
 		//TAIL
 		
 		TailInvoice tInv=new TailInvoice();
-		
-		tInv.setIdInvoice(invoiceService.findLastInvoice().getResult().getId());
+		int idInvoiceTail=invoiceService.findLastInvoice().getResult().getId();
+		log.info("id invoice : "+idInvoiceTail);
+		tInv.setIdInvoice(idInvoiceTail);
 		
 		
 		List<BodyInvoiceDTO> bInvFound = new ArrayList<>();
-		bInvFound=bodyInvoiceService.findAllBodyInvoicesByIds(invoiceService.findLastInvoice().getResult().getId()).getResult();
+		bInvFound=bodyInvoiceService.findAllBodyInvoicesByIds(idInvoiceTail).getResult();
+		bInvFound.forEach((temp) -> {
+           log.info("temp: "+temp);
+        });
 		
 		
 		double totaleMerce=0;
@@ -222,21 +230,34 @@ public class InvoiceRestController {
 		double totalToPay=0;
 		for(int i=0; i<bInvFound.size();i++) {
 			
-			
-			totaleMerce=totaleMerce+Double.parseDouble(bInvFound.get(i).getTotaleMerce());
-			totaleServizi=totaleServizi+Double.parseDouble(bInvFound.get(i).getTotaleServizi());
+			if(bInvFound.get(i).getTotaleMerce()!=null) {				
+				totaleMerce=totaleMerce+Double.parseDouble(bInvFound.get(i).getTotaleMerce());
+				log.info("totale merce: "+totaleMerce);
+			}
+			if(bInvFound.get(i).getTotaleServizi()!=null) {				
+				totaleServizi=totaleServizi+Double.parseDouble(bInvFound.get(i).getTotaleServizi());
+				log.info("totale totaleServizi: "+totaleServizi);
+			}
 			importoScontiApplicati=importoScontiApplicati+Double.parseDouble(bInvFound.get(i).getImportoSconto());
+			log.info("totale importoScontiApplicati: "+importoScontiApplicati);
 			totaleScontiRiga=totaleScontiRiga+ Double.parseDouble(bInvFound.get(i).getImportoSconto());
+			log.info("totale totaleScontiRiga: "+totaleScontiRiga);
 			totaleImposte=totaleImposte+Double.parseDouble(bInvFound.get(i).getImposta());
+			log.info("totale totaleImposte: "+totaleImposte);
 			
 		}
-		
-		importoScontoCoda=(totaleMerce-(totaleMerce+(Double.parseDouble(sconto)/100)))+totaleServizi-(totaleServizi+(Double.parseDouble(sconto)/100));
+		double scontod=Double.parseDouble(sconto);
+		double scontoMerci= totaleMerce-(totaleMerce*(scontod/100));
+		double scontoServizi= totaleServizi-(totaleServizi*(scontod/100));
+		importoScontoCoda=totaleMerce+totaleServizi;
+		log.info("totale importoScontoCoda: "+importoScontoCoda);
 		
 		totaleSconti=totaleScontiRiga+importoScontoCoda;
-		imponibile=(totaleMerce+totaleServizi)-((totaleMerce+totaleServizi)*(Double.parseDouble(sconto)/100));
+		log.info("totale totaleSconti: "+totaleSconti);
+		imponibile=(totaleMerce+totaleServizi)-((totaleMerce+totaleServizi)*((scontod/100)));
+		log.info("totale imponibile: "+imponibile);
 		totalToPay=imponibile+totaleImposte;
-		
+		log.info("totale totalToPay: "+totalToPay);
 		
 		tInv.setTotaleMerce(totaleMerce+"");
 		tInv.setTotaleServizi(totaleServizi+"");
@@ -250,6 +271,7 @@ public class InvoiceRestController {
 		tInv.setTotalToPay(totalToPay+"");
 		
 		tailInvoiceService.createTailInvoice(tInv);
+		
 		
 		
 		
