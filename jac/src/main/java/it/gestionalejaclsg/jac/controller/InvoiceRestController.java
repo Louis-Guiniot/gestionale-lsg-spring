@@ -259,6 +259,7 @@ public class InvoiceRestController {
 		totalToPay=imponibile+totaleImposte;
 		log.info("totale totalToPay: "+totalToPay);
 		
+		
 		tInv.setTotaleMerce(totaleMerce+"");
 		tInv.setTotaleServizi(totaleServizi+"");
 		tInv.setScontiApplicati(importoScontiApplicati+"");
