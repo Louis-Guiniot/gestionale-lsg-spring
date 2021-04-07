@@ -322,5 +322,25 @@ public class InvoiceRestController {
 	public Response<?> findInvoiceById(String body) {
 		return invoiceService.findInvoiceById(Integer.parseInt(body));
 	}
+	
+	
+	@GetMapping(path="/findAllTail")
+	public Response<?> findAllTailInvoices() {
+
+		log.info("Ricevuta richiesta della lista di tutti i prodotti");
+
+		return tailInvoiceService.findAllTailInvoices();
+
+	}
+	
+	@GetMapping(path="/findAllBody")
+	public Response<?> findAllBodyInvoices() {
+
+		log.info("Ricevuta richiesta della lista di tutti i prodotti");
+
+		return bodyInvoiceService.findAllBodyInvoices();
+
+	}
+	
 
 }
